@@ -17,11 +17,11 @@ class StuffsCollection {
       firstName: String,
       lastName: String,
       patientNumber: Number,
-      vaccineName: String,
       manufacturerLotNumber: String,
       date: Date,
+      vaccineSite: String,
       owner: String,
-      condition: {
+      vaccineName: {
         type: String,
         allowedValues: ['Pfizer-BioNTech', 
         'Moderna COVID-19', 
