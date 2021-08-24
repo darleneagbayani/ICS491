@@ -9,5 +9,13 @@
     { "name": "Bicycle", "quantity": 2, "owner": "john@foo.com", "condition": "poor" },
     { "name": "Banana", "quantity": 2, "owner": "admin@foo.com", "condition": "good" },
     { "name": "Boogie Board", "quantity": 2, "owner": "admin@foo.com", "condition": "excellent" }
+  ],
+
+  "defaultCheckIn": [
+    { "email": "john@foo.com", "date": "8-20-21", "status": true },
+    { "email": "john@foo.com", "date": "8-21-21", "status": false },
+    { "email": "john@foo.com", "date": "8-22-21", "status": true },
+    { "email": "john@foo.com", "date": "8-23-21", "status": false },
+    { "email": "john@foo.com", "date": "8-24-21", "status": true }
   ]
 }
