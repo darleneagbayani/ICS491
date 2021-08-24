@@ -1,6 +1,13 @@
 import { Meteor } from 'meteor/meteor';
 import { Roles } from 'meteor/alanning:roles';
 import { Stuffs } from '../../api/stuff/Stuff';
+import { CheckIn } from '../../api/check-in/CheckInCollection';
+
+const allCollections = [
+  CheckIn,
+];
+
+allCollections.forEach((collection) => collection.publish());
 
 // User-level publication.
 // If logged in, then publish documents owned by this user. Otherwise publish nothing.
