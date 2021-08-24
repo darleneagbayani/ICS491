@@ -4,12 +4,12 @@ import { Tracker } from 'meteor/tracker';
 import { string } from 'prop-types';
 
 /**
- * The StuffsCollection. It encapsulates state and variable values for stuff.
+ * The VaccineCollection. It encapsulates state and variable values for stuff.
  */
-class StuffsCollection {
+class VaccineCollection {
   constructor() {
     // The name of this collection.
-    this.name = 'StuffsCollection';
+    this.name = 'VaccineCollection';
     // Define the Mongo collection.
     this.collection = new Mongo.Collection(this.name);
     // Define the structure of each document in the collection.
@@ -50,7 +50,7 @@ class StuffsCollection {
 }
 
 /**
- * The singleton instance of the StuffsCollection.
- * @type {StuffsCollection}
+ * The singleton instance of the VaccineCollection.
+ * @type {VaccineCollection}
  */
-export const Stuffs = new StuffsCollection();
+export const Vaccine = new VaccineCollection();
