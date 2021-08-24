@@ -1,6 +1,7 @@
 import { Mongo } from 'meteor/mongo';
 import SimpleSchema from 'simpl-schema';
 import { Tracker } from 'meteor/tracker';
+import { string } from 'prop-types';
 
 /**
  * The StuffsCollection. It encapsulates state and variable values for stuff.
@@ -13,15 +14,31 @@ class StuffsCollection {
     this.collection = new Mongo.Collection(this.name);
     // Define the structure of each document in the collection.
     this.schema = new SimpleSchema({
-      name: String,
-      quantity: Number,
+      firstName: String,
+      lastName: String,
+      patientNumber: Number,
+      vaccineName: String,
+      manufacturerLotNumber: String,
+      date: Date,
       owner: String,
       condition: {
         type: String,
-        allowedValues: ['excellent', 'good', 'fair', 'poor'],
-        defaultValue: 'good',
+        allowedValues: ['Pfizer-BioNTech', 
+        'Moderna COVID-19', 
+        'Janssen COVID-19 (Johnson &)', 
+        'AstraZeneca-AZD1222',
+        'Sinopharm BIBP-SARS-CoV-2',
+        'Sinovac-SARS-CoV-2',
+        'Gamelya-Sputnik V',
+        'CanSinoBio',
+        'Vector-EpiVacCorona',    
+        'Zhifei Longcom-Recombinant Novel',
+        'IMBCAMS-SARS-CoV-2'  
+        ],
+        //defaultValue: 'good',
       },
     }, { tracker: Tracker });
+
     // Attach the schema to the collection, so all attempts to insert a document are checked against schema.
     this.collection.attachSchema(this.schema);
     // Define names for publications and subscriptions
