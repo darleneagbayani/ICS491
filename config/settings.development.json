@@ -6,6 +6,6 @@
 
   "defaultData": [
     { "firstName": "John", "lastName": "Doe", "patientNumber": "0123456789", "vaccineName": "Pfizer-BioNTech", "date": "12/12/2020", "owner": "john@foo.com" },
-    { "firstName": "Admin", "lastName": "Foo", "patientNumber": "9876543210", "vaccineName": "Pfizer-BioNTech", "date": "07d/10/2020", "owner": "admin@foo.com" }
+    { "firstName": "Admin", "lastName": "Foo", "patientNumber": "9876543210", "vaccineName": "Moderna COVID-19", "date": "07d/10/2020", "owner": "admin@foo.com" }
   ]
 }

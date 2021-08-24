@@ -17,8 +17,10 @@ class StuffsCollection {
       firstName: String,
       lastName: String,
       patientNumber: Number,
-      manufacturerLotNumber: String,
-      date: Date,
+      firstDoseManufacturerLotNumber: String,   //MLN = Manufacturer Lot Number 
+      firstDoseDate: Date,    
+      secondDoseManufacturerLotNumber: String,
+      secondDoeseDate: Date,
       vaccineSite: String,
       owner: String,
       vaccineName: {

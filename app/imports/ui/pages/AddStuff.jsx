@@ -1,6 +1,6 @@
 import React from 'react';
 import { Grid, Segment, Header } from 'semantic-ui-react';
-import { AutoForm, ErrorsField, NumField, SelectField, SubmitField, TextField } from 'uniforms-semantic';
+import { AutoForm, ErrorsField, NumField, SelectField, SubmitField, TextField, DateField } from 'uniforms-semantic';
 import swal from 'sweetalert';
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
@@ -9,12 +9,28 @@ import { Stuffs } from '../../api/stuff/Stuff';
 
 // Create a schema to specify the structure of the data to appear in the form.
 const formSchema = new SimpleSchema({
-  name: String,
-  quantity: Number,
-  condition: {
-    type: String,
-    allowedValues: ['excellent', 'good', 'fair', 'poor'],
-    defaultValue: 'good',
+      firstName: String,
+      lastName: String,
+      patientNumber: Number,
+      firstDoseManufacturerLotNumber: String,   //MLN = Manufacturer Lot Number 
+      firstDoseDate: Date,    
+      secondDoseManufacturerLotNumber: String,
+      secondDoeseDate: Date,
+      vaccineSite: String,
+      vaccineName: {
+        type: String,
+        allowedValues: ['Pfizer-BioNTech', 
+        'Moderna COVID-19', 
+        'Janssen COVID-19 (Johnson &)', 
+        'AstraZeneca-AZD1222',
+        'Sinopharm BIBP-SARS-CoV-2',
+        'Sinovac-SARS-CoV-2',
+        'Gamelya-Sputnik V',
+        'CanSinoBio',
+        'Vector-EpiVacCorona',    
+        'Zhifei Longcom-Recombinant Novel',
+        'IMBCAMS-SARS-CoV-2'  
+        ],
   },
 });
 
@@ -25,9 +41,9 @@ class AddStuff extends React.Component {
 
   // On submit, insert the data.
   submit(data, formRef) {
-    const { name, quantity, condition } = data;
+    const { firstName, lastName, patientNumber, vaccineName, firstDoseDate, firstDoseManufacturerLotNumber, secondDoseManufacturerLotNumber, secondDoeseDate, vaccineSite } = data;
     const owner = Meteor.user().username;
-    Stuffs.collection.insert({ name, quantity, condition, owner },
+    Stuffs.collection.insert({ firstName, lastName, patientNumber, vaccineName, firstDoseManufacturerLotNumber, firstDoseDate, secondDoseManufacturerLotNumber, secondDoeseDate, vaccineSite, owner },
       (error) => {
         if (error) {
           swal('Error', error.message, 'error');
@@ -47,9 +63,15 @@ class AddStuff extends React.Component {
           <Header as="h2" textAlign="center">Add Stuff</Header>
           <AutoForm ref={ref => { fRef = ref; }} schema={bridge} onSubmit={data => this.submit(data, fRef)} >
             <Segment>
-              <TextField name='name'/>
-              <NumField name='quantity' decimal={false}/>
-              <SelectField name='condition'/>
+              <TextField name='firstName'/>
+              <TextField name='lastName'/>
+              <NumField name='patientNumber' decimal={false}/>
+              <TextField name='firstDoseManufacturerLotNumber'/>
+              <DateField name='firstDoseDate'/>
+              <TextField name='secondDoseManufacturerLotNumber'/>
+              <DateField name='secondDoeseDate'/>
+              <SelectField name='vaccineName'/>
+              <TextField name='vaccineSite'/>
               <SubmitField value='Submit'/>
               <ErrorsField/>
             </Segment>
