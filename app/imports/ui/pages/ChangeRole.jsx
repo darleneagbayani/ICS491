@@ -9,16 +9,16 @@ import PropTypes from 'prop-types';
 import { withTracker } from 'meteor/react-meteor-data';
 
 const options = [
-  { label: 'Verfied User', value: 'verfiedUser' },
-  //{ label: 'Admin', value: 'admin' },
-  { label: 'Unverfied User', value: 'unverfiedUser' },
+  { label: 'Verified User', value: 'verifiedUser' },
+  { label: 'Unverified User', value: 'unverifiedUser' },
+  { label: 'Admin', value: 'admin' },
 ];
 
 const formSchema = new SimpleSchema({
   userId: String,
   role: {
     type: String,
-    allowedValues: ['verfiedUser', 'unverfiedUser'],
+    allowedValues: ['verifiedUser', 'unverifiedUser', 'admin'],
   },
 });
 

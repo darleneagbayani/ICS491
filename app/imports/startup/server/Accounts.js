@@ -18,11 +18,11 @@ function createUser(email, userId, password, role) {
   }
   if (role === 'verifiedUser') {
     Roles.createRole(role, { unlessExists: true });
-    Roles.addUsersToRoles(userID, 'verfiedUser');
+    Roles.addUsersToRoles(userID, 'verifiedUser');
   }
   if (role === 'unverifiedUser') {
     Roles.createRole(role, { unlessExists: true });
-    Roles.addUsersToRoles(userID, 'unverfiedUser');
+    Roles.addUsersToRoles(userID, 'unverifiedUser');
   }
 }
 

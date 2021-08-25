@@ -30,11 +30,11 @@ class App extends React.Component {
             <Route path="/signin" component={Signin}/>
             <Route path="/signup" component={Signup}/>
             <Route path="/signout" component={Signout}/>
-            <ProtectedRoute path="/list" component={ListUsers}/>
+            <ProtectedRoute path="/vaccination-card" component={ListUsers}/>
             <ProtectedRoute path="/submit-vaccine" component={VaccineSubmit}/>
             <ProtectedRoute path="/edit/:_id" component={EditVaccine}/>
             <AdminProtectedRoute path="/admin" component={ListUsersAdmin}/>
-            <AdminProtectedRoute path="/ChangeRole/" component={ChangeRole}/>
+            <AdminProtectedRoute path="/change-role" component={ChangeRole}/>
             <Route component={NotFound}/>
           </Switch>
           <Footer/>
