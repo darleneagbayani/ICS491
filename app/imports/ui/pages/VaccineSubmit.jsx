@@ -15,7 +15,7 @@ const formSchema = new SimpleSchema({
       firstDoseManufacturerLotNumber: String,   //MLN = Manufacturer Lot Number 
       firstDoseDate: Date,    
       secondDoseManufacturerLotNumber: String,
-      secondDoeseDate: Date,
+      secondDoseDate: Date,
       vaccineSite: String,
       vaccineName: {
         type: String,
@@ -37,13 +37,13 @@ const formSchema = new SimpleSchema({
 const bridge = new SimpleSchema2Bridge(formSchema);
 
 /** Renders the Page for adding a document. */
-class AddStuff extends React.Component {
+class SubmitVaccine extends React.Component {
 
   // On submit, insert the data.
   submit(data, formRef) {
-    const { firstName, lastName, patientNumber, vaccineName, firstDoseDate, firstDoseManufacturerLotNumber, secondDoseManufacturerLotNumber, secondDoeseDate, vaccineSite } = data;
+    const { firstName, lastName, patientNumber, vaccineName, firstDoseDate, firstDoseManufacturerLotNumber, secondDoseManufacturerLotNumber, secondDoseDate, vaccineSite } = data;
     const owner = Meteor.user().username;
-    Vaccine.collection.insert({ firstName, lastName, patientNumber, vaccineName, firstDoseManufacturerLotNumber, firstDoseDate, secondDoseManufacturerLotNumber, secondDoeseDate, vaccineSite, owner },
+    Vaccine.collection.insert({ firstName, lastName, patientNumber, vaccineName, firstDoseManufacturerLotNumber, firstDoseDate, secondDoseManufacturerLotNumber, secondDoseDate, vaccineSite, owner },
       (error) => {
         if (error) {
           swal('Error', error.message, 'error');
@@ -69,7 +69,7 @@ class AddStuff extends React.Component {
               <TextField name='firstDoseManufacturerLotNumber'/>
               <DateField name='firstDoseDate'/>
               <TextField name='secondDoseManufacturerLotNumber'/>
-              <DateField name='secondDoeseDate'/>
+              <DateField name='secondDoseDate'/>
               <SelectField name='vaccineName'/>
               <TextField name='vaccineSite'/>
               <SubmitField value='Submit'/>

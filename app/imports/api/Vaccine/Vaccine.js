@@ -20,7 +20,7 @@ class VaccineCollection {
       firstDoseManufacturerLotNumber: String,   //MLN = Manufacturer Lot Number 
       firstDoseDate: Date,    
       secondDoseManufacturerLotNumber: String,
-      secondDoeseDate: Date,
+      secondDoseDate: Date,
       vaccineSite: String,
       owner: String,
       vaccineName: {

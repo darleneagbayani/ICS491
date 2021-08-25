@@ -4,8 +4,8 @@ import { Roles } from 'meteor/alanning:roles';
 
 /* eslint-disable no-console */
 
-function createUser(email, userID, password, role) {
-  console.log(`  Creating user ${email}.`);
+function createUser(email, userId, password, role) {
+  console.log(`  Creating user ${userId}.`);
   const userID = Accounts.createUser({
     username: userId,
     userId: userId,
@@ -16,11 +16,11 @@ function createUser(email, userID, password, role) {
     Roles.createRole(role, { unlessExists: true });
     Roles.addUsersToRoles(userID, 'admin');
   }
-  if (role === 'verfiedUser') {
+  if (role === 'verifiedUser') {
     Roles.createRole(role, { unlessExists: true });
     Roles.addUsersToRoles(userID, 'verfiedUser');
   }
-  if (role === 'unverfiedUser') {
+  if (role === 'unverifiedUser') {
     Roles.createRole(role, { unlessExists: true });
     Roles.addUsersToRoles(userID, 'unverfiedUser');
   }
