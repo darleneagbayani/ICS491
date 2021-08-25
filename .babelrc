@@ -1,7 +1,0 @@
-{
-  "env": {
-    "UNIT_TESTING": {
-      "presets": ["es2015", "@babel/preset-env", "react"]
-    }
-  }
-}
