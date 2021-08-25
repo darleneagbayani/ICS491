@@ -2,7 +2,7 @@
 
 ## Clone repository:
 
-git clone https://github.com/johnwils/meteor-react-template.git
+code > Open with GitHub Desktop OR Download Zip
 
 ## Install packages:
 
