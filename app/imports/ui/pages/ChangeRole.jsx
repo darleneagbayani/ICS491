@@ -32,7 +32,7 @@ class ChangeRole extends React.Component {
     const { role, userId } = data;
     if (this.props.users.find(user => user.username === userId)) {
       const user1 = this.props.users.find(user => user.username === userId);
-      Meteor.call('changeRoles', user1._id, role);
+      Meteor.call("changeRoles", user1._id, role);
       swal('Success', 'Role Updated successfully', 'success');
       formRef.reset();
     } else {

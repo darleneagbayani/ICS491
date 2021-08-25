@@ -3,7 +3,7 @@ import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
 
 Meteor.methods({
-  changeRoles: function (userId, role) {
+  changeRoles: function(userId, role) {
     check(userId, String);
     check(role, String);
 
