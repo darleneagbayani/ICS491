@@ -1,6 +1,6 @@
 # Quick Start
 
-##Clone repository:
+## Clone repository:
 
 git clone https://github.com/johnwils/meteor-react-template.git
 
