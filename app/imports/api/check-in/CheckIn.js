@@ -1,6 +1,8 @@
 import { Mongo } from 'meteor/mongo';
 import { Tracker } from 'meteor/tracker';
 import SimpleSchema from 'simpl-schema';
+import { _ } from 'lodash';
+import { compareDate } from '../utilities/Utilities';
 
 class CheckInCollection {
   constructor() {
@@ -27,8 +29,13 @@ class CheckInCollection {
     this.adminPublicationName = `${this.name}.publication.admin`;
   }
 
-  getStatus(owner) {
-    return this.collection.find({ owner }).fetch();
+  // Check if the user has a record of a completed health check-in for the day.
+  getHealthStatus(owner, date) {
+    const checkIns = this.collection.find({ owner }).fetch();
+    const index = _.findIndex(checkIns, function (checks) {
+      return compareDate(checks.date, date);
+    });
+    return index !== -1;
   }
 }
 
