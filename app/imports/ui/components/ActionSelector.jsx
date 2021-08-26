@@ -5,41 +5,72 @@ import { withRouter, NavLink } from 'react-router-dom';
 /** The Footer appears at the bottom of every page. Rendered by the App Layout component. */
 class ActionSelector extends React.Component {
   render() {
+    const menuStyle = { marginBottom: '15px', marginTop: '0px', border: '0px' };
     const colStyle = { backgroundColor: '#1a8945' };
     const textStyle = { color: '#FFFFFF' };
     return (
-      <div className="ui stackable equal width grid" textalign='center' divided>
-        <div className=" ui center aligned  column" style={colStyle}>
+      <div className="ui stackable three item menu" style={menuStyle}>
+        <a className="active item" style={colStyle}>
           <Container as={NavLink} activeClassName="active" exact to="/add" key='add'>
             <div className="row">
-              <Image className="ui fluid middle aligned tiny image" src="/images/calendar.png" as={NavLink} activeClassName="active" exact to="/add" key='add'></Image>
+              <Image className="ui fluid middle aligned tiny image" src="/images/calendar.png"></Image>
             </div>
             <div className="row" style={textStyle}>DAILY CHECK IN</div>
           </Container>
-        </div>
-        <div className="ui center aligned column" style={colStyle}>
+        </a>
+        <a className="item" style={colStyle}>
+
           <Container as={NavLink} activeClassName="active" exact to="/add" key='add'>
             <div className="row">
-              <Image className="ui fluid middle aligned tiny image" src="/images/upload.png"></Image>
-
+              <Image className="ui fluid middle aligned tiny image" src="/images/calendar.png" ></Image>
             </div>
-            <div className="row" style={textStyle}>UPLOAD VACCINATION CARD</div>
+            <div className="row" style={textStyle}>DAILY CHECK IN</div>
           </Container>
-        </div>
-
-
-        <div className=" ui center aligned column" style={colStyle}>
+        </a>
+        <a className="item" style={colStyle}>
           <Container>
             <div className="center aligned row">
               <Image className="ui fluid middle aligned tiny image" src="/images/history.png"></Image>
               <div className="row" style={textStyle}>VIEW HISTORY</div>
             </div>
           </Container>
-        </div>
+        </a>
       </div>
 
+
+
+      // <div className="ui stackable equal width grid" textalign='center'>
+      //   <div className=" ui center aligned  column" style={colStyle}>
+      //     <Container as={NavLink} activeClassName="active" exact to="/add" key='add'>
+      //       <div className="row">
+      //         <Image className="ui fluid middle aligned tiny image" src="/images/calendar.png" ></Image>
+      //       </div>
+      //       <div className="row" style={textStyle}>DAILY CHECK IN</div>
+      //     </Container>
+      //   </div>
+      //   <div className="ui center aligned column" style={colStyle}>
+      //     <Container as={NavLink} activeClassName="active" exact to="/add" key='add'>
+      //       <div className="row">
+      //         <Image className="ui fluid middle aligned tiny image" src="/images/upload.png"></Image>
+      //
+      //       </div>
+      //       <div className="row" style={textStyle}>UPLOAD VACCINATION CARD</div>
+      //     </Container>
+      //   </div>
+      //
+      //
+      //   <div className=" ui center aligned column" style={colStyle}>
+      //     <Container>
+      //       <div className="center aligned row">
+      //         <Image className="ui fluid middle aligned tiny image" src="/images/history.png"></Image>
+      //         <div className="row" style={textStyle}>VIEW HISTORY</div>
+      //       </div>
+      //     </Container>
+      //   </div>
+      // </div>
+
     )
-    ;
+      ;
   }
 }
 
