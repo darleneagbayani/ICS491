@@ -60,18 +60,18 @@ class SubmitVaccine extends React.Component {
     return (
       <Grid container centered>
         <Grid.Column>
-          <Header as="h2" textAlign="center">Add Stuff</Header>
+          <Header as="h2" textAlign="center">UPLOAD VACCINATION CARD</Header>
           <AutoForm ref={ref => { fRef = ref; }} schema={bridge} onSubmit={data => this.submit(data, fRef)} >
             <Segment>
-              <TextField name='firstName'/>
-              <TextField name='lastName'/>
-              <NumField name='patientNumber' decimal={false}/>
-              <TextField name='firstDoseManufacturerLotNumber'/>
-              <DateField name='firstDoseDate'/>
-              <TextField name='secondDoseManufacturerLotNumber'/>
-              <DateField name='secondDoseDate'/>
-              <SelectField name='vaccineName'/>
-              <TextField name='vaccineSite'/>
+              <TextField name='firstName' label="First Name"/>
+              <TextField name='lastName' label="Last Name"/>
+              <NumField name='patientNumber' label="Patient Number" decimal={false}/>
+              <TextField name='firstDoseManufacturerLotNumber' label="First Dose Manufacturer Lot Number"/>
+              <DateField name='firstDoseDate' label="First Dose Date"/>
+              <TextField name='secondDoseManufacturerLotNumber' label="Second Dose Manufacturer Lot Number"/>
+              <DateField name='secondDoseDate' label="Second Dose"/>
+              <SelectField name='vaccineName' label="Vaccine Name"/>
+              <TextField name='vaccineSite' label="Vaccine Site"/>
               <SubmitField value='Submit'/>
               <ErrorsField/>
             </Segment>
