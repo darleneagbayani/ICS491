@@ -9,3 +9,7 @@
 #checkin-card {
   width: unset;
 }
+
+#checkin-answer-button {
+  margin-top: 2rem;
+}
