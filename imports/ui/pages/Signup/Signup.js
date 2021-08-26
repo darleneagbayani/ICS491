@@ -58,7 +58,7 @@ class Signup extends React.Component {
             <div className="col-lg-3 col-md-5 col-11">
               <div className="card mx-auto rounded bg-white shadow py-5">
                 <div className="row">
-                  <div className="col-12 text-center"><h2>Signup</h2></div>
+                  <div className="col-12 text-center"><h2>Sign Up</h2></div>
                 </div>
                 <div className="row">
                   <div className="col-10 mx-auto">
