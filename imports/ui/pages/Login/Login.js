@@ -52,6 +52,65 @@ class Login extends React.Component {
     const { errMsg } = this.state;
     return (
       <section className="login-page">
+        <div className="container-fluid pt-5">
+          <div className="row justify-content-center">
+            <div className="col-lg-3 col-md-5 col-11">
+              <div className="card mx-auto rounded bg-white shadow py-5">
+                <div className="row">
+                  <div className="col-12 text-center"><h2>Login</h2></div>
+                </div>
+                <div className="row">
+                  <div className="col-10 mx-auto">
+                  <form onSubmit={this.handleSubmit}>
+                <div className="form-group">
+                  <label htmlFor="email">Email</label>
+
+                  <input
+                    id="email"
+                    type="email"
+                    className="form-control"
+                    name="email"
+                    value={this.state.email}
+                    onChange={e => this.setState({ email: e.target.value })}
+                    required
+                  />
+                </div>
+
+                <div className="form-group">
+                  <div className="spread-container">
+                    <label htmlFor="password">Password</label>
+                  </div>
+                  <input
+                    id="password"
+                    type="password"
+                    className="form-control"
+                    name="password"
+                    value={this.state.password}
+                    onChange={e => this.setState({ password: e.target.value })}
+                    required
+                  /><br />
+                  <NavLink to="/recover-password">Forgot Password?</NavLink>
+                </div>
+                <div className="form-group no-margin">
+                  <button
+                    type="submit"
+                    className="btn btn-custom btn-block mb-2"
+                  >
+                    Login
+                  </button>
+                  {errMsg && <Alert errMsg={errMsg} />}
+                </div>
+                <div className="margin-top20">
+                  Don&apos;t have an account?{' '}
+                  <NavLink to="/signup">Create one</NavLink>
+                </div>
+              </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>{/*
         <div className="card mx-auto" style={{ maxWidth: '28rem' }}>
           <div className="card-header">
             <div className="brand">
@@ -114,7 +173,7 @@ class Login extends React.Component {
           <div className="footer text-center">
             &copy; {new Date().getFullYear()}
           </div>
-        </div>
+      </div>*/}
       </section>
     );
   }
