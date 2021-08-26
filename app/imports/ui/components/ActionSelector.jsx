@@ -1,12 +1,12 @@
 import React from 'react';
-import { Container, Dropdown, Image, Menu } from 'semantic-ui-react';
+import { Container, Image, Menu } from 'semantic-ui-react';
+// eslint-disable-next-line import/no-duplicates
 import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
-
 import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
+// eslint-disable-next-line import/no-duplicates
 import { withRouter } from 'react-router-dom';
-import { Roles } from 'meteor/alanning:roles';
 
 /** The Footer appears at the bottom of every page. Rendered by the App Layout component. */
 class ActionSelector extends React.Component {
