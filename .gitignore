@@ -65,3 +65,8 @@ typings/
 
 # macOS
 .DS_Store
+
+.idea
+.meteor
+package-lock.json
+config/settings.production.json
