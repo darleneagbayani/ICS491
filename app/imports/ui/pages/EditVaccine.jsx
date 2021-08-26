@@ -15,8 +15,8 @@ class EditVaccine extends React.Component {
 
   // On successful submit, insert the data.
   submit(data) {
-    const { firstName, lastName, patientNumber, vaccineName, secondDoseManufacturerLotNumber, secondDoseDate, vaccineSite, _id } = data;
-    Vaccine.collection.update(_id, { $set: { firstName, lastName, patientNumber, vaccineName, secondDoseManufacturerLotNumber, secondDoseDate, vaccineSite } }, (error) => (error ?
+    const { firstName, lastName, patientNumber, vaccineName, firstDoseManufacturerLotNumber, firstDoseDate, secondDoseManufacturerLotNumber, secondDoseDate, vaccineSite, _id } = data;
+    Vaccine.collection.update(_id, { $set: { firstName, lastName, patientNumber, vaccineName, firstDoseManufacturerLotNumber, firstDoseDate, secondDoseManufacturerLotNumber, secondDoseDate, vaccineSite } }, (error) => (error ?
       swal('Error', error.message, 'error') :
       swal('Success', 'Item updated successfully', 'success')));
   }
@@ -37,6 +37,8 @@ class EditVaccine extends React.Component {
               <TextField name='firstName'/>
               <TextField name='lastName'/>
               <NumField name='patientNumber' decimal={false}/>
+              <TextField name='firstDoseManufacturerLotNumber'/>
+              <DateField name='firstDoseDate'/>
               <TextField name='secondDoseManufacturerLotNumber'/>
               <DateField name='secondDoseDate'/>
               <SelectField name='vaccineName'/>

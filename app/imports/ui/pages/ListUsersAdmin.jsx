@@ -25,6 +25,7 @@ class ListUserAdmin extends React.Component {
               <Table.HeaderCell>firstName</Table.HeaderCell>
               <Table.HeaderCell>lastName</Table.HeaderCell>
               <Table.HeaderCell>Owner</Table.HeaderCell>
+              <Table.HeaderCell>Edit</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
           <Table.Body>
