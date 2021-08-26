@@ -26,6 +26,10 @@ class CheckInCollection {
     this.userPublicationName = `${this.name}.publication.user`;
     this.adminPublicationName = `${this.name}.publication.admin`;
   }
+
+  getStatus(owner) {
+    return this.collection.find({ owner }).fetch();
+  }
 }
 
 export const CheckIn = new CheckInCollection();
