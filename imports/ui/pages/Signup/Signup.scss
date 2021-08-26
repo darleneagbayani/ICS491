@@ -1,3 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap');
+
+body {
+  font-family: 'Poppins', sans-serif;
+}
+
 .signup-page {
   margin-top: 15px;
   .form-signin {
@@ -33,4 +39,15 @@
     display: flex;
     justify-content: space-between;
   }
+}
+
+.btn-custom {
+  background-color: #38458c;
+  color: #ffffff;
+  border-radius: 30px;
+}
+.btn-custom:hover {
+  background-color: #38458c;
+  color: #ffffff;
+  border-radius: 30px;
 }
