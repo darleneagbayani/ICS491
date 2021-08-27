@@ -16,7 +16,6 @@ class CheckIn extends React.Component {
   }
 
   handleCheckInAnswer(data) {
-    console.log(data);
     const health = (data.children === 'Yes') ? 'Not Clear' : 'Clear';
     CheckInCollection.collection.insert({
       owner: this.props.username,

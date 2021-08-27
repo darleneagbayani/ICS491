@@ -40,7 +40,6 @@ class CheckInCollection {
     const index = _.findIndex(checkIns, function (checks) {
       return compareDate(checks.date, date);
     });
-    console.log({ index, checkIns});
     return !(index === -1);
   }
 }
