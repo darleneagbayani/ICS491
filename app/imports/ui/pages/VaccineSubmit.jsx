@@ -60,18 +60,18 @@ class SubmitVaccine extends React.Component {
     return (
       <Grid container centered>
         <Grid.Column>
-          <Header as="h2" textAlign="center">Add Stuff</Header>
+          <Header as="h2" textAlign="center">UPLOAD VACCINATION CARD</Header>
           <AutoForm ref={ref => { fRef = ref; }} schema={bridge} onSubmit={data => this.submit(data, fRef)} >
             <Segment>
-              <TextField name='firstName'/>
-              <TextField name='lastName'/>
-              <NumField name='patientNumber' decimal={false}/>
-              <TextField name='firstDoseManufacturerLotNumber'/>
-              <DateField name='firstDoseDate'/>
-              <TextField name='secondDoseManufacturerLotNumber'/>
-              <DateField name='secondDoseDate'/>
-              <SelectField name='vaccineName'/>
-              <TextField name='vaccineSite'/>
+              <TextField name='firstName' label='First Name'/>
+              <TextField name='lastName' label='Last Name'/>
+              <NumField name='patientNumber' label="Patient Number (medical record or IIS record number)" decimal={false}/>
+              <SelectField name='vaccineName' label='Vaccine Name'/>
+              <TextField name='firstDoseManufacturerLotNumber' label='1st Dose Manufacturer Lot Number'/>
+              <DateField name='firstDoseDate' label='1st Dose Date'/>
+              <TextField name='secondDoseManufacturerLotNumber' label='2nd Dose Manufacturer Lot Number'/>
+              <DateField name='secondDoseDate' label='2nd Dose Date'/>
+              <TextField name='vaccineSite' label='Clinic Site Or Helath Care Professional'/>
               <SubmitField value='Submit'/>
               <ErrorsField/>
             </Segment>
