@@ -31,7 +31,26 @@ class CheckInCollection {
 
   // Returns an array containing all the check-ins from the user.
   getAllCheckIns(owner) {
-    return this.collection.find({ owner }).fetch();
+    const checkIns = this.collection.find({ owner }).fetch();
+    const checkInList = [];
+
+    _.forEach(checkIns, function (data) {
+      const { _id, date, status, vaccination, health } = data;
+
+      const dateOptions = { dateStyle: 'medium', hour12: true, timeStyle: 'short' };
+      const dateString = date.toLocaleString('default', dateOptions);
+
+      checkInList.push({
+        dateString,
+        date,
+        status,
+        vaccination,
+        health,
+        _id,
+      });
+    });
+
+    return checkInList;
   }
 
   // Returns the most recent check-in.
@@ -43,8 +62,8 @@ class CheckInCollection {
   // Returns true if they have completed it for the day, otherwise false.
   getHealthStatus(owner, date) {
     const checkIns = this.collection.find({ owner }).fetch();
-    const index = _.findIndex(checkIns, function (checks) {
-      return compareDate(checks.date, date);
+    const index = _.findIndex(checkIns, function (data) {
+      return compareDate(data.date, date);
     });
     return !(index === -1);
   }

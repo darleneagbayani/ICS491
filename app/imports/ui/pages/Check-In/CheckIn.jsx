@@ -128,6 +128,7 @@ export default withTracker(() => {
   const { username } = useParams();
   const checkHealthStatus = CheckInCollection.getHealthStatus(username, new Date());
   const recentCheckIn = CheckInCollection.getRecentCheckIn(username);
+  console.log(CheckInCollection.getAllCheckIns(username));
   return {
     checkInReady: checkInSubscribe.ready(),
     username,
