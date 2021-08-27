@@ -6,7 +6,7 @@ class Landing extends React.Component {
   render() {
     return (
       <Grid id='landing-page' verticalAlign='middle' textAlign='center' container>
-        <img className="ui centered image" src={'/images/FULL LOGO.png'} alt={'Image not found'}/>
+        <img className="ui centered image" src={'/images/FULL_LOGO.png'} alt={'Image not found'}/>
         <div className="ui buttons">
           <Button as={NavLink} exact to='/signin' className="ui button" id="greenButton">
                             Login
