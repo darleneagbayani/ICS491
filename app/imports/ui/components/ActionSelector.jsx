@@ -27,7 +27,7 @@ class ActionSelector extends React.Component {
               </Container>
             </Menu.Item>
 
-            <Menu.Item style={colStyle} as={NavLink} activeClassName="" exact to='/'>
+            <Menu.Item style={colStyle} as={NavLink} activeClassName="submit-vaccine" exact to='/submit-vaccine'>
               <Container>
                 <div className="row">
                   <Image className="ui fluid middle aligned tiny image" src="/images/upload.png"></Image>
