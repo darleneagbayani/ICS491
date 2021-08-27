@@ -1,6 +1,8 @@
 import { Mongo } from 'meteor/mongo';
 import { Tracker } from 'meteor/tracker';
 import SimpleSchema from 'simpl-schema';
+import { _ } from 'lodash';
+import { compareDate } from '../utilities/Utilities';
 
 class CheckInCollection {
   constructor() {
