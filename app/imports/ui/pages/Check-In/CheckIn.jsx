@@ -17,13 +17,13 @@ class CheckIn extends React.Component {
 
   handleCheckInAnswer(data) {
     console.log(data);
-    console.log(this.props.username);
+    const health = (data.children === 'Yes') ? 'Not Clear' : 'Clear';
     CheckInCollection.collection.insert({
       owner: this.props.username,
       date: new Date(),
       status: 'Not Clear',
       vaccination: 'Not Approved',
-      health: 'Clear',
+      health,
     });
   }
 
@@ -32,27 +32,30 @@ class CheckIn extends React.Component {
   }
 
   renderPage() {
+    const { checkHealthStatus } = this.props;
     return (
       <Container id='checkin-page'>
         <Header id='checkin-header'>Daily Check-In</Header>
+        { checkHealthStatus ? this.renderCard() : this.renderHealthCheck() }
       </Container>
     );
   }
 
   renderCard() {
+    const { recentCheckIn } = this.props;
     return (
       <Card id='checkin-card'>
         <Card.Content>
           <Card.Header>Status</Card.Header>
-          <Card.Description>Clear -- Not Clear</Card.Description>
+          <Card.Description>{recentCheckIn.status}</Card.Description>
         </Card.Content>
         <Card.Content>
           <Card.Header>Vaccination</Card.Header>
-          <Card.Description>Clear -- Not Clear</Card.Description>
+          <Card.Description>{recentCheckIn.vaccination}</Card.Description>
         </Card.Content>
         <Card.Content>
           <Card.Header>Health Symptom</Card.Header>
-          <Card.Description>Clear -- Not Clear</Card.Description>
+          <Card.Description>{recentCheckIn.health}</Card.Description>
         </Card.Content>
       </Card>
     );
@@ -94,7 +97,7 @@ class CheckIn extends React.Component {
             <i><strong>your medical care provider</strong></i>?
           </li>
           <li>
-            Are you unvaccinated and have been in close contact ({'< '}6 feet for ≥ 15 nutes, cumulatively, over a 24-hour period)
+            Are you unvaccinated and have been in close contact ({'< '}6 feet for ≥ 15 minutes, cumulatively, over a 24-hour period)
             with anyone who has an active, diagnosed case of COVID-19? {' '}
             <i>
               <strong>
@@ -108,7 +111,7 @@ class CheckIn extends React.Component {
           </li>
         </ul>
         <Button id='checkin-answer-yes' onClick={(event, data) => this.handleCheckInAnswer(data)}>Yes</Button>
-        <Button id='checkin-answer-no' onClick={this.handleCheckInAnswer}>No</Button>
+        <Button id='checkin-answer-no' onClick={(event, data) => this.handleCheckInAnswer(data)}>No</Button>
       </Container>
     );
   }
@@ -117,14 +120,19 @@ class CheckIn extends React.Component {
 CheckIn.propTypes = {
   checkInReady: PropTypes.bool,
   username: PropTypes.string,
+  checkHealthStatus: PropTypes.bool,
+  recentCheckIn: PropTypes.object,
 };
 
 export default withTracker(() => {
   const checkInSubscribe = Meteor.subscribe(CheckInCollection.userPublicationName);
   const { username } = useParams();
-  console.log(CheckInCollection.getHealthStatus(username, new Date()));
+  const checkHealthStatus = CheckInCollection.getHealthStatus(username, new Date());
+  const recentCheckIn = CheckInCollection.getRecentCheckIn(username);
   return {
     checkInReady: checkInSubscribe.ready(),
     username,
+    checkHealthStatus,
+    recentCheckIn,
   };
 })(CheckIn);

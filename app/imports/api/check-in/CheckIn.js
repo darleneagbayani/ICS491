@@ -29,14 +29,19 @@ class CheckInCollection {
     this.adminPublicationName = `${this.name}.publication.admin`;
   }
 
+  getRecentCheckIn(owner) {
+    return _.last(this.collection.find({ owner }).fetch());
+  }
+
   // Check if the user has a record of a completed health check-in for the day.
+  // Returns true if they have completed it for the day, otherwise false.
   getHealthStatus(owner, date) {
     const checkIns = this.collection.find({ owner }).fetch();
     const index = _.findIndex(checkIns, function (checks) {
       return compareDate(checks.date, date);
     });
     console.log({ index, checkIns});
-    return index !== -1;
+    return !(index === -1);
   }
 }
 
