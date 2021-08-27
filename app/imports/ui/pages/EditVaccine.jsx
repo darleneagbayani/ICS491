@@ -34,15 +34,15 @@ class EditVaccine extends React.Component {
           <Header as="h2" textAlign="center">Edit Stuff</Header>
           <AutoForm schema={bridge} onSubmit={data => this.submit(data)} model={this.props.doc}>
             <Segment>
-              <TextField name='firstName'/>
-              <TextField name='lastName'/>
-              <NumField name='patientNumber' decimal={false}/>
-              <TextField name='firstDoseManufacturerLotNumber'/>
-              <DateField name='firstDoseDate'/>
-              <TextField name='secondDoseManufacturerLotNumber'/>
-              <DateField name='secondDoseDate'/>
-              <SelectField name='vaccineName'/>
-              <TextField name='vaccineSite'/>
+              <TextField name='firstName' label="First Name"/>
+              <TextField name='lastName' label="Last Name"/>
+              <NumField name='patientNumber' label="Patient Number" decimal={false}/>
+              <TextField name='firstDoseManufacturerLotNumber' label="First Dose Manufacturer Lot Number"/>
+              <DateField name='firstDoseDate' label="First Dose Date"/>
+              <TextField name='secondDoseManufacturerLotNumber' label="Second Dose Manufacturer Lot Number"/>
+              <DateField name='secondDoseDate' label="Second Dose Date"/>
+              <SelectField name='vaccineName' label="Vaccine Name"/>
+              <TextField name='vaccineSite' label="Vaccine Site"/>
               <SubmitField value='Submit'/>
               <ErrorsField/>
               <HiddenField name='owner' />
