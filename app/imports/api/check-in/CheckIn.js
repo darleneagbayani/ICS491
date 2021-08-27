@@ -29,6 +29,12 @@ class CheckInCollection {
     this.adminPublicationName = `${this.name}.publication.admin`;
   }
 
+  // Returns an array containing all the check-ins from the user.
+  getAllCheckIns(owner) {
+    return this.collection.find({ owner }).fetch();
+  }
+
+  // Returns the most recent check-in.
   getRecentCheckIn(owner) {
     return _.last(this.collection.find({ owner }).fetch());
   }
