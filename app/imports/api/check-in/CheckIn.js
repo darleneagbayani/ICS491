@@ -26,6 +26,26 @@ class CheckInCollection {
     this.userPublicationName = `${this.name}.publication.user`;
     this.adminPublicationName = `${this.name}.publication.admin`;
   }
+
+  // Returns an array containing all the check-ins from the user.
+  getAllCheckIns(owner) {
+    return this.collection.find({ owner }).fetch();
+  }
+
+  // Returns the most recent check-in.
+  getRecentCheckIn(owner) {
+    return _.last(this.collection.find({ owner }).fetch());
+  }
+
+  // Check if the user has a record of a completed health check-in for the day.
+  // Returns true if they have completed it for the day, otherwise false.
+  getHealthStatus(owner, date) {
+    const checkIns = this.collection.find({ owner }).fetch();
+    const index = _.findIndex(checkIns, function (checks) {
+      return compareDate(checks.date, date);
+    });
+    return !(index === -1);
+  }
 }
 
 export const CheckIn = new CheckInCollection();
