@@ -27,7 +27,7 @@ class ActionSelector extends React.Component {
               </Container>
             </Menu.Item>
 
-            <Menu.Item style={colStyle} as={NavLink} activeClassName="" exact to={`/history/${this.props.currentUser}`}>
+            <Menu.Item style={colStyle} as={NavLink} activeClassName="" exact to='/'>
               <Container>
                 <div className="row">
                   <Image className="ui fluid middle aligned tiny image" src="/images/upload.png"></Image>
@@ -36,7 +36,7 @@ class ActionSelector extends React.Component {
               </Container>
             </Menu.Item>
 
-            <Menu.Item style={colStyle} as={NavLink} activeClassName="" exact to="/">
+            <Menu.Item style={colStyle} as={NavLink} activeClassName="" exact to={`/history/${this.props.currentUser}`}>
               <Container>
                 <div className="center aligned row">
                   <Image className="ui fluid middle aligned tiny image" src="/images/history.png"></Image>
