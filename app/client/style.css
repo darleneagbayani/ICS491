@@ -10,6 +10,38 @@
   width: unset;
 }
 
-#checkin-answer-button {
-  margin-top: 2rem;
+#checkin-buttons-container {
+  text-align: center;
+}
+
+#edit-button {
+  padding: 0rem 1rem 0rem;
+  background: none;
+  color: black;
+}
+
+.checkin-answer {
+  padding: 1rem 5rem 1rem !important;
+  border-radius: 5rem !important;
+}
+
+#checkin-answer-yes {
+  margin-right: 5rem;
+  margin-left: auto;
+}
+
+#checkin-answer-no {
+  margin-right: auto;
+  margin-left: 5rem;
+}
+
+@media only screen and (max-width: 600px) {
+  /* For mobile phones: */
+  #checkin-answer-yes {
+    margin: auto;
+  }
+
+  #checkin-answer-no {
+    margin: 1rem auto auto;
+  }
 }

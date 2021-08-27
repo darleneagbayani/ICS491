@@ -3,7 +3,7 @@ import { withTracker } from 'meteor/react-meteor-data';
 import React from 'react';
 import { useParams } from 'react-router';
 import PropTypes from 'prop-types';
-import { Button, Card, Container, Header, Loader } from 'semantic-ui-react';
+import { Button, Card, Container, Header, Loader, Modal } from 'semantic-ui-react';
 import { CheckIn as CheckInCollection } from '../../../api/check-in/CheckIn';
 
 class CheckIn extends React.Component {
@@ -11,6 +11,7 @@ class CheckIn extends React.Component {
   constructor(props) {
     super(props);
 
+    this.state = { editClicked: false };
     // bind event callbacks.
     this.handleCheckInAnswer = this.handleCheckInAnswer.bind(this);
   }
@@ -24,6 +25,7 @@ class CheckIn extends React.Component {
       vaccination: 'Not Approved',
       health,
     });
+    this.setState({ editClicked: false });
   }
 
   render() {
@@ -35,7 +37,7 @@ class CheckIn extends React.Component {
     return (
       <Container id='checkin-page'>
         <Header id='checkin-header'>Daily Check-In</Header>
-        { checkHealthStatus ? this.renderCard() : this.renderHealthCheck() }
+        { (checkHealthStatus) ? this.renderCard() : this.renderHealthCheck() }
       </Container>
     );
   }
@@ -53,7 +55,18 @@ class CheckIn extends React.Component {
           <Card.Description>{recentCheckIn.vaccination}</Card.Description>
         </Card.Content>
         <Card.Content>
-          <Card.Header>Health Symptom</Card.Header>
+          <Card.Header>
+            Health Symptoms
+            <Modal
+              closeIcon
+              open={this.state.editClicked}
+              onOpen={() => this.setState({ editClicked: true })}
+              onClose={() => this.setState({ editClicked: false })}
+              trigger={<Button id='edit-button'>Edit</Button>}
+            >
+              <Modal.Content>{this.renderHealthCheck()}</Modal.Content>
+            </Modal>
+          </Card.Header>
           <Card.Description>{recentCheckIn.health}</Card.Description>
         </Card.Content>
       </Card>
@@ -109,8 +122,10 @@ class CheckIn extends React.Component {
             Has the Department of Health told you that you have been in contact with a person with COVID-19 AND you are UNvaccinated?
           </li>
         </ul>
-        <Button id='checkin-answer-yes' onClick={(event, data) => this.handleCheckInAnswer(data)}>Yes</Button>
-        <Button id='checkin-answer-no' onClick={(event, data) => this.handleCheckInAnswer(data)}>No</Button>
+        <Container id='checkin-buttons-container'>
+          <Button className='checkin-answer' id='checkin-answer-yes' onClick={(event, data) => this.handleCheckInAnswer(data)}>Yes</Button>
+          <Button className='checkin-answer' id='checkin-answer-no' onClick={(event, data) => this.handleCheckInAnswer(data)}>No</Button>
+        </Container>
       </Container>
     );
   }
@@ -128,7 +143,6 @@ export default withTracker(() => {
   const { username } = useParams();
   const checkHealthStatus = CheckInCollection.getHealthStatus(username, new Date());
   const recentCheckIn = CheckInCollection.getRecentCheckIn(username);
-  console.log(CheckInCollection.getAllCheckIns(username));
   return {
     checkInReady: checkInSubscribe.ready(),
     username,
