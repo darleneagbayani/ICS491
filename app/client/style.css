@@ -1,15 +1,8 @@
-#checkin-page {
-  margin: 3rem 5rem 10rem;
+#blueButton{
+    color: white;
+    background-color: #38438b;
 }
-
-#checkin-header {
-
-}
-
-#checkin-card {
-  width: unset;
-}
-
-#checkin-answer-button {
-  margin-top: 2rem;
+#greenButton{
+    color: white;
+    background-color: #188a45;
 }
