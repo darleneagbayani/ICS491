@@ -6,6 +6,8 @@ import { Meteor } from 'meteor/meteor';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import SimpleSchema from 'simpl-schema';
 import { Vaccine } from '../../api/Vaccine/Vaccine';
+import S3FileUpload from 'react-s3';
+import * as Buffer from "Buffer";
 
 // Create a schema to specify the structure of the data to appear in the form.
 const formSchema = new SimpleSchema({
@@ -34,10 +36,39 @@ const formSchema = new SimpleSchema({
   },
 });
 
+if (typeof this.Buffer === 'undefined') {
+  this.Buffer = Buffer.Buffer;
+}
+
+const config = {
+  bucketName: 'honushield',
+  region: 'us-west-2',
+  accessKeyId: 'AKIA2GGVCJ5IRXVKEQWU',
+  secretAccessKey: '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'
+}
+
+var imgUrl = ''
+
+upload=(e, imgUrl)=>{
+  S3FileUpload.uploadFile(e.target.files[0], config)
+    .then((data)=> {
+      imgUrl = data.location
+      // console.log((data.location))
+      console.log((imgUrl))
+    })
+    .catch((err)=>{
+      alert(err)
+    })
+}
+
+console.log(imgUrl)
+
+
 const bridge = new SimpleSchema2Bridge(formSchema);
 
 /** Renders the Page for adding a document. */
 class SubmitVaccine extends React.Component {
+
 
   // On submit, insert the data.
   submit(data, formRef) {
@@ -54,6 +85,7 @@ class SubmitVaccine extends React.Component {
       });
   }
 
+
   // Render the form. Use Uniforms: https://github.com/vazco/uniforms
   render() {
     let fRef = null;
@@ -61,6 +93,7 @@ class SubmitVaccine extends React.Component {
       <Grid container centered>
         <Grid.Column>
           <Header as="h2" textAlign="center">UPLOAD VACCINATION CARD</Header>
+          <input type="file" onChange={upload}/>
           <AutoForm ref={ref => { fRef = ref; }} schema={bridge} onSubmit={data => this.submit(data, fRef)} >
             <Segment>
               <TextField name='firstName' label='First Name'/>
