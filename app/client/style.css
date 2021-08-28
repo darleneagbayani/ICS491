@@ -1,7 +1,14 @@
-#checkin-page {
-  margin: 3rem 5rem 10rem;
+#blueButton{
+    color: white;
+    background-color: #38438b;
 }
 
+#greenButton{
+  color: white;
+  background-color: #188a45;
+}
+
+/* ----------------------- Check In Page CSS ------------------------------- */
 .checkin-header {
   color: #38458b !important;
 }

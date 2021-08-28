@@ -5,13 +5,13 @@ import 'semantic-ui-css/semantic.css';
 import { Roles } from 'meteor/alanning:roles';
 import { HashRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import NavBar from '../components/NavBar';
-import Footer from '../components/Footer';
 import ActionSelector from '../components/ActionSelector';
 import Landing from '../pages/Landing';
-import ListStuff from '../pages/ListStuff';
-import ListStuffAdmin from '../pages/ListStuffAdmin';
-import AddStuff from '../pages/AddStuff';
-import EditStuff from '../pages/EditStuff';
+import ListUsers from '../pages/ListUsers';
+import ListUsersAdmin from '../pages/ListUsersAdmin';
+import VaccineSubmit from '../pages/VaccineSubmit';
+import EditVaccine from '../pages/EditVaccine';
+import ChangeRole from '../pages/ChangeRole';
 import NotFound from '../pages/NotFound';
 import Signin from '../pages/Signin';
 import Signup from '../pages/Signup';
@@ -34,13 +34,13 @@ class App extends React.Component {
             <Route path="/signout" component={Signout}/>
             <ProtectedRoute path="/checkin/:username" component={CheckIn}/>
             <ProtectedRoute path="/history/:username" component={CheckInHistory}/>
-            <ProtectedRoute path="/list" component={ListStuff}/>
-            <ProtectedRoute path="/add" component={AddStuff}/>
-            <ProtectedRoute path="/edit/:_id" component={EditStuff}/>
-            <AdminProtectedRoute path="/admin" component={ListStuffAdmin}/>
+            <ProtectedRoute path="/vaccination-card" component={ListUsers}/>
+            <ProtectedRoute path="/submit-vaccine" component={VaccineSubmit}/>
+            <ProtectedRoute path="/edit/:_id" component={EditVaccine}/>
+            <AdminProtectedRoute path="/admin" component={ListUsersAdmin}/>
+            <AdminProtectedRoute path="/change-role" component={ChangeRole}/>
             <Route component={NotFound}/>
           </Switch>
-
         </div>
       </Router>
     );
@@ -58,6 +58,25 @@ const ProtectedRoute = ({ component: Component, ...rest }) => (
     render={(props) => {
       const isLogged = Meteor.userId() !== null;
       return isLogged ?
+        (<Component {...props} />) :
+        (<Redirect to={{ pathname: '/signin', state: { from: props.location } }}/>
+        );
+    }}
+  />
+);
+
+/**
+ * ProtectedRoute (see React Router v4 sample)
+ * Checks for Meteor login before routing to the requested page, otherwise goes to signin page.
+ * @param {any} { component: Component, ...rest }
+ */
+const SubmitProtectedRoute = ({ component: Component, ...rest }) => (
+  <Route
+    {...rest}
+    render={(props) => {
+      const isLogged = Meteor.userId() !== null;
+      const isSubmit = Roles.userIsInRole(Meteor.userId(), 'submit');
+      return (isLogged && isSubmit) ?
         (<Component {...props} />) :
         (<Redirect to={{ pathname: '/signin', state: { from: props.location } }}/>
         );
@@ -86,6 +105,12 @@ const AdminProtectedRoute = ({ component: Component, ...rest }) => (
 
 // Require a component and location to be passed to each ProtectedRoute.
 ProtectedRoute.propTypes = {
+  component: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+  location: PropTypes.object,
+};
+
+// Require a component and location to be passed to each SubmitProtectedRoute.
+SubmitProtectedRoute.propTypes = {
   component: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   location: PropTypes.object,
 };
