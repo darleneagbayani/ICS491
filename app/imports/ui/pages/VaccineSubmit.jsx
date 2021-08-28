@@ -9,28 +9,28 @@ import { Vaccine } from '../../api/Vaccine/Vaccine';
 
 // Create a schema to specify the structure of the data to appear in the form.
 const formSchema = new SimpleSchema({
-      firstName: String,
-      lastName: String,
-      patientNumber: Number,
-      firstDoseManufacturerLotNumber: String,   //MLN = Manufacturer Lot Number 
-      firstDoseDate: Date,    
-      secondDoseManufacturerLotNumber: String,
-      secondDoseDate: Date,
-      vaccineSite: String,
-      vaccineName: {
-        type: String,
-        allowedValues: ['Pfizer-BioNTech', 
-        'Moderna COVID-19', 
-        'Janssen COVID-19 (Johnson &)', 
-        'AstraZeneca-AZD1222',
-        'Sinopharm BIBP-SARS-CoV-2',
-        'Sinovac-SARS-CoV-2',
-        'Gamelya-Sputnik V',
-        'CanSinoBio',
-        'Vector-EpiVacCorona',    
-        'Zhifei Longcom-Recombinant Novel',
-        'IMBCAMS-SARS-CoV-2'  
-        ],
+  firstName: String,
+  lastName: String,
+  patientNumber: Number,
+  firstDoseManufacturerLotNumber: String, // MLN = Manufacturer Lot Number
+  firstDoseDate: Date,
+  secondDoseManufacturerLotNumber: String,
+  secondDoseDate: Date,
+  vaccineSite: String,
+  vaccineName: {
+    type: String,
+    allowedValues: ['Pfizer-BioNTech',
+      'Moderna COVID-19',
+      'Janssen COVID-19 (Johnson &)',
+      'AstraZeneca-AZD1222',
+      'Sinopharm BIBP-SARS-CoV-2',
+      'Sinovac-SARS-CoV-2',
+      'Gamelya-Sputnik V',
+      'CanSinoBio',
+      'Vector-EpiVacCorona',
+      'Zhifei Longcom-Recombinant Novel',
+      'IMBCAMS-SARS-CoV-2',
+    ],
   },
 });
 

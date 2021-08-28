@@ -13,12 +13,17 @@
   color: #38458b !important;
 }
 
+#checkin-health-header {
+  text-align: center;
+}
+
 #checkin-card {
   width: unset;
 }
 
 #checkin-buttons-container {
   text-align: center;
+  padding-bottom: 2rem;
 }
 
 #edit-button {

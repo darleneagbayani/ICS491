@@ -5,6 +5,7 @@ import { useParams } from 'react-router';
 import PropTypes from 'prop-types';
 import { Button, Card, Container, Header, Loader, Modal } from 'semantic-ui-react';
 import { CheckIn as CheckInCollection } from '../../../api/check-in/CheckIn';
+import { Vaccine } from '../../../api/Vaccine/Vaccine';
 
 class CheckIn extends React.Component {
 
@@ -17,19 +18,23 @@ class CheckIn extends React.Component {
   }
 
   handleCheckInAnswer(data) {
-    const health = (data.children === 'Yes') ? 'Not Clear' : 'Clear';
+    const health = (data.children === 'No') ? 'Clear' : 'Not Clear';
+    const vaccination = (this.props.vaccineExists) ? 'Approved' : 'Not Approved';
+    const status = (data.children === 'No' && this.props.vaccineExists) ? 'Clear' : 'Not Clear';
+
     CheckInCollection.collection.insert({
       owner: this.props.username,
       date: new Date(),
-      status: 'Not Clear',
-      vaccination: 'Not Approved',
+      status,
+      vaccination,
       health,
     });
     this.setState({ editClicked: false });
   }
 
   render() {
-    return (this.props.checkInReady) ? this.renderPage() : <Loader active>Getting data</Loader>;
+    const { checkInReady, vaccineReady } = this.props;
+    return (checkInReady && vaccineReady) ? this.renderPage() : <Loader active>Getting data</Loader>;
   }
 
   renderPage() {
@@ -76,7 +81,7 @@ class CheckIn extends React.Component {
   renderHealthCheck() {
     return (
       <Container text>
-        <Header>Covid Symptoms Checklist</Header>
+        <Header id='checkin-health-header'>Covid Symptoms Checklist</Header>
         <p>
           - Have you tested positive for COVID-19 and are on home isolation?
         </p>
@@ -133,20 +138,29 @@ class CheckIn extends React.Component {
 
 CheckIn.propTypes = {
   checkInReady: PropTypes.bool,
+  vaccineReady: PropTypes.bool,
   username: PropTypes.string,
   checkHealthStatus: PropTypes.bool,
   recentCheckIn: PropTypes.object,
+  vaccineExists: PropTypes.bool,
 };
 
 export default withTracker(() => {
   const checkInSubscribe = Meteor.subscribe(CheckInCollection.userPublicationName);
+  const vaccineSubscribe = Meteor.subscribe(Vaccine.userPublicationName);
   const { username } = useParams();
+
   const checkHealthStatus = CheckInCollection.getHealthStatus(username, new Date());
   const recentCheckIn = CheckInCollection.getRecentCheckIn(username);
+
+  const vaccineExists = Vaccine.recordExists(username);
+  console.log(vaccineExists);
   return {
     checkInReady: checkInSubscribe.ready(),
+    vaccineReady: vaccineSubscribe.ready(),
     username,
     checkHealthStatus,
     recentCheckIn,
+    vaccineExists,
   };
 })(CheckIn);
