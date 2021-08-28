@@ -2,8 +2,8 @@
   margin: 3rem 5rem 10rem;
 }
 
-#checkin-header {
-
+.checkin-header {
+  color: #38458b !important;
 }
 
 #checkin-card {

@@ -10,8 +10,8 @@ class CheckIn extends React.Component {
 
   constructor(props) {
     super(props);
-
     this.state = { editClicked: false };
+
     // bind event callbacks.
     this.handleCheckInAnswer = this.handleCheckInAnswer.bind(this);
   }
@@ -47,15 +47,15 @@ class CheckIn extends React.Component {
     return (
       <Card id='checkin-card'>
         <Card.Content>
-          <Card.Header>Status</Card.Header>
+          <Card.Header className='checkin-header'>Status</Card.Header>
           <Card.Description>{recentCheckIn.status}</Card.Description>
         </Card.Content>
         <Card.Content>
-          <Card.Header>Vaccination</Card.Header>
+          <Card.Header className='checkin-header'>Vaccination</Card.Header>
           <Card.Description>{recentCheckIn.vaccination}</Card.Description>
         </Card.Content>
         <Card.Content>
-          <Card.Header>
+          <Card.Header className='checkin-header'>
             Health Symptoms
             <Modal
               closeIcon
