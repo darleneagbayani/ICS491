@@ -8,31 +8,34 @@ import SimpleSchema from 'simpl-schema';
 import { Vaccine } from '../../api/Vaccine/Vaccine';
 import S3FileUpload from 'react-s3';
 import * as Buffer from "Buffer";
+// import * as EnvConfig from "../../../../config/settings.development.json"
+// import * as EnvConfig from "config/settings.development.json"
+
 
 // Create a schema to specify the structure of the data to appear in the form.
 const formSchema = new SimpleSchema({
-      firstName: String,
-      lastName: String,
-      patientNumber: Number,
-      firstDoseManufacturerLotNumber: String,   //MLN = Manufacturer Lot Number 
-      firstDoseDate: Date,    
-      secondDoseManufacturerLotNumber: String,
-      secondDoseDate: Date,
-      vaccineSite: String,
-      vaccineName: {
-        type: String,
-        allowedValues: ['Pfizer-BioNTech', 
-        'Moderna COVID-19', 
-        'Janssen COVID-19 (Johnson &)', 
-        'AstraZeneca-AZD1222',
-        'Sinopharm BIBP-SARS-CoV-2',
-        'Sinovac-SARS-CoV-2',
-        'Gamelya-Sputnik V',
-        'CanSinoBio',
-        'Vector-EpiVacCorona',    
-        'Zhifei Longcom-Recombinant Novel',
-        'IMBCAMS-SARS-CoV-2'  
-        ],
+  firstName: String,
+  lastName: String,
+  patientNumber: Number,
+  firstDoseManufacturerLotNumber: String,   //MLN = Manufacturer Lot Number
+  firstDoseDate: Date,
+  secondDoseManufacturerLotNumber: String,
+  secondDoseDate: Date,
+  vaccineSite: String,
+  vaccineName: {
+    type: String,
+    allowedValues: ['Pfizer-BioNTech',
+      'Moderna COVID-19',
+      'Janssen COVID-19 (Johnson &)',
+      'AstraZeneca-AZD1222',
+      'Sinopharm BIBP-SARS-CoV-2',
+      'Sinovac-SARS-CoV-2',
+      'Gamelya-Sputnik V',
+      'CanSinoBio',
+      'Vector-EpiVacCorona',
+      'Zhifei Longcom-Recombinant Novel',
+      'IMBCAMS-SARS-CoV-2'
+    ],
   },
 });
 
@@ -40,28 +43,31 @@ if (typeof this.Buffer === 'undefined') {
   this.Buffer = Buffer.Buffer;
 }
 
+
 const config = {
-  bucketName: 'honushield',
-  region: 'us-west-2',
-  accessKeyId: 'AKIA2GGVCJ5IRXVKEQWU',
-  secretAccessKey: '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'
+  bucketName: Meteor.settings.public.s3BucketKeys.accessKeyId,
+  region: Meteor.settings.public.s3BucketKeys.region,
+  accessKeyId: Meteor.settings.public.s3BucketKeys.accessKeyId,
+  secretAccessKey: Meteor.settings.public.s3BucketKeys.secretAccessKey
 }
+
 
 var imgUrl = ''
 
-upload=(e, imgUrl)=>{
+upload = (e, imgUrl) => {
   S3FileUpload.uploadFile(e.target.files[0], config)
-    .then((data)=> {
+    .then((data) => {
       imgUrl = data.location
       // console.log((data.location))
       console.log((imgUrl))
     })
-    .catch((err)=>{
+    .catch((err) => {
       alert(err)
     })
 }
 
 console.log(imgUrl)
+// console.log(Meteor)
 
 
 const bridge = new SimpleSchema2Bridge(formSchema);
@@ -86,6 +92,7 @@ class SubmitVaccine extends React.Component {
   }
 
 
+
   // Render the form. Use Uniforms: https://github.com/vazco/uniforms
   render() {
     let fRef = null;
@@ -94,7 +101,7 @@ class SubmitVaccine extends React.Component {
         <Grid.Column>
           <Header as="h2" textAlign="center">UPLOAD VACCINATION CARD</Header>
           <input type="file" onChange={upload}/>
-          <AutoForm ref={ref => { fRef = ref; }} schema={bridge} onSubmit={data => this.submit(data, fRef)} >
+          <AutoForm ref={ref => { fRef = ref; }} schema={bridge} onSubmit={data => this.submit(data, fRef)}>
             <Segment>
               <TextField name='firstName' label='First Name'/>
               <TextField name='lastName' label='Last Name'/>

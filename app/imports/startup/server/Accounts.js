@@ -16,6 +16,8 @@ function createUser(email, password, role) {
     Roles.addUsersToRoles(userID, 'admin');
   }
 }
+// console.log(Meteor.settings.s3BucketKeys[0].bucketName)
+
 
 // When running app for first time, pass a settings file to set up a default user account.
 if (Meteor.users.find().count() === 0) {

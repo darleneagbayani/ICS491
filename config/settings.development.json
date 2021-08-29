@@ -1,12 +1,45 @@
 {
   "defaultAccounts": [
-    { "email": "admin@foo.com", "password": "changeme", "role": "admin" },
-    { "email": "john@foo.com", "password": "changeme", "role": "verifiedUser" },
-    { "email": "test@foo.com", "password": "changeme", "role": "unverifiedUser" }
+    {
+      "email": "admin@foo.com",
+      "password": "changeme",
+      "role": "admin"
+    },
+    {
+      "email": "john@foo.com",
+      "password": "changeme",
+      "role": "verifiedUser"
+    },
+    {
+      "email": "test@foo.com",
+      "password": "changeme",
+      "role": "unverifiedUser"
+    }
   ],
-
   "defaultData": [
-    { "firstName": "John", "lastName": "Doe", "patientNumber": "0123456789", "firstDoseManufacturerLotNumber": "f394h5", "firstDoseDate": "07/08/2020","secondDoseManufacturerLotNumber": "0f394h5", "secondDoseDate": "08/08/2020", "vaccineName": "Pfizer-BioNTech", "vaccineSite": "Times","owner": "john@foo.com" },
-    { "firstName": "Admin", "lastName": "Foo", "patientNumber": "9876543210", "firstDoseManufacturerLotNumber": "f394h5", "firstDoseDate": "07/08/2020","secondDoseManufacturerLotNumber": "0f394h5", "secondDoseDate": "08/08/2020", "vaccineName": "Moderna COVID-19", "vaccineSite": "Wallgreens", "owner": "admin@foo.com" }
+    {
+      "firstName": "John",
+      "lastName": "Doe",
+      "patientNumber": "0123456789",
+      "firstDoseManufacturerLotNumber": "f394h5",
+      "firstDoseDate": "07/08/2020",
+      "secondDoseManufacturerLotNumber": "0f394h5",
+      "secondDoseDate": "08/08/2020",
+      "vaccineName": "Pfizer-BioNTech",
+      "vaccineSite": "Times",
+      "owner": "john@foo.com"
+    },
+    {
+      "firstName": "Admin",
+      "lastName": "Foo",
+      "patientNumber": "9876543210",
+      "firstDoseManufacturerLotNumber": "f394h5",
+      "firstDoseDate": "07/08/2020",
+      "secondDoseManufacturerLotNumber": "0f394h5",
+      "secondDoseDate": "08/08/2020",
+      "vaccineName": "Moderna COVID-19",
+      "vaccineSite": "Wallgreens",
+      "owner": "admin@foo.com"
+    }
   ]
 }
