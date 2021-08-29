@@ -50,14 +50,9 @@ class VaccineCollection {
 
   recordExists(owner) {
     const vaccineRecord = this.collection.find({ owner }).fetch();
-
-    console.log(vaccineRecord);
-    console.log(vaccineRecord.length);
-
     if (vaccineRecord.length === 0) {
       return false;
     }
-
     return true;
   }
 }
