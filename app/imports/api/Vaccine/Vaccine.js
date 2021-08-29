@@ -1,7 +1,6 @@
 import { Mongo } from 'meteor/mongo';
 import SimpleSchema from 'simpl-schema';
 import { Tracker } from 'meteor/tracker';
-import { string } from 'prop-types';
 
 /**
  * The VaccineCollection. It encapsulates state and variable values for stuff.
@@ -17,27 +16,28 @@ class VaccineCollection {
       firstName: String,
       lastName: String,
       patientNumber: Number,
-      firstDoseManufacturerLotNumber: String,   //MLN = Manufacturer Lot Number 
-      firstDoseDate: Date,    
+      firstDoseManufacturerLotNumber: String, // MLN = Manufacturer Lot Number
+      firstDoseDate: Date,
       secondDoseManufacturerLotNumber: String,
       secondDoseDate: Date,
       vaccineSite: String,
       owner: String,
       vaccineName: {
         type: String,
-        allowedValues: ['Pfizer-BioNTech', 
-        'Moderna COVID-19', 
-        'Janssen COVID-19 (Johnson &)', 
-        'AstraZeneca-AZD1222',
-        'Sinopharm BIBP-SARS-CoV-2',
-        'Sinovac-SARS-CoV-2',
-        'Gamelya-Sputnik V',
-        'CanSinoBio',
-        'Vector-EpiVacCorona',    
-        'Zhifei Longcom-Recombinant Novel',
-        'IMBCAMS-SARS-CoV-2'  
+        allowedValues: [
+          'Pfizer-BioNTech',
+          'Moderna COVID-19',
+          'Janssen COVID-19 (Johnson &)',
+          'AstraZeneca-AZD1222',
+          'Sinopharm BIBP-SARS-CoV-2',
+          'Sinovac-SARS-CoV-2',
+          'Gamelya-Sputnik V',
+          'CanSinoBio',
+          'Vector-EpiVacCorona',
+          'Zhifei Longcom-Recombinant Novel',
+          'IMBCAMS-SARS-CoV-2',
         ],
-        //defaultValue: 'good',
+        // defaultValue: 'good',
       },
     }, { tracker: Tracker });
 
@@ -46,6 +46,14 @@ class VaccineCollection {
     // Define names for publications and subscriptions
     this.userPublicationName = `${this.name}.publication.user`;
     this.adminPublicationName = `${this.name}.publication.admin`;
+  }
+
+  recordExists(owner) {
+    const vaccineRecord = this.collection.find({ owner }).fetch();
+    if (vaccineRecord.length === 0) {
+      return false;
+    }
+    return true;
   }
 }
 

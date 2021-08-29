@@ -17,7 +17,7 @@ class CheckInHistory extends React.Component {
     const { allCheckIns } = this.props;
     return (
       <Container>
-        <Header>Daily Check-In History</Header>
+        <Header as='h2' textAlign='center'>Daily Check-In History</Header>
         <Table stackable>
           <Table.Header>
             <Table.Row>
@@ -44,7 +44,6 @@ export default withTracker(() => {
   const checkInSubscribe = Meteor.subscribe(CheckInCollection.userPublicationName);
   const { username } = useParams();
   const allCheckIns = CheckInCollection.getAllCheckIns(username);
-  console.log(allCheckIns);
   return {
     checkInReady: checkInSubscribe.ready(),
     allCheckIns,
