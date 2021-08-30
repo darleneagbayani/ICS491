@@ -3,39 +3,77 @@ import { withTracker } from 'meteor/react-meteor-data';
 import React from 'react';
 import { useParams } from 'react-router';
 import PropTypes from 'prop-types';
-import { Button, Card, Container, Header, Loader } from 'semantic-ui-react';
+import swal from 'sweetalert';
+import { Button, Card, Container, Header, Loader, Modal } from 'semantic-ui-react';
 import { CheckIn as CheckInCollection } from '../../../api/check-in/CheckIn';
+import { Vaccine } from '../../../api/Vaccine/Vaccine';
 
 class CheckIn extends React.Component {
 
   constructor(props) {
     super(props);
+    this.state = { editClicked: false };
 
     // bind event callbacks.
     this.handleCheckInAnswer = this.handleCheckInAnswer.bind(this);
+    this.handleCheckVaccination = this.handleCheckVaccination.bind(this);
   }
 
   handleCheckInAnswer(data) {
-    const health = (data.children === 'Yes') ? 'Not Clear' : 'Clear';
+    const health = (data.children === 'No') ? 'Clear' : 'Not Clear';
+    const vaccination = (this.props.vaccineExists) ? 'Approved' : 'Not Approved';
+    const status = (data.children === 'No' && this.props.vaccineExists) ? 'Clear' : 'Not Clear';
+
     CheckInCollection.collection.insert({
       owner: this.props.username,
       date: new Date(),
-      status: 'Not Clear',
-      vaccination: 'Not Approved',
+      status,
+      vaccination,
       health,
+    },
+    (error) => {
+      if (error) {
+        swal('Error', error.message, 'error');
+      } else {
+        const yesMessage = 'You are NOT clear of health symptoms and must stay home.';
+        const noMessage = 'You are clear of health symptoms!';
+        swal('Success', data.children === 'No' ? noMessage : yesMessage, 'success');
+      }
     });
+
+    this.setState({ editClicked: false });
+  }
+
+  handleCheckVaccination() {
+    const { vaccineExists, recentCheckIn } = this.props;
+
+    if (vaccineExists && recentCheckIn.vaccination === 'Approved') {
+      swal('Approved', 'Your vaccine card has already been uploaded and approved.', 'success');
+    } else if (vaccineExists && recentCheckIn.vaccination === 'Not Approved') {
+      CheckInCollection.collection.update(recentCheckIn._id, { $set: { vaccination: 'Approved' } },
+        (error) => {
+          if (error) {
+            swal('Error', error.message, 'error');
+          } else {
+            swal('Approved', 'Your check-in has been updated to as your vaccine card has been uploaded and approved.', 'success');
+          }
+        });
+    } else {
+      swal('No vaccine record', 'No vaccine record detected. Please upload your vaccine card first.', 'error');
+    }
   }
 
   render() {
-    return (this.props.checkInReady) ? this.renderPage() : <Loader active>Getting data</Loader>;
+    const { checkInReady, vaccineReady } = this.props;
+    return (checkInReady && vaccineReady) ? this.renderPage() : <Loader active>Getting data</Loader>;
   }
 
   renderPage() {
     const { checkHealthStatus } = this.props;
     return (
       <Container id='checkin-page'>
-        <Header id='checkin-header'>Daily Check-In</Header>
-        { checkHealthStatus ? this.renderCard() : this.renderHealthCheck() }
+        <Header as='h2' textAlign='center' id='checkin-header'>Daily Check-In</Header>
+        { (checkHealthStatus) ? this.renderCard() : this.renderHealthCheck() }
       </Container>
     );
   }
@@ -45,15 +83,29 @@ class CheckIn extends React.Component {
     return (
       <Card id='checkin-card'>
         <Card.Content>
-          <Card.Header>Status</Card.Header>
+          <Card.Header className='checkin-header'>Status</Card.Header>
           <Card.Description>{recentCheckIn.status}</Card.Description>
         </Card.Content>
         <Card.Content>
-          <Card.Header>Vaccination</Card.Header>
+          <Card.Header className='checkin-header'>
+            Vaccination
+            <Button id='edit-button' onClick={() => this.handleCheckVaccination()}>Check</Button>
+          </Card.Header>
           <Card.Description>{recentCheckIn.vaccination}</Card.Description>
         </Card.Content>
         <Card.Content>
-          <Card.Header>Health Symptom</Card.Header>
+          <Card.Header className='checkin-header'>
+            Health Symptoms
+            <Modal
+              closeIcon
+              open={this.state.editClicked}
+              onOpen={() => this.setState({ editClicked: true })}
+              onClose={() => this.setState({ editClicked: false })}
+              trigger={<Button id='edit-button'>Resubmit</Button>}
+            >
+              <Modal.Content>{this.renderHealthCheck()}</Modal.Content>
+            </Modal>
+          </Card.Header>
           <Card.Description>{recentCheckIn.health}</Card.Description>
         </Card.Content>
       </Card>
@@ -63,7 +115,7 @@ class CheckIn extends React.Component {
   renderHealthCheck() {
     return (
       <Container text>
-        <Header>Covid Symptoms Checklist</Header>
+        <Header id='checkin-health-header'>Covid Symptoms Checklist</Header>
         <p>
           - Have you tested positive for COVID-19 and are on home isolation?
         </p>
@@ -109,8 +161,10 @@ class CheckIn extends React.Component {
             Has the Department of Health told you that you have been in contact with a person with COVID-19 AND you are UNvaccinated?
           </li>
         </ul>
-        <Button id='checkin-answer-yes' onClick={(event, data) => this.handleCheckInAnswer(data)}>Yes</Button>
-        <Button id='checkin-answer-no' onClick={(event, data) => this.handleCheckInAnswer(data)}>No</Button>
+        <Container id='checkin-buttons-container'>
+          <Button className='checkin-answer' id='checkin-answer-yes' onClick={(event, data) => this.handleCheckInAnswer(data)}>Yes</Button>
+          <Button className='checkin-answer' id='checkin-answer-no' onClick={(event, data) => this.handleCheckInAnswer(data)}>No</Button>
+        </Container>
       </Container>
     );
   }
@@ -118,21 +172,28 @@ class CheckIn extends React.Component {
 
 CheckIn.propTypes = {
   checkInReady: PropTypes.bool,
+  vaccineReady: PropTypes.bool,
   username: PropTypes.string,
   checkHealthStatus: PropTypes.bool,
   recentCheckIn: PropTypes.object,
+  vaccineExists: PropTypes.bool,
 };
 
 export default withTracker(() => {
   const checkInSubscribe = Meteor.subscribe(CheckInCollection.userPublicationName);
+  const vaccineSubscribe = Meteor.subscribe(Vaccine.userPublicationName);
   const { username } = useParams();
+
   const checkHealthStatus = CheckInCollection.getHealthStatus(username, new Date());
   const recentCheckIn = CheckInCollection.getRecentCheckIn(username);
-  console.log(CheckInCollection.getAllCheckIns(username));
+
+  const vaccineExists = Vaccine.recordExists(username);
   return {
     checkInReady: checkInSubscribe.ready(),
+    vaccineReady: vaccineSubscribe.ready(),
     username,
     checkHealthStatus,
     recentCheckIn,
+    vaccineExists,
   };
 })(CheckIn);

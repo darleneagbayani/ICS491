@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link, Redirect } from 'react-router-dom';
 import { Meteor } from 'meteor/meteor';
+
 import { Container, Form, Grid, Header, Message, Segment } from 'semantic-ui-react';
 
 /**
@@ -38,18 +39,18 @@ export default class Signin extends React.Component {
     const { from } = this.props.location.state || { from: { pathname: '/' } };
     // if correct authentication, redirect to page instead of login screen
     if (this.state.redirectToReferer) {
-      return <Redirect to={from}/>;
+      return <Redirect to={from} />;
     }
     // Otherwise return the Login form.
     return (
-      <Container id="signin-page">
-        <Grid textAlign="center" verticalAlign="middle" centered columns={2}>
-          <Grid.Column>
-            <Header as="h2" textAlign="center">
-              Login to your account
-            </Header>
+      <Container id="signin-page" style={{padding: '50px'}}>
+        <Grid textAlign="center" verticalAlign="middle" centered>
+          <Grid.Column  mobile={16} tablet={8} computer={5}>
             <Form onSubmit={this.submit}>
-              <Segment stacked>
+              <Segment className="raised" >
+                <Header as="h2" textAlign="center">
+                  Sign In
+                </Header>
                 <Form.Input
                   label="Email"
                   id="signin-form-email"
@@ -70,12 +71,12 @@ export default class Signin extends React.Component {
                   type="password"
                   onChange={this.handleChange}
                 />
-                <Form.Button id="signin-form-submit" content="Submit"/>
+                Don't have an account? Register<Link to="/signup"> here</Link>.
+                <Container style={{padding: '10px'}} textAlign="center">
+                <Form.Button  id="signin-form-submit" content="Submit" />
+                </Container>
               </Segment>
             </Form>
-            <Message>
-              <Link to="/signup">Click here to Register</Link>
-            </Message>
             {this.state.error === '' ? (
               ''
             ) : (
@@ -87,7 +88,7 @@ export default class Signin extends React.Component {
             )}
           </Grid.Column>
         </Grid>
-      </Container>
+      </Container >
     );
   }
 }

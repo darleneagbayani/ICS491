@@ -6,8 +6,6 @@ import { Meteor } from 'meteor/meteor';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import SimpleSchema from 'simpl-schema';
 import { Vaccine } from '../../api/Vaccine/Vaccine';
-import S3FileUpload from 'react-s3';
-import * as Buffer from "Buffer";
 import { useState } from 'react'
 
 // Create a schema to specify the structure of the data to appear in the form.
@@ -15,7 +13,7 @@ const formSchema = new SimpleSchema({
   firstName: String,
   lastName: String,
   patientNumber: Number,
-  firstDoseManufacturerLotNumber: String,   //MLN = Manufacturer Lot Number
+  firstDoseManufacturerLotNumber: String, // MLN = Manufacturer Lot Number
   firstDoseDate: Date,
   secondDoseManufacturerLotNumber: String,
   secondDoseDate: Date,
@@ -32,7 +30,7 @@ const formSchema = new SimpleSchema({
       'CanSinoBio',
       'Vector-EpiVacCorona',
       'Zhifei Longcom-Recombinant Novel',
-      'IMBCAMS-SARS-CoV-2'
+      'IMBCAMS-SARS-CoV-2',
     ],
   },
 });
