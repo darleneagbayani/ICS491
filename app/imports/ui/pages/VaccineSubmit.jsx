@@ -51,6 +51,8 @@ const config = {
   secretAccessKey: Meteor.settings.public.s3BucketKeys.secretAccessKey
 }
 
+// console.log(Meteor.settings.public.s3BucketKeys.secretAccessKey)
+
 
 var imgUrl = ''
 
