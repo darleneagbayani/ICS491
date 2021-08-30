@@ -39,14 +39,14 @@ class Signup extends React.Component {
       return <Redirect to={from}/>;
     }
     return (
-      <Container id="signup-page">
-        <Grid textAlign="center" verticalAlign="middle" centered columns={2}>
-          <Grid.Column>
-            <Header as="h2" textAlign="center">
-              Register your account
-            </Header>
+      <Container id="signup-page" style={{padding: '50px'}}>
+        <Grid textAlign="center" verticalAlign="middle" centered>
+          <Grid.Column  mobile={16} tablet={8} computer={5}>
             <Form onSubmit={this.submit}>
-              <Segment stacked>
+              <Segment className="raised" >
+                <Header as="h2" textAlign="center">
+                  Sign Up
+                </Header>
                 <Form.Input
                   label="Email"
                   id="signup-form-email"
@@ -67,12 +67,12 @@ class Signup extends React.Component {
                   type="password"
                   onChange={this.handleChange}
                 />
-                <Form.Button id="signup-form-submit" content="Submit"/>
+                Already have an account? Login <Link to="/signin">here</Link>.
+                <Container style={{padding: '10px'}} textAlign="center">
+                <Form.Button  id="signup-form-submit" content="Submit" />
+                </Container>
               </Segment>
             </Form>
-            <Message>
-              Already have an account? Login <Link to="/signin">here</Link>
-            </Message>
             {this.state.error === '' ? (
               ''
             ) : (
@@ -84,7 +84,7 @@ class Signup extends React.Component {
             )}
           </Grid.Column>
         </Grid>
-      </Container>
+      </Container >
     );
   }
 }
