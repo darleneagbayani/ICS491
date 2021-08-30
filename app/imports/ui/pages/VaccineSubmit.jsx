@@ -9,9 +9,6 @@ import { Vaccine } from '../../api/Vaccine/Vaccine';
 import S3FileUpload from 'react-s3';
 import * as Buffer from "Buffer";
 import { useState } from 'react'
-// import * as EnvConfig from "../../../../config/settings.development.json"
-// import * as EnvConfig from "config/settings.development.json"
-
 
 // Create a schema to specify the structure of the data to appear in the form.
 const formSchema = new SimpleSchema({
@@ -40,91 +37,10 @@ const formSchema = new SimpleSchema({
   },
 });
 
-// const test = () => {
-//   const [image, setImage] = useState("");
-//   const [url, setUrl] = useState("");
-//   const uploadImage = () => {
-//     const data = new FormData()
-//     data.append("file", image)
-//     data.append("upload_preset", "honushieldpreset")
-//     data.append("cloud_name", "dvg9mftur")
-//     fetch("  https://api.cloudinary.com/v1_1/dvg9mftur/image/upload", {
-//       method: "post",
-//       body: data
-//     })
-//       .then(resp => resp.json())
-//       .then(data => {
-//         setUrl(data.url)
-//       })
-//       .catch(err => console.log(err))
-//   }
-
-//   return (
-//     <div>
-//       <div>
-//         <input type="file" onChange= {(e)=> setImage(e.target.files[0])}></input>
-//         <button onClick={uploadImage}>Upload</button>
-//       </div>
-//       <div>
-//         <h1>Uploaded image will be displayed here</h1>
-//         <img src={url}/>
-//       </div>
-//     </div>
-// )
-//
-// }
-
-
-// <div>
-//   <div>
-//     <input type="file" onChange= {(e)=> setImage(e.target.files[0])}></input>
-//     <button onClick={uploadImage}>Upload</button>
-//   </div>
-//   <div>
-//     <h1>Uploaded image will be displayed here</h1>
-//     <img src={url}/>
-//   </div>
-// </div>
-
-
-// if (typeof this.Buffer === 'undefined') {
-//   this.Buffer = Buffer.Buffer;
-// }
-//
-//
-// const config = {
-//   bucketName: Meteor.settings.public.s3BucketKeys.accessKeyId,
-//   region: Meteor.settings.public.s3BucketKeys.region,
-//   accessKeyId: Meteor.settings.public.s3BucketKeys.accessKeyId,
-//   secretAccessKey: Meteor.settings.public.s3BucketKeys.secretAccessKey
-// }
-
-// console.log(Meteor.settings.public.s3BucketKeys.secretAccessKey)
-
-
-// var imgUrl = ''
-
-// upload = (e, imgUrl) => {
-//   S3FileUpload.uploadFile(e.target.files[0], config)
-//     .then((data) => {
-//       imgUrl = data.location
-//       // console.log((data.location))
-//       console.log((imgUrl))
-//     })
-//     .catch((err) => {
-//       alert(err)
-//     })
-// }
-
-// console.log(imgUrl)
-// console.log(Meteor)
-
-
 const bridge = new SimpleSchema2Bridge(formSchema);
 
 /** Renders the Page for adding a document. */
 class SubmitVaccine extends React.Component {
-
 
   // On submit, insert the data.
   submit(data, formRef) {
@@ -140,27 +56,6 @@ class SubmitVaccine extends React.Component {
         }
       });
   }
-
-
-  // test() {
-  //   const [image, setImage] = useState("");
-  //   const [url, setUrl] = useState("");
-  //   const uploadImage = () => {
-  //     const data = new FormData()
-  //     data.append("file", image)
-  //     data.append("upload_preset", "honushieldpreset")
-  //     data.append("cloud_name", "dvg9mftur")
-  //     fetch("  https://api.cloudinary.com/v1_1/dvg9mftur/image/upload", {
-  //       method: "post",
-  //       body: data
-  //     })
-  //       .then(resp => resp.json())
-  //       .then(data => {
-  //         setUrl(data.url)
-  //       })
-  //       .catch(err => console.log(err))
-  //   }
-  // }
 
   state = {
     imageUrl: null,
@@ -211,10 +106,7 @@ class SubmitVaccine extends React.Component {
 
   // Render the form. Use Uniforms: https://github.com/vazco/uniforms
   render() {
-
     const { imageUrl, imageAlt } = this.state;
-
-
     let fRef = null;
     return (
       <Grid container centered>
@@ -234,19 +126,6 @@ class SubmitVaccine extends React.Component {
             <p>The resulting image will be displayed here</p>
             {imageUrl && (<img src={imageUrl} alt={imageAlt} className="displayed-image"/>)}
           </section>
-          {/*<input type="file" onChange={upload}/>*/}
-
-          {/*<div>*/}
-          {/*  <div>*/}
-          {/*    <input type="file" onChange= {(e)=> setImage(e.target.files[0])}></input>*/}
-          {/*    <button onClick={this.test}>Upload</button>*/}
-          {/*  </div>*/}
-          {/*  <div>*/}
-          {/*    <h1>Uploaded image will be displayed here</h1>*/}
-          {/*    <img src={url}/>*/}
-          {/*  </div>*/}
-          {/*</div>*/}
-
 
           <AutoForm ref={ref => { fRef = ref; }} schema={bridge} onSubmit={data => this.submit(data, fRef)}>
             <Segment>
