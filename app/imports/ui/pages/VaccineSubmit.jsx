@@ -8,6 +8,7 @@ import SimpleSchema from 'simpl-schema';
 import { Vaccine } from '../../api/Vaccine/Vaccine';
 import S3FileUpload from 'react-s3';
 import * as Buffer from "Buffer";
+import { useState } from 'react'
 // import * as EnvConfig from "../../../../config/settings.development.json"
 // import * as EnvConfig from "config/settings.development.json"
 
@@ -39,36 +40,83 @@ const formSchema = new SimpleSchema({
   },
 });
 
-if (typeof this.Buffer === 'undefined') {
-  this.Buffer = Buffer.Buffer;
-}
+// const test = () => {
+//   const [image, setImage] = useState("");
+//   const [url, setUrl] = useState("");
+//   const uploadImage = () => {
+//     const data = new FormData()
+//     data.append("file", image)
+//     data.append("upload_preset", "honushieldpreset")
+//     data.append("cloud_name", "dvg9mftur")
+//     fetch("  https://api.cloudinary.com/v1_1/dvg9mftur/image/upload", {
+//       method: "post",
+//       body: data
+//     })
+//       .then(resp => resp.json())
+//       .then(data => {
+//         setUrl(data.url)
+//       })
+//       .catch(err => console.log(err))
+//   }
+
+//   return (
+//     <div>
+//       <div>
+//         <input type="file" onChange= {(e)=> setImage(e.target.files[0])}></input>
+//         <button onClick={uploadImage}>Upload</button>
+//       </div>
+//       <div>
+//         <h1>Uploaded image will be displayed here</h1>
+//         <img src={url}/>
+//       </div>
+//     </div>
+// )
+//
+// }
 
 
-const config = {
-  bucketName: Meteor.settings.public.s3BucketKeys.accessKeyId,
-  region: Meteor.settings.public.s3BucketKeys.region,
-  accessKeyId: Meteor.settings.public.s3BucketKeys.accessKeyId,
-  secretAccessKey: Meteor.settings.public.s3BucketKeys.secretAccessKey
-}
+// <div>
+//   <div>
+//     <input type="file" onChange= {(e)=> setImage(e.target.files[0])}></input>
+//     <button onClick={uploadImage}>Upload</button>
+//   </div>
+//   <div>
+//     <h1>Uploaded image will be displayed here</h1>
+//     <img src={url}/>
+//   </div>
+// </div>
+
+
+// if (typeof this.Buffer === 'undefined') {
+//   this.Buffer = Buffer.Buffer;
+// }
+//
+//
+// const config = {
+//   bucketName: Meteor.settings.public.s3BucketKeys.accessKeyId,
+//   region: Meteor.settings.public.s3BucketKeys.region,
+//   accessKeyId: Meteor.settings.public.s3BucketKeys.accessKeyId,
+//   secretAccessKey: Meteor.settings.public.s3BucketKeys.secretAccessKey
+// }
 
 // console.log(Meteor.settings.public.s3BucketKeys.secretAccessKey)
 
 
-var imgUrl = ''
+// var imgUrl = ''
 
-upload = (e, imgUrl) => {
-  S3FileUpload.uploadFile(e.target.files[0], config)
-    .then((data) => {
-      imgUrl = data.location
-      // console.log((data.location))
-      console.log((imgUrl))
-    })
-    .catch((err) => {
-      alert(err)
-    })
-}
+// upload = (e, imgUrl) => {
+//   S3FileUpload.uploadFile(e.target.files[0], config)
+//     .then((data) => {
+//       imgUrl = data.location
+//       // console.log((data.location))
+//       console.log((imgUrl))
+//     })
+//     .catch((err) => {
+//       alert(err)
+//     })
+// }
 
-console.log(imgUrl)
+// console.log(imgUrl)
 // console.log(Meteor)
 
 
@@ -94,15 +142,91 @@ class SubmitVaccine extends React.Component {
   }
 
 
+  // test() {
+  //   const [image, setImage] = useState("");
+  //   const [url, setUrl] = useState("");
+  //   const uploadImage = () => {
+  //     const data = new FormData()
+  //     data.append("file", image)
+  //     data.append("upload_preset", "honushieldpreset")
+  //     data.append("cloud_name", "dvg9mftur")
+  //     fetch("  https://api.cloudinary.com/v1_1/dvg9mftur/image/upload", {
+  //       method: "post",
+  //       body: data
+  //     })
+  //       .then(resp => resp.json())
+  //       .then(data => {
+  //         setUrl(data.url)
+  //       })
+  //       .catch(err => console.log(err))
+  //   }
+  // }
+
+  state = {
+    imageUrl: null,
+    imageAlt: null,
+  }
+
+  handleImageUpload = () => {
+    const { files } = document.querySelector('input[type="file"]')
+    const formData = new FormData();
+    formData.append('file', files[0]);
+// replace this with your upload preset name
+    formData.append('upload_preset', 'hgeg6xlm');
+    const options = {
+      method: 'POST',
+      body: formData,
+    };
+
+// replace cloudname with your Cloudinary cloud_name
+    return fetch('https://api.cloudinary.com/v1_1/dvg9mftur/image/upload', options)
+      .then(res => res.json())
+      .then(res => console.log(res))
+      .catch(err => console.log(err));
+  }
 
   // Render the form. Use Uniforms: https://github.com/vazco/uniforms
   render() {
+    const { imageUrl, imageAlt } = this.state;
+
+
+
     let fRef = null;
     return (
       <Grid container centered>
         <Grid.Column>
           <Header as="h2" textAlign="center">UPLOAD VACCINATION CARD</Header>
-          <input type="file" onChange={upload}/>
+
+          <form>
+            <div className="form-group">
+              <input type="file"/>
+            </div>
+
+            <button type="button" className="btn" onClick={this.handleImageUpload}>Submit</button>
+            <button type="button" className="btn widget-btn">Upload Via Widget</button>
+          </form>
+
+          <section className="right-side">
+            <p>The resulting image will be displayed here</p>
+            {imageUrl && (
+              <img src={imageUrl} alt={imageAlt} className="displayed-image"/>
+            )}
+          </section>
+          {/*<input type="file" onChange={upload}/>*/}
+
+          {/*<div>*/}
+          {/*  <div>*/}
+          {/*    <input type="file" onChange= {(e)=> setImage(e.target.files[0])}></input>*/}
+          {/*    <button onClick={this.test}>Upload</button>*/}
+          {/*  </div>*/}
+          {/*  <div>*/}
+          {/*    <h1>Uploaded image will be displayed here</h1>*/}
+          {/*    <img src={url}/>*/}
+          {/*  </div>*/}
+          {/*</div>*/}
+
+
+
           <AutoForm ref={ref => { fRef = ref; }} schema={bridge} onSubmit={data => this.submit(data, fRef)}>
             <Segment>
               <TextField name='firstName' label='First Name'/>
