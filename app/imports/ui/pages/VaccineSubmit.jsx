@@ -181,14 +181,38 @@ class SubmitVaccine extends React.Component {
 // replace cloudname with your Cloudinary cloud_name
     return fetch('https://api.cloudinary.com/v1_1/dvg9mftur/image/upload', options)
       .then(res => res.json())
-      .then(res => console.log(res))
+      .then(res => {
+        var obj = res
+        this.setState({
+          imageUrl: obj.secure_url,
+          imageAlt: `An image of ${obj.original_filename}`
+        })
+      })
       .catch(err => console.log(err));
   }
 
+  openWidget = () => {
+    // create the widget
+    window.cloudinary.createUploadWidget(
+      {
+        cloudName: 'dvg9mftur',
+        uploadPreset: 'hgeg6xlm',
+      },
+      (error, { event, info }) => {
+        if (event === 'success') {
+          this.setState({
+            imageUrl: info.secure_url,
+            imageAlt: `An image of ${info.original_filename}`
+          })
+        }
+      },
+    ).open(); // open up the widget after creation
+  };
+
   // Render the form. Use Uniforms: https://github.com/vazco/uniforms
   render() {
-    const { imageUrl, imageAlt } = this.state;
 
+    const { imageUrl, imageAlt } = this.state;
 
 
     let fRef = null;
@@ -203,14 +227,12 @@ class SubmitVaccine extends React.Component {
             </div>
 
             <button type="button" className="btn" onClick={this.handleImageUpload}>Submit</button>
-            <button type="button" className="btn widget-btn">Upload Via Widget</button>
+            <button type="button" className="btn widget-btn" onClick={this.openWidget}>Upload Via Widget</button>
           </form>
 
           <section className="right-side">
             <p>The resulting image will be displayed here</p>
-            {imageUrl && (
-              <img src={imageUrl} alt={imageAlt} className="displayed-image"/>
-            )}
+            {imageUrl && (<img src={imageUrl} alt={imageAlt} className="displayed-image"/>)}
           </section>
           {/*<input type="file" onChange={upload}/>*/}
 
@@ -224,7 +246,6 @@ class SubmitVaccine extends React.Component {
           {/*    <img src={url}/>*/}
           {/*  </div>*/}
           {/*</div>*/}
-
 
 
           <AutoForm ref={ref => { fRef = ref; }} schema={bridge} onSubmit={data => this.submit(data, fRef)}>
