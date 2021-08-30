@@ -62,29 +62,6 @@ class SubmitVaccine extends React.Component {
     imageAlt: null,
   }
 
-  handleImageUpload = () => {
-    const { files } = document.querySelector('input[type="file"]')
-    const formData = new FormData();
-    formData.append('file', files[0]);
-// replace this with your upload preset name
-    formData.append('upload_preset', 'hgeg6xlm');
-    const options = {
-      method: 'POST',
-      body: formData,
-    };
-
-// replace cloudname with your Cloudinary cloud_name
-    return fetch('https://api.cloudinary.com/v1_1/dvg9mftur/image/upload', options)
-      .then(res => res.json())
-      .then(res => {
-        var obj = res
-        this.setState({
-          imageUrl: obj.secure_url,
-          imageAlt: `An image of ${obj.original_filename}`
-        })
-      })
-      .catch(err => console.log(err));
-  }
 
   openWidget = () => {
     // create the widget
@@ -113,16 +90,8 @@ class SubmitVaccine extends React.Component {
         <Grid.Column>
           <Header as="h2" textAlign="center">UPLOAD VACCINATION CARD</Header>
 
-          <form>
-            <div className="form-group">
-              <input type="file"/>
-            </div>
-
-            <button type="button" className="btn" onClick={this.handleImageUpload}>Submit</button>
-            <button type="button" className="btn widget-btn" onClick={this.openWidget}>Upload Via Widget</button>
-          </form>
-
           <section className="right-side">
+            <button type="button" className="btn widget-btn" onClick={this.openWidget}>Upload Image</button>
             <p>The resulting image will be displayed here</p>
             {imageUrl && (<img src={imageUrl} alt={imageAlt} className="displayed-image"/>)}
           </section>
