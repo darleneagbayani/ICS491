@@ -1,12 +1,12 @@
 import React from 'react';
-import { Grid, Segment, Header } from 'semantic-ui-react';
+import { Grid, Segment, Header, Button } from 'semantic-ui-react';
 import { AutoForm, ErrorsField, NumField, SelectField, SubmitField, TextField, DateField } from 'uniforms-semantic';
 import swal from 'sweetalert';
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import SimpleSchema from 'simpl-schema';
 import { Vaccine } from '../../api/Vaccine/Vaccine';
-import { useState } from 'react'
+//import { useState } from 'react'
 
 // Create a schema to specify the structure of the data to appear in the form.
 const formSchema = new SimpleSchema({
@@ -20,7 +20,8 @@ const formSchema = new SimpleSchema({
   vaccineSite: String,
   vaccineName: {
     type: String,
-    allowedValues: ['Pfizer-BioNTech',
+    allowedValues: 
+    [ 'Pfizer-BioNTech',
       'Moderna COVID-19',
       'Janssen COVID-19 (Johnson &)',
       'AstraZeneca-AZD1222',
@@ -87,13 +88,6 @@ class SubmitVaccine extends React.Component {
       <Grid container centered>
         <Grid.Column>
           <Header as="h2" textAlign="center">UPLOAD VACCINATION CARD</Header>
-
-          <section className="right-side">
-            <button type="button" className="btn widget-btn" onClick={this.openWidget}>Upload Image</button>
-            <p>The resulting image will be displayed here</p>
-            {imageUrl && (<img src={imageUrl} alt={imageAlt} className="displayed-image"/>)}
-          </section>
-
           <AutoForm ref={ref => { fRef = ref; }} schema={bridge} onSubmit={data => this.submit(data, fRef)}>
             <Segment>
               <TextField name='firstName' label='First Name'/>
@@ -105,7 +99,20 @@ class SubmitVaccine extends React.Component {
               <TextField name='secondDoseManufacturerLotNumber' label='2nd Dose Manufacturer Lot Number'/>
               <DateField name='secondDoseDate' label='2nd Dose Date'/>
               <TextField name='vaccineSite' label='Clinic Site Or Helath Care Professional'/>
-              <SubmitField value='Submit'/>
+              {/* <section className="right-side"> */}
+              <Grid>
+                <Grid.Column textAlign="left">
+                    <Button centered type="button" className="btn widget-btn" onClick={this.openWidget}>Upload Image</Button>
+                    <p>The resulting image will be displayed here</p>
+                    {imageUrl && (<img src={imageUrl} alt={imageAlt} className="displayed-image"/>)}
+                </Grid.Column>
+              </Grid>
+              {/* </section> */}
+              <Grid>
+                <Grid.Column textAlign="center">
+                  <SubmitField value='Submit'/>
+                </Grid.Column>
+              </Grid>
               <ErrorsField/>
             </Segment>
           </AutoForm>
