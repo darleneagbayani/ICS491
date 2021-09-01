@@ -4,7 +4,7 @@ import React from 'react';
 import { useParams } from 'react-router';
 import PropTypes from 'prop-types';
 import swal from 'sweetalert';
-import { Button, Card, Container, Header, Loader, Modal } from 'semantic-ui-react';
+import { Button, Grid, Card, Container, Header, Loader, Modal } from 'semantic-ui-react';
 import { CheckIn as CheckInCollection } from '../../../api/check-in/CheckIn';
 import { Vaccine } from '../../../api/Vaccine/Vaccine';
 
@@ -96,17 +96,23 @@ class CheckIn extends React.Component {
         <Card.Content>
           <Card.Header className='checkin-header'>
             Health Symptoms
-            <Modal
+          </Card.Header>
+          <Card.Description>{recentCheckIn.health}</Card.Description>
+        </Card.Content>
+        <Card.Content>
+          <Grid textAlign="center">
+        <Grid.Column>
+        <Modal
               closeIcon
               open={this.state.editClicked}
               onOpen={() => this.setState({ editClicked: true })}
               onClose={() => this.setState({ editClicked: false })}
-              trigger={<Button id='edit-button'>Resubmit</Button>}
+              trigger={<Button id='btn-custom'>Edit</Button>}
             >
               <Modal.Content>{this.renderHealthCheck()}</Modal.Content>
             </Modal>
-          </Card.Header>
-          <Card.Description>{recentCheckIn.health}</Card.Description>
+        </Grid.Column>
+        </Grid>
         </Card.Content>
       </Card>
     );

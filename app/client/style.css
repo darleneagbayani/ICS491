@@ -13,6 +13,10 @@ html, body {
   background-color: #188a45;
 }
 
+#ui.three.item.menu:active {
+  color: #000;
+}
+
 /* ----------------------- Check In Page CSS ------------------------------- */
 .checkin-header {
   color: #38458b !important;
@@ -68,6 +72,12 @@ h1 {
 }
 
 #signin-form-submit, #signup-form-submit, #signin-form-submit:hover, #signup-form-submit:hover {
+ background-color: #38478a;
+ color: #fff;
+ border-radius: 30px;
+}
+
+#btn-custom, #btn-custom:hover {
  background-color: #38478a;
  color: #fff;
  border-radius: 30px;

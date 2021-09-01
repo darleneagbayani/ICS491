@@ -15,4 +15,13 @@ Meteor.methods({
 
     Roles.setUserRoles(userId, role);
   },
+  
+  checkUser: function() {
+    if(Meteor.userId()) {
+    return true;
+    } else { 
+    return false;
+    }
+    }
 });
+
