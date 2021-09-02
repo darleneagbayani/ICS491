@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
 import React from 'react';
 import { useParams } from 'react-router';
+import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import swal from 'sweetalert';
 import { Button, Container, Header, Loader } from 'semantic-ui-react';
@@ -102,6 +103,9 @@ class CheckIn extends React.Component {
           <Container id='checkin-buttons-container'>
             <Button className='checkin-answer' id='checkin-answer-yes' onClick={(event, data) => this.handleCheckInAnswer(data)}>Yes</Button>
             <Button className='checkin-answer' id='checkin-answer-no' onClick={(event, data) => this.handleCheckInAnswer(data)}>No</Button>
+          </Container>
+          <Container id='back-button-container'>
+            <Button id='back-button' as={NavLink} exact to={`/home/${this.props.username}`}>Back</Button>
           </Container>
         </Container>
       </Container>
