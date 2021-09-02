@@ -32,7 +32,7 @@ html, body {
 
 #checkin-buttons-container {
   text-align: center;
-  padding-bottom: 2rem;
+  padding-bottom: 1rem;
 }
 
 #edit-button {
@@ -41,19 +41,28 @@ html, body {
   color: black;
 }
 
+#back-button-container {
+  padding-bottom: 2rem;
+}
+
+#back-button {
+  padding: 1rem 2rem 1rem;
+  border-radius: 5rem;
+}
+
 .checkin-answer {
   padding: 1rem 5rem 1rem !important;
   border-radius: 5rem !important;
 }
 
 #checkin-answer-yes {
-  margin-right: 4rem;
+  margin-right: 3rem;
   margin-left: auto;
 }
 
 #checkin-answer-no {
   margin-right: auto;
-  margin-left: 4rem;
+  margin-left: 3rem;
 }
 
 @media only screen and (max-width: 600px) {
