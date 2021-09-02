@@ -36,16 +36,16 @@ export default class Signin extends React.Component {
 
   // Render the signin form.
   render() {
-    const { from } = this.props.location.state || { from: { pathname: '/' } };
+    const { from } = this.props.location.state || { from: { pathname: `/home/${this.state.email}` } };
     // if correct authentication, redirect to page instead of login screen
     if (this.state.redirectToReferer) {
       return <Redirect to={from} />;
     }
     // Otherwise return the Login form.
     return (
-      <Container id="signin-page" style={{padding: '50px'}}>
+      <Container id="signin-page" style={{ padding: '50px' }}>
         <Grid textAlign="center" verticalAlign="middle" centered>
-          <Grid.Column  mobile={16} tablet={8} computer={5}>
+          <Grid.Column mobile={16} tablet={8} computer={5}>
             <Form onSubmit={this.submit}>
               <Segment className="raised" >
                 <Header as="h2" textAlign="center">
@@ -72,8 +72,8 @@ export default class Signin extends React.Component {
                   onChange={this.handleChange}
                 />
                 Don't have an account? Register<Link to="/signup"> here</Link>.
-                <Container style={{padding: '10px'}} textAlign="center">
-                <Form.Button  id="signin-form-submit" content="Submit" />
+                <Container style={{ padding: '10px' }} textAlign="center">
+                  <Form.Button id="signin-form-submit" content="Submit" />
                 </Container>
               </Segment>
             </Form>

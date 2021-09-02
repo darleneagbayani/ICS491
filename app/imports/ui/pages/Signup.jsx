@@ -33,15 +33,15 @@ class Signup extends React.Component {
 
   /* Display the signup form. Redirect to add page after successful registration and login. */
   render() {
-    const { from } = this.props.location.state || { from: { pathname: '/add' } };
+    const { from } = this.props.location.state || { from: { pathname: `/home/${this.state.email}` } };
     // if correct authentication, redirect to from: page instead of signup screen
     if (this.state.redirectToReferer) {
       return <Redirect to={from}/>;
     }
     return (
-      <Container id="signup-page" style={{padding: '50px'}}>
+      <Container id="signup-page" style={{ padding: '50px' }}>
         <Grid textAlign="center" verticalAlign="middle" centered>
-          <Grid.Column  mobile={16} tablet={8} computer={5}>
+          <Grid.Column mobile={16} tablet={8} computer={5}>
             <Form onSubmit={this.submit}>
               <Segment className="raised" >
                 <Header as="h2" textAlign="center">
@@ -68,8 +68,8 @@ class Signup extends React.Component {
                   onChange={this.handleChange}
                 />
                 Already have an account? Login <Link to="/signin">here</Link>.
-                <Container style={{padding: '10px'}} textAlign="center">
-                <Form.Button  id="signup-form-submit" content="Submit" />
+                <Container style={{ padding: '10px' }} textAlign="center">
+                  <Form.Button id="signup-form-submit" content="Submit" />
                 </Container>
               </Segment>
             </Form>
