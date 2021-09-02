@@ -1,6 +1,6 @@
 import React from 'react';
 import { Grid, Segment, Header, Button } from 'semantic-ui-react';
-import { AutoForm, ErrorsField, NumField, SelectField, SubmitField, TextField, DateField } from 'uniforms-semantic';
+import { AutoForm, ErrorsField, SelectField, SubmitField, TextField, DateField } from 'uniforms-semantic';
 import swal from 'sweetalert';
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
@@ -12,7 +12,7 @@ import { Vaccine } from '../../api/Vaccine/Vaccine';
 const formSchema = new SimpleSchema({
   firstName: String,
   lastName: String,
-  patientNumber: Number,
+  patientNumber: String,
   firstDoseManufacturerLotNumber: String, // MLN = Manufacturer Lot Number
   firstDoseDate: Date,
   secondDoseManufacturerLotNumber: String,
@@ -20,19 +20,19 @@ const formSchema = new SimpleSchema({
   vaccineSite: String,
   vaccineName: {
     type: String,
-    allowedValues: 
-    [ 'Pfizer-BioNTech',
-      'Moderna COVID-19',
-      'Janssen COVID-19 (Johnson &)',
-      'AstraZeneca-AZD1222',
-      'Sinopharm BIBP-SARS-CoV-2',
-      'Sinovac-SARS-CoV-2',
-      'Gamelya-Sputnik V',
-      'CanSinoBio',
-      'Vector-EpiVacCorona',
-      'Zhifei Longcom-Recombinant Novel',
-      'IMBCAMS-SARS-CoV-2',
-    ],
+    allowedValues:
+      ['Pfizer-BioNTech',
+        'Moderna COVID-19',
+        'Janssen COVID-19 (Johnson &)',
+        'AstraZeneca-AZD1222',
+        'Sinopharm BIBP-SARS-CoV-2',
+        'Sinovac-SARS-CoV-2',
+        'Gamelya-Sputnik V',
+        'CanSinoBio',
+        'Vector-EpiVacCorona',
+        'Zhifei Longcom-Recombinant Novel',
+        'IMBCAMS-SARS-CoV-2',
+      ],
   },
 });
 
@@ -61,7 +61,6 @@ class SubmitVaccine extends React.Component {
     imageAlt: null,
   }
 
-
   openWidget = () => {
     // create the widget
     window.cloudinary.createUploadWidget(
@@ -84,41 +83,47 @@ class SubmitVaccine extends React.Component {
   render() {
     const { imageUrl, imageAlt } = this.state;
     let fRef = null;
+    
     return (
       <Grid container centered>
-        <Grid.Column>
+        <Grid.Column mobile={16} tablet={12} computer={10}>
           <Header as="h2" textAlign="center">UPLOAD VACCINATION CARD</Header>
           <AutoForm ref={ref => { fRef = ref; }} schema={bridge} onSubmit={data => this.submit(data, fRef)}>
+              <ErrorsField />
             <Segment>
-              <TextField name='firstName' label='First Name'/>
-              <TextField name='lastName' label='Last Name'/>
-              <NumField name='patientNumber' label="Patient Number (medical record or IIS record number)" decimal={false}/>
-              <SelectField name='vaccineName' label='Vaccine Name'/>
-              <TextField name='firstDoseManufacturerLotNumber' label='1st Dose Manufacturer Lot Number'/>
-              <DateField name='firstDoseDate' label='1st Dose Date'/>
-              <TextField name='secondDoseManufacturerLotNumber' label='2nd Dose Manufacturer Lot Number'/>
-              <DateField name='secondDoseDate' label='2nd Dose Date'/>
-              <TextField name='vaccineSite' label='Clinic Site Or Helath Care Professional'/>
+              <TextField name='firstName' label='First Name' />
+              <TextField name='lastName' label='Last Name' />
+              <TextField name='patientNumber' label="Patient Number (medical record or IIS record number)" />
+              <SelectField name='vaccineName' label='Vaccine Name' />
+              <TextField name='firstDoseManufacturerLotNumber' label='1st Dose Manufacturer Lot Number' />
+              <DateField name='firstDoseDate' label='1st Dose Date' />
+              <TextField name='secondDoseManufacturerLotNumber' label='2nd Dose Manufacturer Lot Number' />
+              <DateField name='secondDoseDate' label='2nd Dose Date' />
+              <TextField name='vaccineSite' label='Clinic Site Or Helath Care Professional' />
               {/* <section className="right-side"> */}
-              <Grid>
-                <Grid.Column textAlign="left">
-                    <Button centered type="button" className="btn widget-btn" onClick={this.openWidget}>Upload Image</Button>
-                    <p>The resulting image will be displayed here</p>
-                    {imageUrl && (<img src={imageUrl} alt={imageAlt} className="displayed-image"/>)}
+              <Grid className="ui one column grid">
+                <Grid.Column>
+                  Upload Your COVID-19 Vaccination Record Card
+                </Grid.Column>
+                <Grid.Column textAlign="center">
+                  <Button type="button" className="btn widget-btn" onClick={this.openWidget}>Upload Image</Button>
+                  <Grid.Column>
+                  {imageUrl && (<img src={imageUrl} alt={imageAlt} id="displayed-image" />)}
+                  </Grid.Column>
                 </Grid.Column>
               </Grid>
               {/* </section> */}
-              <Grid>
-                <Grid.Column textAlign="center">
-                  <SubmitField value='Submit'/>
-                </Grid.Column>
-              </Grid>
-              <ErrorsField/>
             </Segment>
+            <Grid>
+              <Grid.Column textAlign="center">
+                <SubmitField value='Submit' id="btn-custom"/>
+              </Grid.Column>
+            </Grid>
           </AutoForm>
         </Grid.Column>
       </Grid>
     );
+
   }
 }
 

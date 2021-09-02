@@ -82,3 +82,8 @@ h1 {
  color: #fff;
  border-radius: 30px;
 }
+
+#displayed-image {
+  padding-top: 20px;
+  width: 300px !important;
+}

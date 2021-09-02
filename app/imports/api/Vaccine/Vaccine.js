@@ -15,7 +15,7 @@ class VaccineCollection {
     this.schema = new SimpleSchema({
       firstName: String,
       lastName: String,
-      patientNumber: Number,
+      patientNumber: String,
       firstDoseManufacturerLotNumber: String, // MLN = Manufacturer Lot Number
       firstDoseDate: Date,
       secondDoseManufacturerLotNumber: String,
