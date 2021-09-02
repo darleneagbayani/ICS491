@@ -1,6 +1,7 @@
 import React from 'react';
 import { Container, Button, Grid, Segment, Header } from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom';
+import ListUsers from '../pages/ListUsers';
 
 /** A simple static component to render some text for the landing page. */
 
@@ -10,7 +11,7 @@ class Landing extends React.Component {
     if (Meteor.userId()) return (
       <Container id="landing-page" style={{ padding: '50px' }}>
         <Grid textAlign="center" verticalAlign="middle" centered>
-          <Grid.Column mobile={16} tablet={8} computer={10}>
+          <Grid.Column mobile={16} tablet={12} computer={10}>
             <Segment className="raised" >
               <Header as="h2" textAlign="center">
                 Status
@@ -47,7 +48,7 @@ class Landing extends React.Component {
               </Header>
               <Grid textAlign="center" verticalAlign="middle" centered>
                 <Grid.Column textAlign="left" mobile={15} tablet={15} computer={13}>
-                  Your vaccine card status listed here.
+                  <ListUsers/>
                 </Grid.Column>
               </Grid>
             </Segment>

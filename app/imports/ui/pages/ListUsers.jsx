@@ -22,14 +22,50 @@ class ListUsers extends React.Component {
         <Table celled>
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell>firstName</Table.HeaderCell>
-              <Table.HeaderCell>lastName</Table.HeaderCell>
-              <Table.HeaderCell>Edit</Table.HeaderCell>
+              <Table.HeaderCell>Vaccine Name</Table.HeaderCell>
             </Table.Row>
+            <Table.Body>
+              {this.props.vaccine.map((userInfo) => <UserInfo key={userInfo._id} userInfo={userInfo} />)}
+            </Table.Body>
+            <Table.Row>
+              <Table.HeaderCell>1st Dose: Manufacturer Lot Number</Table.HeaderCell>
+            </Table.Row>
+            <Table.Body>
+              {this.props.vaccine.map((userInfo) => <UserInfo key={userInfo._id} userInfo={userInfo} />)}
+            </Table.Body>
+            <Table.Row>
+              <Table.HeaderCell>1st Dose: Date</Table.HeaderCell>
+            </Table.Row>
+            <Table.Row>
+              <Table.Body>
+                {this.props.vaccine.map((userInfo) => <UserInfo key={userInfo._id} userInfo={userInfo} />)}
+              </Table.Body>
+            </Table.Row>
+            <Table.Row>
+              <Table.HeaderCell>1st Dose: Healthcare Professional or Clinic Site</Table.HeaderCell>
+            </Table.Row>
+            <Table.Body>
+              {this.props.vaccine.map((userInfo) => <UserInfo key={userInfo._id} userInfo={userInfo} />)}
+            </Table.Body>
+            <Table.Row>
+              <Table.HeaderCell>2nd Dose: Manufacturer Lot Number</Table.HeaderCell>
+            </Table.Row>
+            <Table.Body>
+              {this.props.vaccine.map((userInfo) => <UserInfo key={userInfo._id} userInfo={userInfo} />)}
+            </Table.Body>
+            <Table.Row>
+              <Table.HeaderCell>2nd Dose: Date</Table.HeaderCell>
+            </Table.Row>
+            <Table.Body>
+              {this.props.vaccine.map((userInfo) => <UserInfo key={userInfo._id} userInfo={userInfo} />)}
+            </Table.Body>
+            <Table.Row>
+              <Table.HeaderCell>2nd Dose: Healthcare Professional or Clinic Site</Table.HeaderCell>
+            </Table.Row>
+            <Table.Body>
+              {this.props.vaccine.map((userInfo) => <UserInfo key={userInfo._id} userInfo={userInfo} />)}
+            </Table.Body>
           </Table.Header>
-          <Table.Body>
-            {this.props.vaccine.map((userInfo) => <UserInfo key={userInfo._id} userInfo={userInfo} />)}
-          </Table.Body>
         </Table>
       </Container>
     );
