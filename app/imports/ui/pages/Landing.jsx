@@ -31,11 +31,10 @@ class Landing extends React.Component {
               </Header>
               <Grid textAlign="center" verticalAlign="middle" centered>
                 <Grid.Column textAlign="left" mobile={15} tablet={15} computer={13}>
-                  Your status listed here.
                   <CheckInStatus
-                    status={recentCheckIn.status ? recentCheckIn.status : 'Not Clear'}
+                    status={recentCheckIn ? recentCheckIn.status : 'Not Clear'}
                     vaccination={vaccineExists ? 'Approved' : 'Not Approved'}
-                    health={recentCheckIn.health ? recentCheckIn.health : 'Not Clear'}
+                    health={recentCheckIn ? recentCheckIn.health : 'Not Clear'}
                   />
                 </Grid.Column>
               </Grid>
