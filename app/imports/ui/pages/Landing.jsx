@@ -1,12 +1,25 @@
 import React from 'react';
-import { Container, Button, Grid, Segment, Header } from 'semantic-ui-react';
+import { useParams } from 'react-router';
+import { withTracker } from 'meteor/react-meteor-data';
+import { Button, Container, Grid, Header, Loader, Segment } from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom';
 import ListUsers from '../pages/ListUsers';
+import CheckInStatus from '../components/Check-In/CheckInStatus';
+import { CheckIn as CheckInCollection } from '../../api/check-in/CheckIn';
+import PropTypes from 'prop-types';
+import { Vaccine } from '../../api/Vaccine/Vaccine';
 
 /** A simple static component to render some text for the landing page. */
 
 class Landing extends React.Component {
   render() {
+    const { checkInReady, vaccineReady } = this.props;
+
+    return (checkInReady && vaccineReady) ? this.renderPage() : <Loader active>Getting data...</Loader>;
+}
+
+  renderPage() {
+    const { recentCheckIn, vaccineExists, username } = this.props;
     // if user is logged in return home page
     if (Meteor.userId()) return (
       <Container id="landing-page" style={{ padding: '50px' }}>
@@ -19,6 +32,11 @@ class Landing extends React.Component {
               <Grid textAlign="center" verticalAlign="middle" centered>
                 <Grid.Column textAlign="left" mobile={15} tablet={15} computer={13}>
                   Your status listed here.
+                  <CheckInStatus
+                    status={recentCheckIn.status ? recentCheckIn.status : 'Not Clear'}
+                    vaccination={vaccineExists ? 'Approved' : 'Not Approved'}
+                    health={recentCheckIn.health ? recentCheckIn.health : 'Not Clear'}
+                  />
                 </Grid.Column>
               </Grid>
             </Segment>
@@ -74,4 +92,27 @@ class Landing extends React.Component {
   }
 }
 
-export default Landing;
+Landing.propTypes = {
+  checkInReady: PropTypes.bool,
+  vaccineReady: PropTypes.bool,
+  username: PropTypes.string,
+  recentCheckIn: PropTypes.object,
+  vaccineExists: PropTypes.bool,
+};
+
+export default withTracker(() => {
+  const checkInSubscribe = Meteor.subscribe(CheckInCollection.userPublicationName);
+  const vaccineSubscribe = Meteor.subscribe(Vaccine.userPublicationName);
+  const { username } = useParams();
+
+  const recentCheckIn = CheckInCollection.getRecentCheckIn(username);
+  const vaccineExists = Vaccine.recordExists(username);
+  
+  return {
+    checkInReady: checkInSubscribe.ready(),
+    vaccineReady: vaccineSubscribe.ready(),
+    username,
+    recentCheckIn,
+    vaccineExists,
+  };
+})(Landing);
