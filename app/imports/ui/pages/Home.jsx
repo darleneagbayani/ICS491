@@ -32,9 +32,9 @@ class Home extends React.Component {
               <Grid textAlign="center" verticalAlign="middle" centered>
                 <Grid.Column textAlign="left" mobile={15} tablet={15} computer={13}>
                   <CheckInStatus
-                    status={recentCheckIn.status}
+                    status={recentCheckIn ? recentCheckIn.status : 'Not Clear'}
                     vaccination={vaccineExists ? 'Approved' : 'Not Approved'}
-                    health={recentCheckIn.health}
+                    health={recentCheckIn ? recentCheckIn.health : 'Not Clear'}
                   />
                 </Grid.Column>
               </Grid>
