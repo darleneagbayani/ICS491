@@ -3,7 +3,7 @@ import { withTracker } from 'meteor/react-meteor-data';
 import React from 'react';
 import { useParams } from 'react-router';
 import PropTypes from 'prop-types';
-import { Container, Header, Loader, Table } from 'semantic-ui-react';
+import { Container, Header, Loader, Grid, Segment, Table } from 'semantic-ui-react';
 import { CheckIn as CheckInCollection } from '../../../api/check-in/CheckIn';
 import HistoryItem from '../../components/Check-In/HistoryItem';
 
@@ -16,20 +16,13 @@ class CheckInHistory extends React.Component {
   renderPage() {
     const { allCheckIns } = this.props;
     return (
-      <Container>
+      <Container style={{ padding: '10px' }}>
         <Header as='h2' textAlign='center'>Daily Check-In History</Header>
-        <Table stackable>
-          <Table.Header>
-            <Table.Row>
-              <Table.HeaderCell>Date</Table.HeaderCell>
-              <Table.HeaderCell>Vaccination</Table.HeaderCell>
-              <Table.HeaderCell>Health Symptom</Table.HeaderCell>
-            </Table.Row>
-          </Table.Header>
-          <Table.Body>
-            { allCheckIns.map((checkIn) => <HistoryItem key={checkIn._id} checkIn={checkIn}/>) }
-          </Table.Body>
-        </Table>
+        <Grid textAlign="center" >
+          <Grid.Column mobile={16} tablet={8} computer={8}>
+              {allCheckIns.map((checkIn) => <HistoryItem key={checkIn._id} checkIn={checkIn} />)}
+          </Grid.Column>
+        </Grid>
       </Container>
     );
   }
