@@ -17,7 +17,7 @@ class ActionSelector extends React.Component {
     return (
       <div>
         {this.props.currentUser ? (
-          <Menu style={menuStyle} className="ui stackable three item menu">
+          <Menu style={menuStyle} className="ui three item menu">
             <Menu.Item style={colStyle} as={NavLink} activeClassName="" exact to={`/checkin/${this.props.currentUser}`}>
               <Container>
                 <div className="row">
