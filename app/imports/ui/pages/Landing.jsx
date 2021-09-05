@@ -77,9 +77,9 @@ class Landing extends React.Component {
     );
     // if user is not logged in return landing page
     if (Meteor.userId() === null) return (
-      <Grid className="ui one column grid" id='landing-page' verticalAlign='middle' textAlign='center' container>
+      <Grid className="ui one column grid" id='landing-page' style={{ padding: '100px' }} verticalAlign='middle' textAlign='center' container>
         <Grid.Column>
-          <img className="ui huge centered image" src={'/images/FULL_LOGO.png'} alt={'Image not found'} />
+          <img className="ui huge centered image" src={'images/fulllogostacked.png'} alt={'Image not found'} />
         </Grid.Column>
         <Grid.Column textAlign="center">
           <Button as={NavLink} exact to='/signup' id="btn-custom">
