@@ -85,9 +85,10 @@ class SubmitVaccine extends React.Component {
     let fRef = null;
     
     return (
-      <Grid container centered>
+      <Grid container centered style={{ padding: '50px 0px 0px 0px' }}>
         <Grid.Column mobile={16} tablet={12} computer={10}>
-          <Header as="h2" textAlign="center">UPLOAD VACCINATION CARD</Header>
+            <Segment className="raised" >
+          <Header as="h2" textAlign="center">Upload Vaccination Card</Header>
           <AutoForm ref={ref => { fRef = ref; }} schema={bridge} onSubmit={data => this.submit(data, fRef)}>
               <ErrorsField />
             <Segment>
@@ -120,6 +121,7 @@ class SubmitVaccine extends React.Component {
               </Grid.Column>
             </Grid>
           </AutoForm>
+          </Segment>
         </Grid.Column>
       </Grid>
     );
