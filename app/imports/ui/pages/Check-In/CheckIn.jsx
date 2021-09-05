@@ -5,7 +5,7 @@ import { useParams } from 'react-router';
 import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import swal from 'sweetalert';
-import { Button, Container, Header, Loader } from 'semantic-ui-react';
+import { Segment, Button, Container, Grid, Header, Loader, GridColumn } from 'semantic-ui-react';
 import { CheckIn as CheckInCollection } from '../../../api/check-in/CheckIn';
 import { Vaccine } from '../../../api/Vaccine/Vaccine';
 
@@ -51,10 +51,14 @@ class CheckIn extends React.Component {
 
   renderPage() {
     return (
-      <Container id='checkin-page'>
-        <Header as='h2' textAlign='center' id='checkin-header'>Daily Check-In</Header>
-        <Container text>
-          <Header id='checkin-health-header'>Covid Symptoms Checklist</Header>
+      <Container id='checkin-page' style={{ padding: '50px' }}>
+      <Grid textAlign="left" verticalAlign="middle" textAlign="center">
+        <Segment className="raised" >
+        <Header as='h2' id='checkin-header 'textAlign="center">Daily Check-In</Header>
+        <Container textAlign="left" text>
+          <Header id='checkin-health-header' textAlign="center">Covid Symptoms Checklist</Header>
+          <Grid textAlign="center">
+            <Grid.Column mobile={16} tablet={12} computer={14} textAlign="left">
           <p>
             - Have you tested positive for COVID-19 and are on home isolation?
           </p>
@@ -100,14 +104,15 @@ class CheckIn extends React.Component {
               Has the Department of Health told you that you have been in contact with a person with COVID-19 AND you are UNvaccinated?
             </li>
           </ul>
+          </Grid.Column>
+          </Grid>
           <Container id='checkin-buttons-container'>
             <Button className='checkin-answer' id='checkin-answer-yes' onClick={(event, data) => this.handleCheckInAnswer(data)}>Yes</Button>
             <Button className='checkin-answer' id='checkin-answer-no' onClick={(event, data) => this.handleCheckInAnswer(data)}>No</Button>
           </Container>
-          <Container id='back-button-container'>
-            <Button id='back-button' as={NavLink} exact to={`/home/${this.props.username}`}>Back</Button>
-          </Container>
         </Container>
+        </Segment>
+        </Grid>
       </Container>
     );
   }
