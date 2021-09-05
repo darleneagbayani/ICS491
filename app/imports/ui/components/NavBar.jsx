@@ -12,7 +12,7 @@ class NavBar extends React.Component {
     const menuStyle = { margin: '0px', border: '0px' };
     return (
       <Menu style={menuStyle} attached="top" borderless >
-        <Menu.Item as={NavLink} activeClassName="" exact to="/">
+        <Menu.Item as={NavLink} activeClassName="" exact to={`/home/${this.props.currentUser}`}>
           <Image className="ui fluid middle aligned small image" src="/images/FULL_LOGO.png"></Image>
         </Menu.Item>
         {this.props.currentUser ? (

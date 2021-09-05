@@ -4,17 +4,19 @@ import { withTracker } from 'meteor/react-meteor-data';
 import { Button, Container, Grid, Header, Loader, Segment } from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom';
 import ListUsers from '../pages/ListUsers';
+import { Redirect } from 'react-router-dom';
 import CheckInStatus from '../components/Check-In/CheckInStatus';
 import { CheckIn as CheckInCollection } from '../../api/check-in/CheckIn';
 import PropTypes from 'prop-types';
 import { Vaccine } from '../../api/Vaccine/Vaccine';
+import Home from '../pages/Home';
+
 
 /** A simple static component to render some text for the landing page. */
 
 class Landing extends React.Component {
   render() {
     const { checkInReady, vaccineReady } = this.props;
-
     return (checkInReady && vaccineReady) ? this.renderPage() : <Loader active>Getting data...</Loader>;
 }
 
@@ -24,10 +26,10 @@ class Landing extends React.Component {
     if (Meteor.userId()) return (
       <Container id="landing-page" style={{ padding: '50px' }}>
         <Grid textAlign="center" verticalAlign="middle" centered>
-          <Grid.Column mobile={16} tablet={12} computer={10}>
+          <Grid.Column mobile={16} tablet={8} computer={10}>
             <Segment className="raised" >
               <Header as="h2" textAlign="center">
-                Status
+                  Status
               </Header>
               <Grid textAlign="center" verticalAlign="middle" centered>
                 <Grid.Column textAlign="left" mobile={15} tablet={15} computer={13}>
@@ -41,12 +43,12 @@ class Landing extends React.Component {
             </Segment>
             <Segment className="raised" >
               <Header as="h2" textAlign="center">
-                Daily Check In
+                  Daily Check In
               </Header>
               <Grid textAlign="center" verticalAlign="middle" centered>
                 <Grid.Column textAlign="left" mobile={15} tablet={15} computer={13}>
-                  Don't forget to do your daily check-in.
-                  Help keep our community safe by completing your daily health check-in:
+                    Don't forget to do your daily check-in.
+                    Help keep our community safe by completing your daily health check-in:
                   <ol>
                     <li>Check your symptoms.</li>
                     <li>Keep track of your symptoms everyday.</li>
@@ -55,23 +57,23 @@ class Landing extends React.Component {
               </Grid>
               <Grid textAlign="center" verticalAlign="middle" centered>
                 <Grid.Column textAlign="center">
-                  <Button id="btn-custom" content="Check Your Symptoms" as={NavLink} exact to={'/checkin/:username'} />
+                  <Button id="btn-custom" content="Check Your Symptoms" as={NavLink} exact to={`/checkin/${username}`} />
                 </Grid.Column>
               </Grid>
             </Segment>
             <Segment className="raised" >
               <Header as="h2" textAlign="center">
-                Vaccination Card Submission
+                  Vaccination Card Submission
               </Header>
               <Grid textAlign="center" verticalAlign="middle" centered>
                 <Grid.Column textAlign="left" mobile={15} tablet={15} computer={13}>
-                  <ListUsers/>
+                    Your vaccine card status listed here.
                 </Grid.Column>
               </Grid>
             </Segment>
           </Grid.Column>
         </Grid>
-      </Container >
+      </Container>
     );
     // if user is not logged in return landing page
     if (Meteor.userId() === null) return (
