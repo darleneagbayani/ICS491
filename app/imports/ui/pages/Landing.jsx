@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams } from 'react-router';
 import { withTracker } from 'meteor/react-meteor-data';
-import { Button, Container, Grid, Header, Loader, Segment } from 'semantic-ui-react';
+import { Link, Button, Container, Grid, Header, Loader, Segment } from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom';
 import ListUsers from '../pages/ListUsers';
 import { Redirect } from 'react-router-dom';
@@ -18,7 +18,7 @@ class Landing extends React.Component {
   render() {
     const { checkInReady, vaccineReady } = this.props;
     return (checkInReady && vaccineReady) ? this.renderPage() : <Loader active>Getting data...</Loader>;
-}
+  }
 
   renderPage() {
     const { recentCheckIn, vaccineExists, username } = this.props;
@@ -29,7 +29,7 @@ class Landing extends React.Component {
           <Grid.Column mobile={16} tablet={8} computer={10}>
             <Segment className="raised" >
               <Header as="h2" textAlign="center">
-                  Status
+                Status
               </Header>
               <Grid textAlign="center" verticalAlign="middle" centered>
                 <Grid.Column textAlign="left" mobile={15} tablet={15} computer={13}>
@@ -43,12 +43,12 @@ class Landing extends React.Component {
             </Segment>
             <Segment className="raised" >
               <Header as="h2" textAlign="center">
-                  Daily Check In
+                Daily Check In
               </Header>
               <Grid textAlign="center" verticalAlign="middle" centered>
                 <Grid.Column textAlign="left" mobile={15} tablet={15} computer={13}>
-                    Don't forget to do your daily check-in.
-                    Help keep our community safe by completing your daily health check-in:
+                  Don't forget to do your daily check-in.
+                  Help keep our community safe by completing your daily health check-in:
                   <ol>
                     <li>Check your symptoms.</li>
                     <li>Keep track of your symptoms everyday.</li>
@@ -63,11 +63,11 @@ class Landing extends React.Component {
             </Segment>
             <Segment className="raised" >
               <Header as="h2" textAlign="center">
-                  Vaccination Card Submission
+                Vaccination Card Submission
               </Header>
               <Grid textAlign="center" verticalAlign="middle" centered>
                 <Grid.Column textAlign="left" mobile={15} tablet={15} computer={13}>
-                    Your vaccine card status listed here.
+                  Your vaccine card status listed here.
                 </Grid.Column>
               </Grid>
             </Segment>
@@ -77,17 +77,18 @@ class Landing extends React.Component {
     );
     // if user is not logged in return landing page
     if (Meteor.userId() === null) return (
-      <Grid id='landing-page' verticalAlign='middle' textAlign='center' container>
-        <img className="ui centered image" src={'/images/FULL_LOGO.png'} alt={'Image not found'} />
-        <div className="ui buttons">
-          <Button as={NavLink} exact to='/signin' className="ui button" id="greenButton">
-            Login
+      <Grid className="ui one column grid" id='landing-page' verticalAlign='middle' textAlign='center' container>
+        <Grid.Column>
+          <img className="ui huge centered image" src={'/images/FULL_LOGO.png'} alt={'Image not found'} />
+        </Grid.Column>
+        <Grid.Column textAlign="center">
+          <Button as={NavLink} exact to='/signup' id="btn-custom">
+            Sign Up
           </Button>
-          <div className="or" />
-          <Button as={NavLink} exact to={'/signup'} className="ui button" id="blueButton">
-            Signup
-          </Button>
-        </div>
+        </Grid.Column>
+        <Grid.Column textAlign="center">
+          Already have an account? Sign in<NavLink exact to={'/signin'}> here.</NavLink>
+        </Grid.Column>
       </Grid>
     );
   }
@@ -108,7 +109,7 @@ export default withTracker(() => {
 
   const recentCheckIn = CheckInCollection.getRecentCheckIn(username);
   const vaccineExists = Vaccine.recordExists(username);
-  
+
   return {
     checkInReady: checkInSubscribe.ready(),
     vaccineReady: vaccineSubscribe.ready(),
