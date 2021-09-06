@@ -1,33 +1,35 @@
-import { Meteor } from 'meteor/meteor';
-import { withTracker } from 'meteor/react-meteor-data';
 import React from 'react';
 import { useParams } from 'react-router';
+import { withTracker } from 'meteor/react-meteor-data';
+import { Link, Button, Container, Grid, Header, Loader, Segment } from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { Button, Container, Grid, Header, Loader, Segment } from 'semantic-ui-react';
-import { CheckIn as CheckInCollection } from '../../api/check-in/CheckIn';
-import { Vaccine } from '../../api/Vaccine/Vaccine';
+import ListUsers from '../pages/ListUsers';
+import { Redirect } from 'react-router-dom';
 import CheckInStatus from '../components/Check-In/CheckInStatus';
+import VaccineStatus from '../components/VaccinationStatus';
+import { Vaccine as VaccineCollection} from '../../api/Vaccine/Vaccine';
+import { CheckIn as CheckInCollection } from '../../api/check-in/CheckIn';
+import PropTypes from 'prop-types';
+
 
 /** A simple static component to render some text for the landing page. */
 
-class Home extends React.Component {
-
+class Landing extends React.Component {
   render() {
-    const { checkInReady, vaccineReady } = this.props;
-    return (checkInReady && vaccineReady) ? this.renderPage() : <Loader active>Getting data...</Loader>;
-
+    const { checkInReady, vaccineReady, vaccineInfoReady } = this.props;
+    return (checkInReady && vaccineReady && vaccineInfoReady) ? this.renderPage() : <Loader active>Getting data...</Loader>;
   }
 
   renderPage() {
-    const { recentCheckIn, vaccineExists, username } = this.props;
-    return (
+    const { recentCheckIn, recentCheckIn2, vaccineExists, username } = this.props;
+    // if user is logged in return home page
+    if (Meteor.userId()) return (
       <Container id="landing-page" style={{ padding: '50px' }}>
         <Grid textAlign="center" verticalAlign="middle" centered>
           <Grid.Column mobile={16} tablet={8} computer={10}>
             <Segment className="raised" >
               <Header as="h2" textAlign="center">
-                  Status
+                Status
               </Header>
               <Grid textAlign="center" verticalAlign="middle" centered>
                 <Grid.Column textAlign="left" mobile={15} tablet={15} computer={13}>
@@ -41,12 +43,12 @@ class Home extends React.Component {
             </Segment>
             <Segment className="raised" >
               <Header as="h2" textAlign="center">
-                  Daily Check In
+                Daily Check In
               </Header>
               <Grid textAlign="center" verticalAlign="middle" centered>
                 <Grid.Column textAlign="left" mobile={15} tablet={15} computer={13}>
-                    Don't forget to do your daily check-in.
-                    Help keep our community safe by completing your daily health check-in:
+                  Don't forget to do your daily check-in.
+                  Help keep our community safe by completing your daily health check-in:
                   <ol>
                     <li>Check your symptoms.</li>
                     <li>Keep track of your symptoms everyday.</li>
@@ -61,11 +63,19 @@ class Home extends React.Component {
             </Segment>
             <Segment className="raised" >
               <Header as="h2" textAlign="center">
-                  Vaccination Card Submission
+                Vaccination Card Submission
               </Header>
               <Grid textAlign="center" verticalAlign="middle" centered>
                 <Grid.Column textAlign="left" mobile={15} tablet={15} computer={13}>
-                    Your vaccine card status listed here.
+                <VaccineStatus
+                    vaccineName={recentCheckIn2 ? recentCheckIn2.vaccineName : 'Not Clear'}
+                    firstDoseManufacturer={recentCheckIn2 ? recentCheckIn2.firstDoseManufacturer : 'Not Clear'}
+                    firstDoseDate={recentCheckIn2.firstDoseDate ? recentCheckIn2.firstDoseDate  : 'No Submission'}
+                    firstDoseHealthcare={recentCheckIn2 ? recentCheckIn2.firstDoseHealthcare : 'Not Clear'}
+                    secondDoseManufacturer={recentCheckIn2 ? recentCheckIn2.secondDoseManufacturer : 'Not Clear'}
+                    getDate={recentCheckIn2.secondDoseDate ? recentCheckIn2.secondDoseDate : 'No Submission'}
+                    secondDoseHealthcare={recentCheckIn2 ? recentCheckIn2.secondDoseHealthcare : 'Not Clear'}
+                  />
                 </Grid.Column>
               </Grid>
             </Segment>
@@ -73,29 +83,52 @@ class Home extends React.Component {
         </Grid>
       </Container>
     );
+    // if user is not logged in return landing page
+    if (Meteor.userId() === null) return (
+      <Grid className="ui one column grid" id='landing-page'verticalAlign='middle' textAlign='center' container>
+        <Grid.Column className="mobile only" style={{ padding: '80px 0px 0px 0px' }} >
+          <img className="ui large centered image" src={'images/fulllogostacked.png'} alt={'Image not found'} />
+        </Grid.Column>
+        <Grid.Column className="computer tablet only" style={{ padding: '100px 0px 0px 0px' }} >
+          <img className="ui huge centered image" src={'images/FULL_LOGO.png'} alt={'Image not found'} />
+        </Grid.Column>
+        <Grid.Column textAlign="center">
+          <Button as={NavLink} exact to='/signup' id="btn-custom">
+            Sign Up
+          </Button>
+        </Grid.Column>
+        <Grid.Column textAlign="center">
+          Already have an account? Sign in<NavLink exact to={'/signin'}> here.</NavLink>
+        </Grid.Column>
+      </Grid>
+    );
   }
 }
 
-Home.propTypes = {
+Landing.propTypes = {
   checkInReady: PropTypes.bool,
   vaccineReady: PropTypes.bool,
   username: PropTypes.string,
   recentCheckIn: PropTypes.object,
+  recentCheckIn2: PropTypes.object,
   vaccineExists: PropTypes.bool,
 };
 
 export default withTracker(() => {
   const checkInSubscribe = Meteor.subscribe(CheckInCollection.userPublicationName);
-  const vaccineSubscribe = Meteor.subscribe(Vaccine.userPublicationName);
+  const vaccineInformationSubscribe = Meteor.subscribe(VaccineCollection.userPublicationName);
   const { username } = useParams();
 
   const recentCheckIn = CheckInCollection.getRecentCheckIn(username);
-  const vaccineExists = Vaccine.recordExists(username);
+  const recentCheckIn2 = VaccineCollection.getRecentCheckIn(username);
+  const vaccineExists = VaccineCollection.recordExists(username);
   return {
     checkInReady: checkInSubscribe.ready(),
-    vaccineReady: vaccineSubscribe.ready(),
+    vaccineReady: vaccineInformationSubscribe.ready(),
+    vaccineInfoReady: vaccineInformationSubscribe.ready(),
     username,
     recentCheckIn,
+    recentCheckIn2,
     vaccineExists,
   };
-})(Home);
+})(Landing);

@@ -13,11 +13,12 @@ const formSchema = new SimpleSchema({
   firstName: String,
   lastName: String,
   patientNumber: String,
-  firstDoseManufacturerLotNumber: String, // MLN = Manufacturer Lot Number
+  firstDoseManufacturer: String, // MLN = Manufacturer Lot Number
   firstDoseDate: Date,
-  secondDoseManufacturerLotNumber: String,
+  firstDoseHealthcare: String,
+  secondDoseManufacturer: String,
   secondDoseDate: Date,
-  vaccineSite: String,
+  secondDoseHealthcare: String,
   vaccineName: {
     type: String,
     allowedValues:
@@ -43,9 +44,9 @@ class SubmitVaccine extends React.Component {
 
   // On submit, insert the data.
   submit(data, formRef) {
-    const { firstName, lastName, patientNumber, vaccineName, firstDoseDate, firstDoseManufacturerLotNumber, secondDoseManufacturerLotNumber, secondDoseDate, vaccineSite } = data;
+    const { firstName, lastName, patientNumber, vaccineName, firstDoseManufacturer, firstDoseDate, firstDoseHealthcare, secondDoseManufacturer, secondDoseDate, secondDoseHealthcare } = data;
     const owner = Meteor.user().username;
-    Vaccine.collection.insert({ firstName, lastName, patientNumber, vaccineName, firstDoseManufacturerLotNumber, firstDoseDate, secondDoseManufacturerLotNumber, secondDoseDate, vaccineSite, owner },
+    Vaccine.collection.insert({ firstName, lastName, patientNumber, vaccineName, firstDoseManufacturer, firstDoseDate, firstDoseHealthcare, secondDoseManufacturer, secondDoseDate, secondDoseHealthcare, owner },
       (error) => {
         if (error) {
           swal('Error', error.message, 'error');
@@ -96,11 +97,12 @@ class SubmitVaccine extends React.Component {
               <TextField name='lastName' label='Last Name' />
               <TextField name='patientNumber' label="Patient Number (medical record or IIS record number)" />
               <SelectField name='vaccineName' label='Vaccine Name' />
-              <TextField name='firstDoseManufacturerLotNumber' label='1st Dose Manufacturer Lot Number' />
+              <TextField name='firstDoseManufacturer' label='1st Dose Manufacturer Lot Number' />
               <DateField name='firstDoseDate' label='1st Dose Date' />
-              <TextField name='secondDoseManufacturerLotNumber' label='2nd Dose Manufacturer Lot Number' />
+              <TextField name='firstDoseHealthcare' label='Clinic Site Or Health Care Professional' />
+              <TextField name='secondDoseManufacturer' label='2nd Dose Manufacturer Lot Number' />
               <DateField name='secondDoseDate' label='2nd Dose Date' />
-              <TextField name='vaccineSite' label='Clinic Site Or Helath Care Professional' />
+              <TextField name='secondDoseHealthcare' label='Clinic Site Or Helath Care Professional' />
               {/* <section className="right-side"> */}
               <Grid className="ui one column grid">
                 <Grid.Column>

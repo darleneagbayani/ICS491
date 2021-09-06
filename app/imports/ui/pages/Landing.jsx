@@ -6,22 +6,21 @@ import { NavLink } from 'react-router-dom';
 import ListUsers from '../pages/ListUsers';
 import { Redirect } from 'react-router-dom';
 import CheckInStatus from '../components/Check-In/CheckInStatus';
+import { Vaccine as VaccineCollection} from '../../api/Vaccine/Vaccine';
 import { CheckIn as CheckInCollection } from '../../api/check-in/CheckIn';
 import PropTypes from 'prop-types';
-import { Vaccine } from '../../api/Vaccine/Vaccine';
-import Home from '../pages/Home';
 
 
 /** A simple static component to render some text for the landing page. */
 
 class Landing extends React.Component {
   render() {
-    const { checkInReady, vaccineReady } = this.props;
-    return (checkInReady && vaccineReady) ? this.renderPage() : <Loader active>Getting data...</Loader>;
+    const { checkInReady, vaccineReady, vaccineInfoReady } = this.props;
+    return (checkInReady && vaccineReady && vaccineInfoReady) ? this.renderPage() : <Loader active>Getting data...</Loader>;
   }
 
   renderPage() {
-    const { recentCheckIn, vaccineExists, username } = this.props;
+    const { recentCheckIn, recentCheckIn2, vaccineExists, username, vaccineName, firstDoseManufacturer, firstDoseDate, firtDoseHealthcare, secondDoseManufacturer, secondDoseDate, secondDoseHealthcare } = this.props;
     // if user is logged in return home page
     if (Meteor.userId()) return (
       <Container id="landing-page" style={{ padding: '50px' }}>
@@ -67,7 +66,15 @@ class Landing extends React.Component {
               </Header>
               <Grid textAlign="center" verticalAlign="middle" centered>
                 <Grid.Column textAlign="left" mobile={15} tablet={15} computer={13}>
-                  Your vaccine card status listed here.
+                <CheckInStatus
+                    vaccineName={recentCheckIn2 ? recentCheckIn2.vaccineName : 'Not Clear'}
+                    firstDoseManufacturer={recentCheckIn2 ? recentCheckIn2.firstDoseManufacturer : 'Not Clear'}
+                    firstDoseDate={recentCheckIn2 ? recentCheckIn2.firstDoseDate : 'Not Clear'}
+                    firstDoseHealthcare={recentCheckIn2 ? recentCheckIn2.firstDoseHealthcare : 'Not Clear'}
+                    secondDoseManufacturer={recentCheckIn2 ? recentCheckIn2.secondDoseManufacturer : 'Not Clear'}
+                    secondDoseDate={recentCheckIn2 ? recentCheckIn2.secondDoseDate : 'Not Clear'}
+                    secondDoseHealthcare={recentCheckIn2 ? recentCheckIn2.secondDoseHealthcare : 'Not Clear'}
+                  />
                 </Grid.Column>
               </Grid>
             </Segment>
@@ -102,22 +109,26 @@ Landing.propTypes = {
   vaccineReady: PropTypes.bool,
   username: PropTypes.string,
   recentCheckIn: PropTypes.object,
+  recentCheckIn2: PropTypes.object,
   vaccineExists: PropTypes.bool,
 };
 
 export default withTracker(() => {
   const checkInSubscribe = Meteor.subscribe(CheckInCollection.userPublicationName);
-  const vaccineSubscribe = Meteor.subscribe(Vaccine.userPublicationName);
+  const vaccineInformationSubscribe = Meteor.subscribe(VaccineCollection.userPublicationName);
   const { username } = useParams();
 
   const recentCheckIn = CheckInCollection.getRecentCheckIn(username);
-  const vaccineExists = Vaccine.recordExists(username);
+  const recentCheckIn2 = VaccineCollection.getRecentCheckIn(username);
+  const vaccineExists = VaccineCollection.recordExists(username);
 
   return {
     checkInReady: checkInSubscribe.ready(),
-    vaccineReady: vaccineSubscribe.ready(),
+    vaccineReady: vaccineInformationSubscribe.ready(),
+    vaccineInfoReady: vaccineInformationSubscribe.ready(),
     username,
     recentCheckIn,
+    recentCheckIn2,
     vaccineExists,
   };
 })(Landing);
