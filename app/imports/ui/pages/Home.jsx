@@ -68,13 +68,13 @@ class Landing extends React.Component {
               <Grid textAlign="center" verticalAlign="middle" centered>
                 <Grid.Column textAlign="left" mobile={15} tablet={15} computer={13}>
                 <VaccineStatus
-                    vaccineName={recentCheckIn2 ? recentCheckIn2.vaccineName : 'Not Clear'}
-                    firstDoseManufacturer={recentCheckIn2 ? recentCheckIn2.firstDoseManufacturer : 'Not Clear'}
-                    firstDoseDate={recentCheckIn2.firstDoseDate ? recentCheckIn2.firstDoseDate  : 'No Submission'}
-                    firstDoseHealthcare={recentCheckIn2 ? recentCheckIn2.firstDoseHealthcare : 'Not Clear'}
-                    secondDoseManufacturer={recentCheckIn2 ? recentCheckIn2.secondDoseManufacturer : 'Not Clear'}
-                    getDate={recentCheckIn2.secondDoseDate ? recentCheckIn2.secondDoseDate : 'No Submission'}
-                    secondDoseHealthcare={recentCheckIn2 ? recentCheckIn2.secondDoseHealthcare : 'Not Clear'}
+                    vaccineName={recentCheckIn2 ? recentCheckIn2.vaccineName :'No Submission'}
+                    firstDoseManufacturer={recentCheckIn2 ? recentCheckIn2.firstDoseManufacturer :'No Submission'}
+                    dateString1={'No Submission'}
+                    firstDoseHealthcare={recentCheckIn2 ? recentCheckIn2.firstDoseHealthcare :'No Submission'}
+                    secondDoseManufacturer={recentCheckIn2 ? recentCheckIn2.secondDoseManufacturer :'No Submission'}
+                    dateString2={'No Submission'}
+                    secondDoseHealthcare={recentCheckIn2 ? recentCheckIn2.secondDoseHealthcare :'No Submission'}
                   />
                 </Grid.Column>
               </Grid>

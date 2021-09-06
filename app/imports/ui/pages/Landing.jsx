@@ -6,6 +6,7 @@ import { NavLink } from 'react-router-dom';
 import ListUsers from '../pages/ListUsers';
 import { Redirect } from 'react-router-dom';
 import CheckInStatus from '../components/Check-In/CheckInStatus';
+import VaccineStatus from '../components/VaccinationStatus';
 import { Vaccine as VaccineCollection} from '../../api/Vaccine/Vaccine';
 import { CheckIn as CheckInCollection } from '../../api/check-in/CheckIn';
 import PropTypes from 'prop-types';
@@ -20,7 +21,7 @@ class Landing extends React.Component {
   }
 
   renderPage() {
-    const { recentCheckIn, recentCheckIn2, vaccineExists, username, vaccineName, firstDoseManufacturer, firstDoseDate, firtDoseHealthcare, secondDoseManufacturer, secondDoseDate, secondDoseHealthcare } = this.props;
+    const { recentCheckIn, recentCheckIn2, vaccineExists, username } = this.props;
     // if user is logged in return home page
     if (Meteor.userId()) return (
       <Container id="landing-page" style={{ padding: '50px' }}>
@@ -66,14 +67,14 @@ class Landing extends React.Component {
               </Header>
               <Grid textAlign="center" verticalAlign="middle" centered>
                 <Grid.Column textAlign="left" mobile={15} tablet={15} computer={13}>
-                <CheckInStatus
-                    vaccineName={recentCheckIn2 ? recentCheckIn2.vaccineName : 'Not Clear'}
-                    firstDoseManufacturer={recentCheckIn2 ? recentCheckIn2.firstDoseManufacturer : 'Not Clear'}
-                    firstDoseDate={recentCheckIn2 ? recentCheckIn2.firstDoseDate : 'Not Clear'}
-                    firstDoseHealthcare={recentCheckIn2 ? recentCheckIn2.firstDoseHealthcare : 'Not Clear'}
-                    secondDoseManufacturer={recentCheckIn2 ? recentCheckIn2.secondDoseManufacturer : 'Not Clear'}
-                    secondDoseDate={recentCheckIn2 ? recentCheckIn2.secondDoseDate : 'Not Clear'}
-                    secondDoseHealthcare={recentCheckIn2 ? recentCheckIn2.secondDoseHealthcare : 'Not Clear'}
+                <VaccineStatus
+                    vaccineName={recentCheckIn2 ? recentCheckIn2.vaccineName :'No Submission'}
+                    firstDoseManufacturer={recentCheckIn2 ? recentCheckIn2.firstDoseManufacturer :'No Submission'}
+                    dateString1={'No Submission'}
+                    firstDoseHealthcare={recentCheckIn2 ? recentCheckIn2.firstDoseHealthcare :'No Submission'}
+                    secondDoseManufacturer={recentCheckIn2 ? recentCheckIn2.secondDoseManufacturer :'No Submission'}
+                    dateString2={'No Submission'}
+                    secondDoseHealthcare={recentCheckIn2 ? recentCheckIn2.secondDoseHealthcare :'No Submission'}
                   />
                 </Grid.Column>
               </Grid>
@@ -121,7 +122,6 @@ export default withTracker(() => {
   const recentCheckIn = CheckInCollection.getRecentCheckIn(username);
   const recentCheckIn2 = VaccineCollection.getRecentCheckIn(username);
   const vaccineExists = VaccineCollection.recordExists(username);
-
   return {
     checkInReady: checkInSubscribe.ready(),
     vaccineReady: vaccineInformationSubscribe.ready(),
