@@ -14,7 +14,9 @@ import PropTypes from 'prop-types';
 
 /** A simple static component to render some text for the landing page. */
 
+
 class Landing extends React.Component {
+
   render() {
     const { checkInReady, vaccineReady, vaccineInfoReady } = this.props;
     return (checkInReady && vaccineReady && vaccineInfoReady) ? this.renderPage() : <Loader active>Getting data...</Loader>;
@@ -22,7 +24,11 @@ class Landing extends React.Component {
 
   renderPage() {
     const { recentCheckIn, recentCheckIn2, vaccineExists, username } = this.props;
-    // if user is logged in return home page
+    console.log(recentCheckIn2)
+    console.log(recentCheckIn2.firstDoseDate)
+    const options = {  year: 'numeric', month: 'long', day: 'numeric' }
+
+    // if user is logged in return home pages
     if (Meteor.userId()) return (
       <Container id="landing-page" style={{ padding: '50px' }}>
         <Grid textAlign="center" verticalAlign="middle" centered>
@@ -68,13 +74,21 @@ class Landing extends React.Component {
               <Grid textAlign="center" verticalAlign="middle" centered>
                 <Grid.Column textAlign="left" mobile={15} tablet={15} computer={13}>
                 <VaccineStatus
-                    vaccineName={recentCheckIn2 ? recentCheckIn2.vaccineName :'No Submission'}
-                    firstDoseManufacturer={recentCheckIn2 ? recentCheckIn2.firstDoseManufacturer :'No Submission'}
-                    dateString1={'No Submission'}
-                    firstDoseHealthcare={recentCheckIn2 ? recentCheckIn2.firstDoseHealthcare :'No Submission'}
-                    secondDoseManufacturer={recentCheckIn2 ? recentCheckIn2.secondDoseManufacturer :'No Submission'}
-                    dateString2={'No Submission'}
-                    secondDoseHealthcare={recentCheckIn2 ? recentCheckIn2.secondDoseHealthcare :'No Submission'}
+                    // vaccineName={recentCheckIn2 ? recentCheckIn2.vaccineName :'No Submission'}
+                    // firstDoseManufacturer={recentCheckIn2 ? recentCheckIn2.firstDoseManufacturerLotNumber :'No Submission'}
+                    // // dateString1={recentCheckIn2 ? recentCheckIn2.firstDoseDate.toLocaleDateString('en-US', options) :'No Submission'}
+                    // firstDoseHealthcare={recentCheckIn2 ? recentCheckIn2.vaccineSite :'No Submission'}
+                    // secondDoseManufacturer={recentCheckIn2 ? recentCheckIn2.secondDoseManufacturerLotNumber :'No Submission'}
+                    // // dateString2={recentCheckIn2 ? recentCheckIn2.secondDoseDate.toLocaleDateString('en-US', options) :'No Submission'}
+                    // secondDoseHealthcare={recentCheckIn2 ? recentCheckIn2.vaccineSite :'No Submission'}
+
+                  vaccineName={recentCheckIn2 ? recentCheckIn2.vaccineName :'No Submission'}
+                  firstDoseManufacturer={recentCheckIn2 ? recentCheckIn2.firstDoseManufacturerLotNumber :'No Submission'}
+                  dateString1={recentCheckIn2 ? recentCheckIn2.firstDoseDate :'No Submission'}
+                  firstDoseHealthcare={recentCheckIn2 ? recentCheckIn2.vaccineSite :'No Submission'}
+                  secondDoseManufacturer={recentCheckIn2 ? recentCheckIn2.secondDoseManufacturerLotNumber :'No Submission'}
+                  // dateString2={recentCheckIn2 ? recentCheckIn2.secondDoseDate.toLocaleDateString('en-US', options) :'No Submission'}
+                  secondDoseHealthcare={recentCheckIn2 ? recentCheckIn2.vaccineSite :'No Submission'}
                   />
                 </Grid.Column>
               </Grid>
