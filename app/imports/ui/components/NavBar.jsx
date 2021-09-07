@@ -3,16 +3,16 @@ import PropTypes from 'prop-types';
 import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
 import { withRouter, NavLink } from 'react-router-dom';
-import { Menu, Dropdown, Image } from 'semantic-ui-react';
+import { Menu, Grid, Dropdown, Image } from 'semantic-ui-react';
 import { Roles } from 'meteor/alanning:roles';
 
 /** The NavBar appears at the top of every page. Rendered by the App Layout component. */
 class NavBar extends React.Component {
   render() {
     const menuStyle = { margin: '0px', border: '0px' };
-    return (
+    if (Meteor.userId()) return (
       <Menu style={menuStyle} attached="top" borderless >
-        <Menu.Item as={NavLink} activeClassName="" exact to="/">
+        <Menu.Item as={NavLink} activeClassName="" exact to={`/home/${this.props.currentUser}`}>
           <Image className="ui fluid middle aligned small image" src="/images/FULL_LOGO.png"></Image>
         </Menu.Item>
         {this.props.currentUser ? (
@@ -41,6 +41,10 @@ class NavBar extends React.Component {
           )}
         </Menu.Item>
       </Menu>
+    );
+    if (Meteor.userId() === null) return (
+      <Grid>
+      </Grid>
     );
   }
 }

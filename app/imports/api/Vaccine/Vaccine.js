@@ -1,10 +1,12 @@
 import { Mongo } from 'meteor/mongo';
-import SimpleSchema from 'simpl-schema';
 import { Tracker } from 'meteor/tracker';
+import SimpleSchema from 'simpl-schema';
+import { _ } from 'lodash';
 
 /**
  * The VaccineCollection. It encapsulates state and variable values for stuff.
  */
+
 class VaccineCollection {
   constructor() {
     // The name of this collection.
@@ -12,18 +14,12 @@ class VaccineCollection {
     // Define the Mongo collection.
     this.collection = new Mongo.Collection(this.name);
     // Define the structure of each document in the collection.
+
     this.schema = new SimpleSchema({
-      firstName: String,
-      lastName: String,
-      patientNumber: String,
-      firstDoseManufacturerLotNumber: String, // MLN = Manufacturer Lot Number
-      firstDoseDate: Date,
-      secondDoseManufacturerLotNumber: String,
-      secondDoseDate: Date,
-      vaccineSite: String,
       owner: String,
       vaccineName: {
         type: String,
+        defaultValue: 'No submission',
         allowedValues: [
           'Pfizer-BioNTech',
           'Moderna COVID-19',
@@ -37,7 +33,30 @@ class VaccineCollection {
           'Zhifei Longcom-Recombinant Novel',
           'IMBCAMS-SARS-CoV-2',
         ],
-        // defaultValue: 'good',
+      },
+      firstDoseManufacturer: {
+        type: String,
+        defaultValue: 'No submission',
+      },
+      firstDoseDate: {
+        type: String,
+        defaultValue: 'No submission',
+      },
+      firstDoseHealthcare: {
+        type: String,
+        defaultValue: 'No submission',
+      },
+      secondDoseManufacturer: {
+        type: String,
+        defaultValue: 'No submission',
+      },
+      secondDoseDate: {
+        type: String,
+        defaultValue: 'No submission',
+      },
+      secondDoseHealthcare: {
+        type: String,
+        defaultValue: 'No submission',
       },
     }, { tracker: Tracker });
 
@@ -48,6 +67,39 @@ class VaccineCollection {
     this.adminPublicationName = `${this.name}.publication.admin`;
   }
 
+  // Returns an array containing all the check-ins from the user.
+  getAllCheckIns(owner) {
+    const checkIns = this.collection.find({ owner }).fetch();
+    const checkInList = [];
+
+    _.forEach(checkIns, function (data) {
+      const { _id, vaccineName, firstDoseManufacturer, firstDoseDate, firstDoseHealthcare, secondDoseManufacturer, secondDoseDate, secondDoseHealthcare } = data;
+
+      const dateOptions = { dateStyle: 'medium', hour12: true, timeStyle: 'short' };
+      const dateString1 = firstDoseDate.toLocaleString('default', dateOptions);
+      const dateString2 = secondDoseDate.toLocaleString('default', dateOptions);
+
+      checkInList.push({
+        dateString1,
+        dateString2,
+        vaccineName,
+        firstDoseManufacturer,
+        firstDoseDate,
+        firstDoseHealthcare,
+        secondDoseManufacturer,
+        secondDoseDate,
+        secondDoseHealthcare,
+        _id,
+      });
+    });
+
+    return checkInList;
+  }
+  // Returns the most recent check-in.
+  getRecentCheckIn(owner) {
+    return _.last(this.collection.find({ owner }).fetch());
+  }
+
   recordExists(owner) {
     const vaccineRecord = this.collection.find({ owner }).fetch();
     if (vaccineRecord.length === 0) {
@@ -56,6 +108,7 @@ class VaccineCollection {
     return true;
   }
 }
+
 
 /**
  * The singleton instance of the VaccineCollection.
