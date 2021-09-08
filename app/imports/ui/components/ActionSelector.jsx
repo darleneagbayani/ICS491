@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Image, Menu, Icon } from 'semantic-ui-react';
+import { Container, Image, Menu } from 'semantic-ui-react';
 // eslint-disable-next-line import/no-duplicates
 import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -21,9 +21,9 @@ class ActionSelector extends React.Component {
             <Menu.Item style={colStyle} as={NavLink} activeClassName="" exact to={`/checkin/${this.props.currentUser}`}>
               <Container>
                 <div className="row">
-                  <Icon inverted className="ui fluid middle aligned" name='home' size='massive'></Icon>
+                  <Image className="ui fluid middle aligned tiny image" src="/images/calendar.png"></Image>
                 </div>
-                <div className="row" style={textStyle}>HOME</div>
+                <div className="row" style={textStyle}>DAILY CHECK-IN</div>
               </Container>
             </Menu.Item>
 

@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, Redirect, withRouter } from 'react-router-dom';
 import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
 // eslint-disable-next-line import/no-duplicates
-import { withRouter } from 'react-router-dom';
 
 import { Container, Form, Grid, Header, Message, Segment } from 'semantic-ui-react';
 
@@ -42,7 +41,7 @@ class Signin extends React.Component {
     const { from } = this.props.location.state || { from: { pathname: `/home/${this.state.email}` } };
     // if correct authentication, redirect to page instead of login screen
     if (this.state.redirectToReferer) {
-      return <Redirect exact to={`/home/${this.state.email}`} />;
+      return <Redirect exact to={from} />;
     }
     // Otherwise return the Login form.
     return (

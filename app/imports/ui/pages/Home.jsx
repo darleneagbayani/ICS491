@@ -1,31 +1,27 @@
 import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useParams } from 'react-router';
-import { withTracker } from 'meteor/react-meteor-data';
-import { Link, Button, Container, Grid, Header, Loader, Segment } from 'semantic-ui-react';
+import { Button, Container, Grid, Header, Loader, Segment } from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom';
-import ListUsers from '../pages/ListUsers';
-import { Redirect } from 'react-router-dom';
 import CheckInStatus from '../components/Check-In/CheckInStatus';
 import VaccineStatus from '../components/VaccinationStatus';
-import { Vaccine as VaccineCollection} from '../../api/Vaccine/Vaccine';
+import { Vaccine as VaccineCollection } from '../../api/Vaccine/Vaccine';
 import { CheckIn as CheckInCollection } from '../../api/check-in/CheckIn';
-import PropTypes from 'prop-types';
-
 
 /** A simple static component to render some text for the landing page. */
 
 class Landing extends React.Component {
   render() {
-    const { checkInReady, vaccineReady, vaccineInfoReady } = this.props;
-    return (checkInReady && vaccineReady && vaccineInfoReady) ? this.renderPage() : <Loader active>Getting data...</Loader>;
+    const { checkInReady, vaccineReady } = this.props;
+    return (checkInReady && vaccineReady) ? this.renderPage() : <Loader active>Getting data...</Loader>;
   }
 
   renderPage() {
-    const { recentCheckIn, recentCheckIn2, vaccineExists, username } = this.props;
+    const { recentCheckIn, vaccineCheckIn, vaccineExists, username } = this.props;
     // if user is logged in return home page
-    if (Meteor.userId()) return (
+    return (
       <Container id="landing-page" style={{ padding: '50px' }}>
         <Grid textAlign="center" verticalAlign="middle" centered>
           <Grid.Column mobile={16} tablet={8} computer={10}>
@@ -36,9 +32,9 @@ class Landing extends React.Component {
               <Grid textAlign="center" verticalAlign="middle" centered>
                 <Grid.Column textAlign="left" mobile={15} tablet={15} computer={13}>
                   <CheckInStatus
-                    status={recentCheckIn ? recentCheckIn.status : 'Not Clear'}
+                    status={'status' in recentCheckIn ? recentCheckIn.status : 'Not Clear'}
                     vaccination={vaccineExists ? 'Approved' : 'Not Approved'}
-                    health={recentCheckIn ? recentCheckIn.health : 'Not Clear'}
+                    health={'health' in recentCheckIn ? recentCheckIn.health : 'Not Clear'}
                   />
                 </Grid.Column>
               </Grid>
@@ -69,14 +65,14 @@ class Landing extends React.Component {
               </Header>
               <Grid textAlign="center" verticalAlign="middle" centered>
                 <Grid.Column textAlign="left" mobile={15} tablet={15} computer={13}>
-                <VaccineStatus
-                    vaccineName={recentCheckIn2 ? recentCheckIn2.vaccineName :'No Submission'}
-                    firstDoseManufacturer={recentCheckIn2 ? recentCheckIn2.firstDoseManufacturer :'No Submission'}
+                  <VaccineStatus
+                    vaccineName={vaccineCheckIn ? vaccineCheckIn.vaccineName : 'No Submission'}
+                    firstDoseManufacturer={vaccineCheckIn ? vaccineCheckIn.firstDoseManufacturer : 'No Submission'}
                     dateString1={'No Submission'}
-                    firstDoseHealthcare={recentCheckIn2 ? recentCheckIn2.firstDoseHealthcare :'No Submission'}
-                    secondDoseManufacturer={recentCheckIn2 ? recentCheckIn2.secondDoseManufacturer :'No Submission'}
+                    firstDoseHealthcare={vaccineCheckIn ? vaccineCheckIn.firstDoseHealthcare : 'No Submission'}
+                    secondDoseManufacturer={vaccineCheckIn ? vaccineCheckIn.secondDoseManufacturer : 'No Submission'}
                     dateString2={'No Submission'}
-                    secondDoseHealthcare={recentCheckIn2 ? recentCheckIn2.secondDoseHealthcare :'No Submission'}
+                    secondDoseHealthcare={vaccineCheckIn ? vaccineCheckIn.secondDoseHealthcare : 'No Submission'}
                   />
                 </Grid.Column>
               </Grid>
@@ -84,25 +80,6 @@ class Landing extends React.Component {
           </Grid.Column>
         </Grid>
       </Container>
-    );
-    // if user is not logged in return landing page
-    if (Meteor.userId() === null) return (
-      <Grid className="ui one column grid" id='landing-page'verticalAlign='middle' textAlign='center' container>
-        <Grid.Column className="mobile only" style={{ padding: '80px 0px 0px 0px' }} >
-          <img className="ui large centered image" src={'images/fulllogostacked.png'} alt={'Image not found'} />
-        </Grid.Column>
-        <Grid.Column className="computer tablet only" style={{ padding: '100px 0px 0px 0px' }} >
-          <img className="ui huge centered image" src={'images/FULL_LOGO.png'} alt={'Image not found'} />
-        </Grid.Column>
-        <Grid.Column textAlign="center">
-          <Button as={NavLink} exact to='/signup' id="btn-custom">
-            Sign Up
-          </Button>
-        </Grid.Column>
-        <Grid.Column textAlign="center">
-          Already have an account? Sign in<NavLink exact to={'/signin'}> here.</NavLink>
-        </Grid.Column>
-      </Grid>
     );
   }
 }
@@ -112,7 +89,7 @@ Landing.propTypes = {
   vaccineReady: PropTypes.bool,
   username: PropTypes.string,
   recentCheckIn: PropTypes.object,
-  recentCheckIn2: PropTypes.object,
+  vaccineCheckIn: PropTypes.object,
   vaccineExists: PropTypes.bool,
 };
 
@@ -122,7 +99,7 @@ export default withTracker(() => {
   const { username } = useParams();
 
   const recentCheckIn = CheckInCollection.getRecentCheckIn(username);
-  const recentCheckIn2 = VaccineCollection.getRecentCheckIn(username);
+  const vaccineCheckIn = VaccineCollection.getRecentCheckIn(username);
   const vaccineExists = VaccineCollection.recordExists(username);
   return {
     checkInReady: checkInSubscribe.ready(),
@@ -130,7 +107,7 @@ export default withTracker(() => {
     vaccineInfoReady: vaccineInformationSubscribe.ready(),
     username,
     recentCheckIn,
-    recentCheckIn2,
+    vaccineCheckIn,
     vaccineExists,
   };
 })(Landing);
