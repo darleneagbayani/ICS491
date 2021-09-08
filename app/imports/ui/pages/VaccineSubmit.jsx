@@ -1,6 +1,6 @@
 import React from 'react';
 import { Grid, Segment, Header, Button } from 'semantic-ui-react';
-import { AutoForm, ErrorsField, SelectField, SubmitField, TextField, DateField } from 'uniforms-semantic';
+import { AutoForm, HiddenField, ErrorsField, SelectField, SubmitField, TextField, DateField } from 'uniforms-semantic';
 import swal from 'sweetalert';
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
@@ -10,46 +10,64 @@ import { Vaccine } from '../../api/Vaccine/Vaccine';
 
 // Create a schema to specify the structure of the data to appear in the form.
 const formSchema = new SimpleSchema({
-  firstName: String,
-  lastName: String,
-  patientNumber: String,
-  firstDoseManufacturer: String, // MLN = Manufacturer Lot Number
-  firstDoseDate: Date,
-  firstDoseHealthcare: String,
-  secondDoseManufacturer: String,
-  secondDoseDate: Date,
-  secondDoseHealthcare: String,
   vaccineName: {
     type: String,
-    allowedValues:
-      ['Pfizer-BioNTech',
-        'Moderna COVID-19',
-        'Janssen COVID-19 (Johnson &)',
-        'AstraZeneca-AZD1222',
-        'Sinopharm BIBP-SARS-CoV-2',
-        'Sinovac-SARS-CoV-2',
-        'Gamelya-Sputnik V',
-        'CanSinoBio',
-        'Vector-EpiVacCorona',
-        'Zhifei Longcom-Recombinant Novel',
-        'IMBCAMS-SARS-CoV-2',
-      ],
+    allowedValues: [
+      'Pfizer-BioNTech',
+      'Moderna COVID-19',
+      'Janssen COVID-19 (Johnson &)',
+      'AstraZeneca-AZD1222',
+      'Sinopharm BIBP-SARS-CoV-2',
+      'Sinovac-SARS-CoV-2',
+      'Gamelya-Sputnik V',
+      'CanSinoBio',
+      'Vector-EpiVacCorona',
+      'Zhifei Longcom-Recombinant Novel',
+      'IMBCAMS-SARS-CoV-2',
+    ],
+  },
+  firstName: {
+    type: String,
+  },
+  lastName: {
+    type: String,
+  },
+  patientNumber: {
+    type: String,
+  },
+  firstDoseManufacturer: {
+    type: String,
+  },
+  firstDoseDate: {
+    type: Date,
+  },
+  firstDoseHealthcare: {
+    type: String,
+  },
+  secondDoseManufacturer: {
+    type: String,
+  },
+  secondDoseDate: {
+    type: Date,
+  },
+  secondDoseHealthcare: {
+    type: String,
   },
 });
 
 
-
+// const bridge = new SimpleSchema2Bridge(formSchema);
 const bridge = new SimpleSchema2Bridge(formSchema);
-// const bridge = new SimpleSchema2Bridge(Vaccine.schema);
 
 /** Renders the Page for adding a document. */
 class SubmitVaccine extends React.Component {
 
   // On submit, insert the data.
   submit(data, formRef) {
-    const { firstName, lastName, patientNumber, vaccineName, firstDoseManufacturer, firstDoseDate, firstDoseHealthcare, secondDoseManufacturer, secondDoseDate, secondDoseHealthcare } = data;
+    const { firstName, lastName, patientNumber, vaccineName, firstDoseManufacturer, firstDoseDate, firstDoseHealthcare, secondDoseHealthcare, secondDoseManufacturer, secondDoseDate, vaccineSite } = data;
     const owner = Meteor.user().username;
-    Vaccine.collection.insert({ firstName, lastName, patientNumber, vaccineName, firstDoseManufacturer, firstDoseDate, firstDoseHealthcare, secondDoseManufacturer, secondDoseDate, secondDoseHealthcare, owner },
+
+    Vaccine.collection.insert({ firstName, lastName, patientNumber, vaccineName, firstDoseManufacturer, firstDoseDate, firstDoseHealthcare, secondDoseHealthcare, secondDoseManufacturer, secondDoseDate, vaccineSite, owner },
       (error) => {
         if (error) {
           swal('Error', error.message, 'error');
@@ -64,6 +82,7 @@ class SubmitVaccine extends React.Component {
     imageUrl: null,
     imageAlt: null,
   }
+
 
   openWidget = () => {
     // create the widget
@@ -87,45 +106,44 @@ class SubmitVaccine extends React.Component {
   render() {
     const { imageUrl, imageAlt } = this.state;
     let fRef = null;
-    
+
     return (
       <Grid container centered style={{ padding: '50px 0px 0px 0px' }}>
         <Grid.Column mobile={16} tablet={12} computer={10}>
-            <Segment className="raised" >
-          <Header as="h2" textAlign="center">Upload Vaccination Card</Header>
-          <AutoForm ref={ref => { fRef = ref; }} schema={bridge} onSubmit={data => this.submit(data, fRef)}>
-              <ErrorsField />
-            <Segment>
-              <TextField name='firstName' label='First Name' />
-              <TextField name='lastName' label='Last Name' />
-              <TextField name='patientNumber' label="Patient Number (medical record or IIS record number)" />
-              <SelectField name='vaccineName' label='Vaccine Name' />
-              <TextField name='firstDoseManufacturer' label='1st Dose Manufacturer Lot Number' />
-              <DateField name='firstDoseDate' label='1st Dose Date' />
-              <TextField name='firstDoseHealthcare' label='Clinic Site Or Health Care Professional' />
-              <TextField name='secondDoseManufacturer' label='2nd Dose Manufacturer Lot Number' />
-              <DateField name='secondDoseDate' label='2nd Dose Date' />
-              <TextField name='secondDoseHealthcare' label='Clinic Site Or Helath Care Professional' />
-              {/* <section className="right-side"> */}
-              <Grid className="ui one column grid">
-                <Grid.Column>
-                  Upload Your COVID-19 Vaccination Record Card
-                </Grid.Column>
-                <Grid.Column textAlign="center">
-                  <Button type="button" className="btn widget-btn" onClick={this.openWidget}>Upload Image</Button>
+          <Segment className="raised">
+            <Header as="h2" textAlign="center">Upload Vaccination Card</Header>
+            <AutoForm ref={ref => { fRef = ref; }} schema={bridge} onSubmit={data => this.submit(data, fRef)}>
+              <ErrorsField/>
+              <Segment>
+                <TextField name='firstName' label='First Name'/>
+                <TextField name='lastName' label='Last Name'/>
+                <TextField name='patientNumber' label="Patient Number (medical record or IIS record number)"/>
+                <SelectField name='vaccineName' label='Vaccine Name'/>
+                <TextField name='firstDoseManufacturer' label='1st Dose Manufacturer Lot Number'/>
+                <DateField name='firstDoseDate' label='1st Dose Date'/>
+                <TextField name='firstDoseHealthcare' label='Clinic Site Or Health Care Professional'/>
+                <TextField name='secondDoseManufacturer' label='2nd Dose Manufacturer Lot Number'/>
+                <DateField name='secondDoseDate' label='2nd Dose Date'/>
+                <TextField name='secondDoseHealthcare' label='Clinic Site Or Helath Care Professional'/>
+                <Grid className="ui one column grid">
                   <Grid.Column>
-                  {imageUrl && (<img src={imageUrl} alt={imageAlt} id="displayed-image" />)}
+                    Upload Your COVID-19 Vaccination Record Card
                   </Grid.Column>
+                  <Grid.Column textAlign="center">
+                    <Button type="button" className="btn widget-btn" onClick={this.openWidget}>Upload Image</Button>
+                    <Grid.Column>
+                      {imageUrl && (<img src={imageUrl} alt={imageAlt} id="displayed-image"/>)}
+                    </Grid.Column>
+                  </Grid.Column>
+                </Grid>
+                {/* </section> */}
+              </Segment>
+              <Grid>
+                <Grid.Column textAlign="center">
+                  <SubmitField value='Submit' id="btn-custom"/>
                 </Grid.Column>
               </Grid>
-              {/* </section> */}
-            </Segment>
-            <Grid>
-              <Grid.Column textAlign="center">
-                <SubmitField value='Submit' id="btn-custom"/>
-              </Grid.Column>
-            </Grid>
-          </AutoForm>
+            </AutoForm>
           </Segment>
         </Grid.Column>
       </Grid>

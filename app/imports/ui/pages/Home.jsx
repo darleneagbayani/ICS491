@@ -25,8 +25,9 @@ class Landing extends React.Component {
   renderPage() {
     const { recentCheckIn, recentCheckIn2, vaccineExists, username } = this.props;
     console.log(recentCheckIn2)
-    console.log(recentCheckIn2.firstDoseDate)
-    const options = {  year: 'numeric', month: 'long', day: 'numeric' }
+    // console.log(recentCheckIn2.firstDoseDate)
+    // console.log(typeof recentCheckIn2.firstDoseDate)
+    const options = {year: 'numeric', month: 'long', day: 'numeric' }
 
     // if user is logged in return home pages
     if (Meteor.userId()) return (
@@ -74,21 +75,23 @@ class Landing extends React.Component {
               <Grid textAlign="center" verticalAlign="middle" centered>
                 <Grid.Column textAlign="left" mobile={15} tablet={15} computer={13}>
                 <VaccineStatus
-                    // vaccineName={recentCheckIn2 ? recentCheckIn2.vaccineName :'No Submission'}
-                    // firstDoseManufacturer={recentCheckIn2 ? recentCheckIn2.firstDoseManufacturerLotNumber :'No Submission'}
-                    // // dateString1={recentCheckIn2 ? recentCheckIn2.firstDoseDate.toLocaleDateString('en-US', options) :'No Submission'}
-                    // firstDoseHealthcare={recentCheckIn2 ? recentCheckIn2.vaccineSite :'No Submission'}
-                    // secondDoseManufacturer={recentCheckIn2 ? recentCheckIn2.secondDoseManufacturerLotNumber :'No Submission'}
-                    // // dateString2={recentCheckIn2 ? recentCheckIn2.secondDoseDate.toLocaleDateString('en-US', options) :'No Submission'}
-                    // secondDoseHealthcare={recentCheckIn2 ? recentCheckIn2.vaccineSite :'No Submission'}
+                    vaccineName={recentCheckIn2 ? recentCheckIn2.vaccineName :'No Submission'}
+                    firstDoseManufacturer={recentCheckIn2 ? recentCheckIn2.firstDoseManufacturer :'No Submission'}
+                    dateString1={recentCheckIn2 ? recentCheckIn2.firstDoseDate.toLocaleDateString('en-US', options) :'No Submission'}
+                    // dateString1={recentCheckIn2 ? recentCheckIn2.firstDoseDate :'No Submission'}
+                    firstDoseHealthcare={recentCheckIn2 ? recentCheckIn2.firstDoseHealthcare :'No Submission'}
+                    secondDoseManufacturer={recentCheckIn2 ? recentCheckIn2.secondDoseManufacturer :'No Submission'}
+                    dateString2={recentCheckIn2 ? recentCheckIn2.secondDoseDate.toLocaleDateString('en-US', options) :'No Submission'}
+                    // dateString2={recentCheckIn2 ? recentCheckIn2.secondDoseDate :'No Submission'}
+                    secondDoseHealthcare={recentCheckIn2 ? recentCheckIn2.secondDoseHealthcare :'No Submission'}
 
-                  vaccineName={recentCheckIn2 ? recentCheckIn2.vaccineName :'No Submission'}
-                  firstDoseManufacturer={recentCheckIn2 ? recentCheckIn2.firstDoseManufacturer :'No Submission'}
-                  dateString1={recentCheckIn2 ? recentCheckIn2.firstDoseDate :'No Submission'}
-                  firstDoseHealthcare={recentCheckIn2 ? recentCheckIn2.firstDoseHealthcare :'No Submission'}
-                  secondDoseManufacturer={recentCheckIn2 ? recentCheckIn2.secondDoseManufacturer :'No Submission'}
-                  dateString2={recentCheckIn2 ? recentCheckIn2.secondDoseDate :'No Submission'}
-                  secondDoseHealthcare={recentCheckIn2 ? recentCheckIn2.secondDoseHealthcare :'No Submission'}
+                  // vaccineName={recentCheckIn2 ? recentCheckIn2.vaccineName :'No Submission'}
+                  // firstDoseManufacturer={recentCheckIn2 ? recentCheckIn2.firstDoseManufacturer :'No Submission'}
+                  // dateString1={recentCheckIn2 ? recentCheckIn2.firstDoseDate :'No Submission'}
+                  // firstDoseHealthcare={recentCheckIn2 ? recentCheckIn2.firstDoseHealthcare :'No Submission'}
+                  // secondDoseManufacturer={recentCheckIn2 ? recentCheckIn2.secondDoseManufacturer :'No Submission'}
+                  // dateString2={recentCheckIn2 ? recentCheckIn2.secondDoseDate :'No Submission'}
+                  // secondDoseHealthcare={recentCheckIn2 ? recentCheckIn2.secondDoseHealthcare :'No Submission'}
                   />
                 </Grid.Column>
               </Grid>
