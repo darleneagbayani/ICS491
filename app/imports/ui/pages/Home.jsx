@@ -83,12 +83,12 @@ class Landing extends React.Component {
                     // secondDoseHealthcare={recentCheckIn2 ? recentCheckIn2.vaccineSite :'No Submission'}
 
                   vaccineName={recentCheckIn2 ? recentCheckIn2.vaccineName :'No Submission'}
-                  firstDoseManufacturer={recentCheckIn2 ? recentCheckIn2.firstDoseManufacturerLotNumber :'No Submission'}
+                  firstDoseManufacturer={recentCheckIn2 ? recentCheckIn2.firstDoseManufacturer :'No Submission'}
                   dateString1={recentCheckIn2 ? recentCheckIn2.firstDoseDate :'No Submission'}
-                  firstDoseHealthcare={recentCheckIn2 ? recentCheckIn2.vaccineSite :'No Submission'}
-                  secondDoseManufacturer={recentCheckIn2 ? recentCheckIn2.secondDoseManufacturerLotNumber :'No Submission'}
-                  // dateString2={recentCheckIn2 ? recentCheckIn2.secondDoseDate.toLocaleDateString('en-US', options) :'No Submission'}
-                  secondDoseHealthcare={recentCheckIn2 ? recentCheckIn2.vaccineSite :'No Submission'}
+                  firstDoseHealthcare={recentCheckIn2 ? recentCheckIn2.firstDoseHealthcare :'No Submission'}
+                  secondDoseManufacturer={recentCheckIn2 ? recentCheckIn2.secondDoseManufacturer :'No Submission'}
+                  dateString2={recentCheckIn2 ? recentCheckIn2.secondDoseDate :'No Submission'}
+                  secondDoseHealthcare={recentCheckIn2 ? recentCheckIn2.secondDoseHealthcare :'No Submission'}
                   />
                 </Grid.Column>
               </Grid>

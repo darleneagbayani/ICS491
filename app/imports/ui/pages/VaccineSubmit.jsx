@@ -37,7 +37,10 @@ const formSchema = new SimpleSchema({
   },
 });
 
+
+
 const bridge = new SimpleSchema2Bridge(formSchema);
+// const bridge = new SimpleSchema2Bridge(Vaccine.schema);
 
 /** Renders the Page for adding a document. */
 class SubmitVaccine extends React.Component {

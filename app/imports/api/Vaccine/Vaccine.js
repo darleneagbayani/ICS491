@@ -75,7 +75,8 @@ class VaccineCollection {
     _.forEach(checkIns, function (data) {
       const { _id, vaccineName, firstDoseManufacturer, firstDoseDate, firstDoseHealthcare, secondDoseManufacturer, secondDoseDate, secondDoseHealthcare } = data;
 
-      const dateOptions = { dateStyle: 'medium', hour12: true, timeStyle: 'short' };
+      // const dateOptions = { dateStyle: 'medium', hour12: true, timeStyle: 'short' };
+      const dateOptions = {  year: 'numeric', month: 'long', day: 'numeric' }
       const dateString1 = firstDoseDate.toLocaleString('default', dateOptions);
       const dateString2 = secondDoseDate.toLocaleString('default', dateOptions);
 
