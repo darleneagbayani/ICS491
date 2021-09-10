@@ -53,9 +53,22 @@ class CheckInCollection {
     return checkInList;
   }
 
-  // Returns the most recent check-in.
+  // Returns the check-in for that day. If none, return an empty object.
   getRecentCheckIn(owner) {
-    return _.last(this.collection.find({ owner }).fetch());
+    const lastCheck = _.last(this.collection.find({ owner }).fetch());
+
+    if (lastCheck) {
+      const { date } = lastCheck;
+      const dateString = date.toLocaleString('default', { dateStyle: 'short' });
+
+      const currentDate = new Date().toLocaleString('default', { dateStyle: 'short' });
+
+      if (dateString === currentDate) {
+        return lastCheck;
+      }
+    }
+
+    return {};
   }
 
   // Check if the user has a record of a completed health check-in for the day.

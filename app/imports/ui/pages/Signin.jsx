@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, Redirect, withRouter } from 'react-router-dom';
 import { Meteor } from 'meteor/meteor';
+import { withTracker } from 'meteor/react-meteor-data';
+// eslint-disable-next-line import/no-duplicates
 
 import { Container, Form, Grid, Header, Message, Segment } from 'semantic-ui-react';
 
@@ -9,7 +11,7 @@ import { Container, Form, Grid, Header, Message, Segment } from 'semantic-ui-rea
  * Signin page overrides the form’s submit event and call Meteor’s loginWithPassword().
  * Authentication errors modify the component’s state to be displayed
  */
-export default class Signin extends React.Component {
+class Signin extends React.Component {
 
   // Initialize component state with properties for login and redirection.
   constructor(props) {
@@ -39,7 +41,7 @@ export default class Signin extends React.Component {
     const { from } = this.props.location.state || { from: { pathname: `/home/${this.state.email}` } };
     // if correct authentication, redirect to page instead of login screen
     if (this.state.redirectToReferer) {
-      return <Redirect to={from} />;
+      return <Redirect exact to={from} />;
     }
     // Otherwise return the Login form.
     return (
@@ -93,7 +95,16 @@ export default class Signin extends React.Component {
   }
 }
 
-// Ensure that the React Router location object is available in case we need to redirect.
+// Declare the types of all properties.
 Signin.propTypes = {
   location: PropTypes.object,
+  currentUser: PropTypes.string,
 };
+
+// withTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker
+const SigninContainer = withTracker(() => ({
+  currentUser: Meteor.user() ? Meteor.user().username : '',
+}))(Signin);
+
+// Enable ReactRouter for this component. https://reacttraining.com/react-router/web/api/withRouter
+export default withRouter(SigninContainer);

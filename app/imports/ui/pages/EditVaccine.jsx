@@ -15,8 +15,8 @@ class EditVaccine extends React.Component {
 
   // On successful submit, insert the data.
   submit(data) {
-    const { firstName, lastName, patientNumber, vaccineName, firstDoseManufacturerLotNumber, firstDoseDate, secondDoseManufacturerLotNumber, secondDoseDate, vaccineSite, _id } = data;
-    Vaccine.collection.update(_id, { $set: { firstName, lastName, patientNumber, vaccineName, firstDoseManufacturerLotNumber, firstDoseDate, secondDoseManufacturerLotNumber, secondDoseDate, vaccineSite } }, (error) => (error ?
+    const { firstName, lastName, patientNumber, vaccineName, firstDoseManufacturer, firstDoseDate, secondDoseManufacturer, secondDoseDate, vaccineSite, _id } = data;
+    Vaccine.collection.update(_id, { $set: { firstName, lastName, patientNumber, vaccineName, firstDoseManufacturer, firstDoseDate, secondDoseManufacturer, secondDoseDate, vaccineSite } }, (error) => (error ?
       swal('Error', error.message, 'error') :
       swal('Success', 'Item updated successfully', 'success')));
   }
@@ -37,9 +37,9 @@ class EditVaccine extends React.Component {
               <TextField name='firstName' label="First Name"/>
               <TextField name='lastName' label="Last Name"/>
               <NumField name='patientNumber' label="Patient Number" decimal={false}/>
-              <TextField name='firstDoseManufacturerLotNumber' label="First Dose Manufacturer Lot Number"/>
+              <TextField name='firstDoseManufacturer' label="First Dose Manufacturer Lot Number"/>
               <DateField name='firstDoseDate' label="First Dose Date"/>
-              <TextField name='secondDoseManufacturerLotNumber' label="Second Dose Manufacturer Lot Number"/>
+              <TextField name='secondDoseManufacturer' label="Second Dose Manufacturer Lot Number"/>
               <DateField name='secondDoseDate' label="Second Dose Date"/>
               <SelectField name='vaccineName' label="Vaccine Name"/>
               <TextField name='vaccineSite' label="Vaccine Site"/>
