@@ -19,7 +19,6 @@ class VaccineCollection {
       owner: String,
       vaccineName: {
         type: String,
-        defaultValue: 'No submission',
         allowedValues: [
           'Pfizer-BioNTech',
           'Moderna COVID-19',
@@ -34,29 +33,32 @@ class VaccineCollection {
           'IMBCAMS-SARS-CoV-2',
         ],
       },
+      firstName: {
+        type: String,
+      },
+      lastName: {
+        type: String,
+      },
+      patientNumber: {
+        type: String,
+      },
       firstDoseManufacturer: {
         type: String,
-        defaultValue: 'No submission',
       },
       firstDoseDate: {
-        type: String,
-        defaultValue: 'No submission',
+        type: Date,
       },
       firstDoseHealthcare: {
         type: String,
-        defaultValue: 'No submission',
       },
       secondDoseManufacturer: {
         type: String,
-        defaultValue: 'No submission',
       },
       secondDoseDate: {
-        type: String,
-        defaultValue: 'No submission',
+        type: Date,
       },
       secondDoseHealthcare: {
         type: String,
-        defaultValue: 'No submission',
       },
     }, { tracker: Tracker });
 
@@ -73,15 +75,19 @@ class VaccineCollection {
     const checkInList = [];
 
     _.forEach(checkIns, function (data) {
-      const { _id, vaccineName, firstDoseManufacturer, firstDoseDate, firstDoseHealthcare, secondDoseManufacturer, secondDoseDate, secondDoseHealthcare } = data;
+      const { _id,  firstName, lastName, vaccineName, patientNumber, firstDoseManufacturer, firstDoseDate, firstDoseHealthcare, secondDoseManufacturer, secondDoseDate, secondDoseHealthcare } = data;
 
-      const dateOptions = { dateStyle: 'medium', hour12: true, timeStyle: 'short' };
+      // const dateOptions = { dateStyle: 'medium', hour12: true, timeStyle: 'short' };
+      const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' }
       const dateString1 = firstDoseDate.toLocaleString('default', dateOptions);
       const dateString2 = secondDoseDate.toLocaleString('default', dateOptions);
 
       checkInList.push({
         dateString1,
         dateString2,
+        firstName,
+        lastName,
+        patientNumber,
         vaccineName,
         firstDoseManufacturer,
         firstDoseDate,
@@ -95,6 +101,7 @@ class VaccineCollection {
 
     return checkInList;
   }
+
   // Returns the most recent check-in.
   getRecentCheckIn(owner) {
     return _.last(this.collection.find({ owner }).fetch());
