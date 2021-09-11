@@ -59,7 +59,7 @@ VaccinationStatus.propTypes = {
   vaccineName: PropTypes.string,
   firstDoseManufacturer: PropTypes.string,
   dateString1: PropTypes.string,
-  firtDoseHealthcare: PropTypes.string,
+  firstDoseHealthcare: PropTypes.string,
   secondDoseManufacturer: PropTypes.string,
   dateString2: PropTypes.string,
   secondDoseHealthcare: PropTypes.string,
