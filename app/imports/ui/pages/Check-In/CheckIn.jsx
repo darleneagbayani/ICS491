@@ -31,13 +31,16 @@ class CheckIn extends React.Component {
       vaccination,
       health,
     },
+
     (error) => {
       if (error) {
         swal('Error', error.message, 'error');
+      } else  if (data.children === 'No') {
+        const noMessage = 'You are clear of health symptoms!';
+        swal('Success', noMessage, 'success');
       } else {
         const yesMessage = 'You are NOT clear of health symptoms and must stay home.';
-        const noMessage = 'You are clear of health symptoms!';
-        swal('Success', data.children === 'No' ? noMessage : yesMessage, 'success');
+        swal('NOT CLEAR', yesMessage, 'error');
       }
     });
 
