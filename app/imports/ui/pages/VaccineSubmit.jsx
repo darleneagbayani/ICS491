@@ -53,6 +53,10 @@ const formSchema = new SimpleSchema({
   secondDoseHealthcare: {
     type: String,
   },
+  imageUrl: {
+    type: String,
+  },
+
 });
 
 
@@ -64,10 +68,11 @@ class SubmitVaccine extends React.Component {
 
   // On submit, insert the data.
   submit(data, formRef) {
-    const { firstName, lastName, patientNumber, vaccineName, firstDoseManufacturer, firstDoseDate, firstDoseHealthcare, secondDoseHealthcare, secondDoseManufacturer, secondDoseDate, vaccineSite } = data;
+    // var imageUrl1 = this.state.imageUrl
+    const { firstName, lastName, patientNumber, vaccineName, firstDoseManufacturer, firstDoseDate, firstDoseHealthcare, secondDoseHealthcare, secondDoseManufacturer, secondDoseDate, vaccineSite, imageUrl } = data;
     const owner = Meteor.user().username;
 
-    Vaccine.collection.insert({ firstName, lastName, patientNumber, vaccineName, firstDoseManufacturer, firstDoseDate, firstDoseHealthcare, secondDoseHealthcare, secondDoseManufacturer, secondDoseDate, vaccineSite, owner },
+    Vaccine.collection.insert({ firstName, lastName, patientNumber, vaccineName, firstDoseManufacturer, firstDoseDate, firstDoseHealthcare, secondDoseHealthcare, secondDoseManufacturer, secondDoseDate, vaccineSite, imageUrl, owner },
       (error) => {
         if (error) {
           swal('Error', error.message, 'error');
@@ -79,8 +84,8 @@ class SubmitVaccine extends React.Component {
   }
 
   state = {
-    imageUrl: null,
-    imageAlt: null,
+    imageUrl: "-",
+    imageAlt: "-",
   }
 
 
@@ -102,10 +107,20 @@ class SubmitVaccine extends React.Component {
     ).open(); // open up the widget after creation
   };
 
+
+
+  // imgUrlChange(value){
+  //   this.setState({
+  //     url: value
+  //   });
+  // }
+
   // Render the form. Use Uniforms: https://github.com/vazco/uniforms
   render() {
     const { imageUrl, imageAlt } = this.state;
     let fRef = null;
+    console.log("FORM IS RENDERED")
+    console.log(imageUrl)
 
     return (
       <Grid container centered style={{ padding: '50px 0px 0px 0px' }}>
@@ -136,7 +151,9 @@ class SubmitVaccine extends React.Component {
                     </Grid.Column>
                   </Grid.Column>
                 </Grid>
-                {/* </section> */}
+
+                <TextField name='imageUrl' value={this.state.imageUrl} />
+
               </Segment>
               <Grid>
                 <Grid.Column textAlign="center">
