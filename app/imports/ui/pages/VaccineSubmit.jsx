@@ -65,10 +65,18 @@ const bridge = new SimpleSchema2Bridge(formSchema);
 
 /** Renders the Page for adding a document. */
 class SubmitVaccine extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      imageUrl: null,
+      imageAlt: null,
+    }
+  }
 
   // On submit, insert the data.
   submit(data, formRef) {
-    // var imageUrl1 = this.state.imageUrl
+    // var imageUrl = this.state.imageUrl
     const { firstName, lastName, patientNumber, vaccineName, firstDoseManufacturer, firstDoseDate, firstDoseHealthcare, secondDoseHealthcare, secondDoseManufacturer, secondDoseDate, vaccineSite, imageUrl } = data;
     const owner = Meteor.user().username;
 
@@ -83,10 +91,10 @@ class SubmitVaccine extends React.Component {
       });
   }
 
-  state = {
-    imageUrl: "-",
-    imageAlt: "-",
-  }
+  // state = {
+  //   imageUrl: null,
+  //   imageAlt: null,
+  // }
 
 
   openWidget = () => {
