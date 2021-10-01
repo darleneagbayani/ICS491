@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Grid, Segment, Header, Button } from 'semantic-ui-react';
 import { AutoForm, HiddenField, ErrorsField, SelectField, SubmitField, TextField, DateField } from 'uniforms-semantic';
 import swal from 'sweetalert';
@@ -69,8 +69,26 @@ class SubmitVaccine extends React.Component {
     super(props);
 
     this.state = {
-      imageUrl: null,
+      imageUrl: "test",
       imageAlt: null,
+    }
+
+    this.onInputchange = this.onInputchange.bind(this);
+  }
+
+  // onInputchange(event) {
+  //   this.setState({
+  //     [event.target.name]: event.target.value
+  //   });
+  //   console.log("ONCHANGE CALLED")
+  // }
+
+  onInputchange(name) {
+    return (value) => {
+      this.setState({
+        [name]: value
+      });
+      console.log("ONCHANGE CALLED");
     }
   }
 
@@ -115,6 +133,12 @@ class SubmitVaccine extends React.Component {
     ).open(); // open up the widget after creation
   };
 
+  // handleChangeURL(event) {
+  //   this.setState({imageURL: event.target.value});
+  //   console.log("ONCHANGE CALLED")
+  // }
+
+
 
 
   // imgUrlChange(value){
@@ -128,7 +152,8 @@ class SubmitVaccine extends React.Component {
     const { imageUrl, imageAlt } = this.state;
     let fRef = null;
     console.log("FORM IS RENDERED")
-    console.log(imageUrl)
+    console.log("Curent value of imageUrl is ", imageUrl)
+
 
     return (
       <Grid container centered style={{ padding: '50px 0px 0px 0px' }}>
@@ -147,7 +172,7 @@ class SubmitVaccine extends React.Component {
                 <TextField name='firstDoseHealthcare' label='Clinic Site Or Health Care Professional'/>
                 <TextField name='secondDoseManufacturer' label='2nd Dose Manufacturer Lot Number'/>
                 <DateField name='secondDoseDate' label='2nd Dose Date'/>
-                <TextField name='secondDoseHealthcare' label='Clinic Site Or Helath Care Professional'/>
+                <TextField name='secondDoseHealthcare' label='Clinic Site Or Health Care Professional'/>
                 <Grid className="ui one column grid">
                   <Grid.Column>
                     Upload Your COVID-19 Vaccination Record Card
@@ -160,7 +185,11 @@ class SubmitVaccine extends React.Component {
                   </Grid.Column>
                 </Grid>
 
-                <TextField name='imageUrl' value={this.state.imageUrl} />
+                {/*<TextField name='imageUrl' value={this.state.imageUrl} onChange={event => this.handleChange(event.target.value)}/>*/}
+                {/*<TextField name='imageUrl' value={this.state.imageUrl} onChange={this.onInputchange}/>*/}
+                {/*<TextField name='imageUrl' value={this.state.imageUrl} onChange={(value) => this.onInputchange("imageUrl", value)}/>*/}
+                <TextField name='imageUrl' value={this.state.imageUrl} onChange={this.onInputchange("imageUrl")}/>
+                {/*<input type="text" formControlName='imageUrl' value={this.state.imageUrl} onChange={this.onInputchange}/>*/}
 
               </Segment>
               <Grid>
