@@ -45,3 +45,9 @@ Meteor.publish('adminPermission', function () {
   }
   return this.ready();
 });
+
+Meteor.methods({
+  updateWrap: function( id, doc ){
+    Vaccine.collection.update( id, { $set: doc }, {upsert: true});
+  }
+});

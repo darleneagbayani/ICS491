@@ -1,11 +1,13 @@
 import React, { useEffect } from 'react';
-import { Grid, Segment, Header, Button } from 'semantic-ui-react';
+import { Grid, Segment, Header, Button, Loader } from 'semantic-ui-react';
 import { AutoForm, HiddenField, ErrorsField, SelectField, SubmitField, TextField, DateField } from 'uniforms-semantic';
 import swal from 'sweetalert';
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import SimpleSchema from 'simpl-schema';
 import { Vaccine } from '../../api/Vaccine/Vaccine';
+import PropTypes from 'prop-types';
+import { withTracker } from 'meteor/react-meteor-data';
 //import { useState } from 'react'
 
 // Create a schema to specify the structure of the data to appear in the form.
@@ -93,20 +95,31 @@ class SubmitVaccine extends React.Component {
   }
 
   // On submit, insert the data.
-  submit(data, formRef) {
-    // var imageUrl = this.state.imageUrl
-    const { firstName, lastName, patientNumber, vaccineName, firstDoseManufacturer, firstDoseDate, firstDoseHealthcare, secondDoseHealthcare, secondDoseManufacturer, secondDoseDate, vaccineSite, imageUrl } = data;
+  // submit(data, formRef) {
+  //   // var imageUrl = this.state.imageUrl
+  //   const { firstName, lastName, patientNumber, vaccineName, firstDoseManufacturer, firstDoseDate, firstDoseHealthcare, secondDoseHealthcare, secondDoseManufacturer, secondDoseDate, vaccineSite, imageUrl } = data;
+  //   const owner = Meteor.user().username;
+  //
+  //   Vaccine.collection.insert({ firstName, lastName, patientNumber, vaccineName, firstDoseManufacturer, firstDoseDate, firstDoseHealthcare, secondDoseHealthcare, secondDoseManufacturer, secondDoseDate, vaccineSite, imageUrl, owner },
+  //     (error) => {
+  //       if (error) {
+  //         swal('Error', error.message, 'error');
+  //       } else {
+  //         swal('Success', 'Item added successfully', 'success');
+  //         formRef.reset();
+  //       }
+  //     });
+  // }
+
+  submit(data) {
+    const {  firstName, lastName, patientNumber, vaccineName, firstDoseManufacturer, firstDoseDate, firstDoseHealthcare, secondDoseHealthcare, secondDoseManufacturer, secondDoseDate, vaccineSite, imageUrl, _id, } = data;
     const owner = Meteor.user().username;
 
-    Vaccine.collection.insert({ firstName, lastName, patientNumber, vaccineName, firstDoseManufacturer, firstDoseDate, firstDoseHealthcare, secondDoseHealthcare, secondDoseManufacturer, secondDoseDate, vaccineSite, imageUrl, owner },
-      (error) => {
-        if (error) {
-          swal('Error', error.message, 'error');
-        } else {
-          swal('Success', 'Item added successfully', 'success');
-          formRef.reset();
-        }
-      });
+    // Vaccine.collection.update(_id, { $set: {  firstName, lastName, patientNumber, vaccineName, firstDoseManufacturer, firstDoseDate, firstDoseHealthcare, secondDoseHealthcare, secondDoseManufacturer, secondDoseDate, vaccineSite, imageUrl, owner } }, {upsert: true},
+    Meteor.call('updateWrap', owner, { firstName, lastName, patientNumber, vaccineName, firstDoseManufacturer, firstDoseDate, firstDoseHealthcare, secondDoseHealthcare, secondDoseManufacturer, secondDoseDate, vaccineSite, imageUrl, owner },
+      (error) => (error ?
+        swal('Error', error.message, 'error') :
+        swal('Success', 'Item updated successfully', 'success')));
   }
 
   // state = {
@@ -147,8 +160,12 @@ class SubmitVaccine extends React.Component {
   //   });
   // }
 
-  // Render the form. Use Uniforms: https://github.com/vazco/uniforms
   render() {
+    return (this.props.ready) ? this.renderPage() : <Loader active>Getting data</Loader>;
+  }
+
+  // Render the form. Use Uniforms: https://github.com/vazco/uniforms
+  renderPage() {
     const { imageUrl, imageAlt } = this.state;
     let fRef = null;
     console.log("FORM IS RENDERED")
@@ -206,4 +223,23 @@ class SubmitVaccine extends React.Component {
   }
 }
 
-export default SubmitVaccine;
+SubmitVaccine.propTypes = {
+  doc: PropTypes.object,
+  model: PropTypes.object,
+  ready: PropTypes.bool.isRequired,
+};
+
+export default withTracker(({ match }) => {
+  // Get the documentID from the URL field. See imports/ui/layouts/App.jsx for the route containing :_id.
+  const documentId = match.params._id;
+  // Get access to Stuff documents.
+  const subscription = Meteor.subscribe(Vaccine.userPublicationName);
+  // Determine if the subscription is ready
+  const ready = subscription.ready();
+  // Get the document
+  const doc = Vaccine.collection.findOne(documentId);
+  return {
+    doc,
+    ready,
+  };
+})(SubmitVaccine);

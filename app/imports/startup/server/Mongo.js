@@ -16,3 +16,10 @@ if (Vaccine.collection.find().count() === 0) {
     Meteor.settings.defaultData.map(data => addData(data));
   }
 }
+
+
+// Vaccine.collection.allow({
+//   insert: function (firstName, lastName, patientNumber, vaccineName, firstDoseManufacturer, firstDoseDate, firstDoseHealthcare, secondDoseHealthcare, secondDoseManufacturer, secondDoseDate, vaccineSite, imageUrl, owner) {
+//     return true;
+//   }
+// })
