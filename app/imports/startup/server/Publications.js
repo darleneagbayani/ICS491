@@ -22,6 +22,14 @@ Meteor.publish(Vaccine.userPublicationName, function () {
   return this.ready();
 });
 
+Meteor.publish(imageUrl.userPublicationName, function () {
+  if (this.userId) {
+    const username = Meteor.users.findOne(this.userId).username;
+    return imageUrl.collection.find({ owner: username });
+  }
+  return this.ready();
+});
+
 // Admin-level publication.
 // If logged in and with admin role, then publish all documents from all users. Otherwise publish nothing.
 Meteor.publish(Vaccine.adminPublicationName, function () {
@@ -30,6 +38,8 @@ Meteor.publish(Vaccine.adminPublicationName, function () {
   }
   return this.ready();
 });
+
+
 
 // alanning:roles publication
 // Recommended code to publish roles for each user.
