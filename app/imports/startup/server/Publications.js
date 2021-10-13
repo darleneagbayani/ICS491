@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Roles } from 'meteor/alanning:roles';
 import { Vaccine } from '../../api/Vaccine/Vaccine';
 import { CheckIn } from '../../api/check-in/CheckIn';
+import { imageUrl } from '../../api/imageUrls/imageUrl';
 
 Meteor.publish(CheckIn.userPublicationName, function () {
   if (this.userId) {
@@ -49,5 +50,11 @@ Meteor.publish('adminPermission', function () {
 Meteor.methods({
   updateWrap: function( id, doc ){
     Vaccine.collection.update( id, { $set: doc }, {upsert: true});
+  }
+});
+
+Meteor.methods({
+  updateImageUrl: function( id, doc ){
+    imageUrl.collection.update( id, { $set: doc }, {upsert: true});
   }
 });

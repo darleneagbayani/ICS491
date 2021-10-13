@@ -6,6 +6,7 @@ import { Meteor } from 'meteor/meteor';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import SimpleSchema from 'simpl-schema';
 import { Vaccine } from '../../api/Vaccine/Vaccine';
+import { imageUrl } from '../../api/imageUrls/imageUrl';
 import PropTypes from 'prop-types';
 import { withTracker } from 'meteor/react-meteor-data';
 //import { useState } from 'react'
@@ -141,7 +142,7 @@ class SubmitVaccine extends React.Component {
 
           const owner = Meteor.user().username;
           const imageUrl = info.secure_url
-          // Meteor.call('updateWrap', owner, { imageUrl:  })
+          Meteor.call('updateImageUrl', owner, { owner, imageUrl })
           // Vaccine.collection.update()
 
           this.setState({
@@ -234,6 +235,7 @@ SubmitVaccine.propTypes = {
   doc: PropTypes.object,
   model: PropTypes.object,
   ready: PropTypes.bool.isRequired,
+  readyUrl: PropTypes.bool.isRequired,
 };
 
 export default withTracker(({ match }) => {
@@ -241,12 +243,15 @@ export default withTracker(({ match }) => {
   const documentId = match.params._id;
   // Get access to Stuff documents.
   const subscription = Meteor.subscribe(Vaccine.userPublicationName);
+  const urlSubscription = Meteor.subscribe(imageUrl.userPublicationName)
   // Determine if the subscription is ready
   const ready = subscription.ready();
+  const readyUrl = urlSubscription.ready();
   // Get the document
   const doc = Vaccine.collection.findOne(documentId);
   return {
     doc,
     ready,
+    readyUrl,
   };
 })(SubmitVaccine);

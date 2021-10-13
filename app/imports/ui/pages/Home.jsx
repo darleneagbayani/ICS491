@@ -9,14 +9,16 @@ import CheckInStatus from '../components/Check-In/CheckInStatus';
 import VaccineStatus from '../components/VaccinationStatus';
 import { Vaccine as VaccineCollection } from '../../api/Vaccine/Vaccine';
 import { CheckIn as CheckInCollection } from '../../api/check-in/CheckIn';
-
+import { imageUrl as urlCollection } from '../../api/imageUrls/imageUrl'
 /** A simple static component to render some text for the landing page. */
+
+
 
 class Landing extends React.Component {
 
   render() {
-    const { checkInReady, vaccineReady } = this.props;
-    return (checkInReady && vaccineReady) ? this.renderPage() : <Loader active>Getting data...</Loader>;
+    const { checkInReady, vaccineReady,  imageUrlReady} = this.props;
+    return (checkInReady && vaccineReady && imageUrlReady)  ? this.renderPage() : <Loader active>Getting data...</Loader>;
   }
 
   renderPage() {
@@ -90,6 +92,7 @@ class Landing extends React.Component {
 Landing.propTypes = {
   checkInReady: PropTypes.bool,
   vaccineReady: PropTypes.bool,
+  imageUrlReady: PropTypes.bool,
   username: PropTypes.string,
   recentCheckIn: PropTypes.object,
   vaccineCheckIn: PropTypes.object,
@@ -99,15 +102,20 @@ Landing.propTypes = {
 export default withTracker(() => {
   const checkInSubscribe = Meteor.subscribe(CheckInCollection.userPublicationName);
   const vaccineInformationSubscribe = Meteor.subscribe(VaccineCollection.userPublicationName);
+  const imageUrlSubscription = Meteor.subscribe(urlCollection.userPublicationName)
+  console.log("vaccineInformationSubscribe", vaccineInformationSubscribe)
+  console.log("imageUrlSubscription", imageUrlSubscription)
   const { username } = useParams();
 
   const recentCheckIn = CheckInCollection.getRecentCheckIn(username);
   const vaccineCheckIn = VaccineCollection.getRecentCheckIn(username);
   const vaccineExists = VaccineCollection.recordExists(username);
+
   return {
     checkInReady: checkInSubscribe.ready(),
     vaccineReady: vaccineInformationSubscribe.ready(),
     vaccineInfoReady: vaccineInformationSubscribe.ready(),
+    imageUrlReady: imageUrlSubscription.ready(),
     username,
     recentCheckIn,
     vaccineCheckIn,
