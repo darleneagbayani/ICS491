@@ -114,6 +114,7 @@ class SubmitVaccine extends React.Component {
   submit(data) {
     const {  firstName, lastName, patientNumber, vaccineName, firstDoseManufacturer, firstDoseDate, firstDoseHealthcare, secondDoseHealthcare, secondDoseManufacturer, secondDoseDate, vaccineSite, imageUrl, _id, } = data;
     const owner = Meteor.user().username;
+    console.log( firstName)
 
     // Vaccine.collection.update(_id, { $set: {  firstName, lastName, patientNumber, vaccineName, firstDoseManufacturer, firstDoseDate, firstDoseHealthcare, secondDoseHealthcare, secondDoseManufacturer, secondDoseDate, vaccineSite, imageUrl, owner } }, {upsert: true},
     Meteor.call('updateWrap', owner, { firstName, lastName, patientNumber, vaccineName, firstDoseManufacturer, firstDoseDate, firstDoseHealthcare, secondDoseHealthcare, secondDoseManufacturer, secondDoseDate, vaccineSite, imageUrl, owner },
@@ -137,6 +138,12 @@ class SubmitVaccine extends React.Component {
       },
       (error, { event, info }) => {
         if (event === 'success') {
+
+          const owner = Meteor.user().username;
+          const imageUrl = info.secure_url
+          // Meteor.call('updateWrap', owner, { imageUrl:  })
+          // Vaccine.collection.update()
+
           this.setState({
             imageUrl: info.secure_url,
             imageAlt: `An image of ${info.original_filename}`
