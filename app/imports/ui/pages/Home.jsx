@@ -3,10 +3,11 @@ import { withTracker } from 'meteor/react-meteor-data';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router';
-import { Button, Container, Grid, Header, Loader, Segment } from 'semantic-ui-react';
+import { Button, Container, Grid, Header, Loader, Segment, Image } from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom';
 import CheckInStatus from '../components/Check-In/CheckInStatus';
 import VaccineStatus from '../components/VaccinationStatus';
+import DisplayImage from '../components/DisplayImage.js';
 import { Vaccine as VaccineCollection } from '../../api/Vaccine/Vaccine';
 import { CheckIn as CheckInCollection } from '../../api/check-in/CheckIn';
 import { imageUrl as urlCollection } from '../../api/imageUrls/imageUrl';
@@ -22,11 +23,10 @@ class Landing extends React.Component {
   }
 
   renderPage() {
-    const { recentCheckIn, vaccineCheckIn, vaccineExists, username, imageUrlCheckIn } = this.props;
+    const { recentCheckIn, vaccineCheckIn, vaccineExists, username, imageUrlCheckIn, imageUrlExists } = this.props;
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
 
-    console.log(imageUrlCheckIn)
-    // if user is logged in return home pages
+
     return (
       <Container id="landing-page" style={{ padding: '50px' }}>
         <Grid textAlign="center" verticalAlign="middle" centered>
@@ -80,6 +80,20 @@ class Landing extends React.Component {
                     dateString2={vaccineCheckIn ? vaccineCheckIn.secondDoseDate.toLocaleDateString('en-US', options) : 'No Submission'}
                     secondDoseHealthcare={vaccineCheckIn ? vaccineCheckIn.secondDoseHealthcare : 'No Submission'}
                   />
+
+                  <DisplayImage
+                    vaccineName={vaccineCheckIn ? vaccineCheckIn.vaccineName : 'No Submission'}
+                    firstDoseManufacturer={vaccineCheckIn ? vaccineCheckIn.firstDoseManufacturer : 'No Submission'}
+                    dateString1={vaccineCheckIn ? vaccineCheckIn.firstDoseDate.toLocaleDateString('en-US', options) : 'No Submission'}
+                    firstDoseHealthcare={vaccineCheckIn ? vaccineCheckIn.firstDoseHealthcare : 'No Submission'}
+                    secondDoseManufacturer={vaccineCheckIn ? vaccineCheckIn.secondDoseManufacturer : 'No Submission'}
+                    dateString2={vaccineCheckIn ? vaccineCheckIn.secondDoseDate.toLocaleDateString('en-US', options) : 'No Submission'}
+                    secondDoseHealthcare={vaccineCheckIn ? vaccineCheckIn.secondDoseHealthcare : 'No Submission'}
+                  />
+
+
+                  <Image src={imageUrlExists ? imageUrlCheckIn.imageUrl : ''} fluid />
+
                 </Grid.Column>
               </Grid>
             </Segment>
@@ -99,6 +113,7 @@ Landing.propTypes = {
   vaccineCheckIn: PropTypes.object,
   imageUrlCheckIn: PropTypes.object,
   vaccineExists: PropTypes.bool,
+  imageUrlExists: PropTypes.bool,
 };
 
 export default withTracker(() => {
@@ -112,6 +127,7 @@ export default withTracker(() => {
   const recentCheckIn = CheckInCollection.getRecentCheckIn(username);
   const vaccineCheckIn = VaccineCollection.getRecentCheckIn(username);
   const imageUrlCheckIn = urlCollection.getRecentCheckIn(username);
+  const imageUrlExists = urlCollection.recordExists(username);
   const vaccineExists = VaccineCollection.recordExists(username);
 
   return {
@@ -124,5 +140,6 @@ export default withTracker(() => {
     vaccineCheckIn,
     imageUrlCheckIn,
     vaccineExists,
+    imageUrlExists,
   };
 })(Landing);
