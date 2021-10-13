@@ -60,9 +60,6 @@ class VaccineCollection {
       secondDoseHealthcare: {
         type: String,
       },
-      imageUrl: {
-        type: String,
-      }
 
     }, { tracker: Tracker });
 
@@ -79,7 +76,7 @@ class VaccineCollection {
     const checkInList = [];
 
     _.forEach(checkIns, function (data) {
-      const { _id,  firstName, lastName, vaccineName, patientNumber, firstDoseManufacturer, firstDoseDate, firstDoseHealthcare, secondDoseManufacturer, secondDoseDate, secondDoseHealthcare, imageUrl } = data;
+      const { _id,  firstName, lastName, vaccineName, patientNumber, firstDoseManufacturer, firstDoseDate, firstDoseHealthcare, secondDoseManufacturer, secondDoseDate, secondDoseHealthcare } = data;
 
       // const dateOptions = { dateStyle: 'medium', hour12: true, timeStyle: 'short' };
       const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' }
@@ -99,7 +96,6 @@ class VaccineCollection {
         secondDoseManufacturer,
         secondDoseDate,
         secondDoseHealthcare,
-        imageUrl,
         _id,
       });
     });

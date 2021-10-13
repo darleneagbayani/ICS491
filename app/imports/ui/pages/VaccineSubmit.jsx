@@ -56,9 +56,6 @@ const formSchema = new SimpleSchema({
   secondDoseHealthcare: {
     type: String,
   },
-  imageUrl: {
-    type: String,
-  },
 
 });
 
@@ -72,62 +69,21 @@ class SubmitVaccine extends React.Component {
     super(props);
 
     this.state = {
-      imageUrl: "test",
+      imageUrl: null,
       imageAlt: null,
     }
-
-    this.onInputchange = this.onInputchange.bind(this);
   }
 
-  // onInputchange(event) {
-  //   this.setState({
-  //     [event.target.name]: event.target.value
-  //   });
-  //   console.log("ONCHANGE CALLED")
-  // }
-
-  onInputchange(name) {
-    return (value) => {
-      this.setState({
-        [name]: value
-      });
-      console.log("ONCHANGE CALLED");
-    }
-  }
-
-  // On submit, insert the data.
-  // submit(data, formRef) {
-  //   // var imageUrl = this.state.imageUrl
-  //   const { firstName, lastName, patientNumber, vaccineName, firstDoseManufacturer, firstDoseDate, firstDoseHealthcare, secondDoseHealthcare, secondDoseManufacturer, secondDoseDate, vaccineSite, imageUrl } = data;
-  //   const owner = Meteor.user().username;
-  //
-  //   Vaccine.collection.insert({ firstName, lastName, patientNumber, vaccineName, firstDoseManufacturer, firstDoseDate, firstDoseHealthcare, secondDoseHealthcare, secondDoseManufacturer, secondDoseDate, vaccineSite, imageUrl, owner },
-  //     (error) => {
-  //       if (error) {
-  //         swal('Error', error.message, 'error');
-  //       } else {
-  //         swal('Success', 'Item added successfully', 'success');
-  //         formRef.reset();
-  //       }
-  //     });
-  // }
 
   submit(data) {
-    const {  firstName, lastName, patientNumber, vaccineName, firstDoseManufacturer, firstDoseDate, firstDoseHealthcare, secondDoseHealthcare, secondDoseManufacturer, secondDoseDate, vaccineSite, imageUrl, _id, } = data;
+    const {  firstName, lastName, patientNumber, vaccineName, firstDoseManufacturer, firstDoseDate, firstDoseHealthcare, secondDoseHealthcare, secondDoseManufacturer, secondDoseDate, vaccineSite, _id, } = data;
     const owner = Meteor.user().username;
-    console.log( firstName)
 
-    // Vaccine.collection.update(_id, { $set: {  firstName, lastName, patientNumber, vaccineName, firstDoseManufacturer, firstDoseDate, firstDoseHealthcare, secondDoseHealthcare, secondDoseManufacturer, secondDoseDate, vaccineSite, imageUrl, owner } }, {upsert: true},
-    Meteor.call('updateWrap', owner, { firstName, lastName, patientNumber, vaccineName, firstDoseManufacturer, firstDoseDate, firstDoseHealthcare, secondDoseHealthcare, secondDoseManufacturer, secondDoseDate, vaccineSite, imageUrl, owner },
+    Meteor.call('updateWrap', owner, { firstName, lastName, patientNumber, vaccineName, firstDoseManufacturer, firstDoseDate, firstDoseHealthcare, secondDoseHealthcare, secondDoseManufacturer, secondDoseDate, vaccineSite, owner },
       (error) => (error ?
         swal('Error', error.message, 'error') :
         swal('Success', 'Item updated successfully', 'success')));
   }
-
-  // state = {
-  //   imageUrl: null,
-  //   imageAlt: null,
-  // }
 
 
   openWidget = () => {
@@ -143,7 +99,6 @@ class SubmitVaccine extends React.Component {
           const owner = Meteor.user().username;
           const imageUrl = info.secure_url
           Meteor.call('updateImageUrl', owner, { owner, imageUrl })
-          // Vaccine.collection.update()
 
           this.setState({
             imageUrl: info.secure_url,
@@ -154,19 +109,7 @@ class SubmitVaccine extends React.Component {
     ).open(); // open up the widget after creation
   };
 
-  // handleChangeURL(event) {
-  //   this.setState({imageURL: event.target.value});
-  //   console.log("ONCHANGE CALLED")
-  // }
 
-
-
-
-  // imgUrlChange(value){
-  //   this.setState({
-  //     url: value
-  //   });
-  // }
 
   render() {
     return (this.props.ready) ? this.renderPage() : <Loader active>Getting data</Loader>;
@@ -176,8 +119,7 @@ class SubmitVaccine extends React.Component {
   renderPage() {
     const { imageUrl, imageAlt } = this.state;
     let fRef = null;
-    console.log("FORM IS RENDERED")
-    console.log("Curent value of imageUrl is ", imageUrl)
+
 
 
     return (
@@ -209,12 +151,6 @@ class SubmitVaccine extends React.Component {
                     </Grid.Column>
                   </Grid.Column>
                 </Grid>
-
-                {/*<TextField name='imageUrl' value={this.state.imageUrl} onChange={event => this.handleChange(event.target.value)}/>*/}
-                {/*<TextField name='imageUrl' value={this.state.imageUrl} onChange={this.onInputchange}/>*/}
-                {/*<TextField name='imageUrl' value={this.state.imageUrl} onChange={(value) => this.onInputchange("imageUrl", value)}/>*/}
-                <TextField name='imageUrl' value={this.state.imageUrl} onChange={this.onInputchange("imageUrl")}/>
-                {/*<input type="text" formControlName='imageUrl' value={this.state.imageUrl} onChange={this.onInputchange}/>*/}
 
               </Segment>
               <Grid>

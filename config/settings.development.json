@@ -29,7 +29,6 @@
       "secondDoseDate": "08/08/2020",
       "vaccineName": "Pfizer-BioNTech",
       "vaccineSite": "Times",
-      "imageUrl": "www.google.com",
       "owner": "john@foo.com"
     },
     {
@@ -44,7 +43,6 @@
       "secondDoseDate": "08/08/2020",
       "vaccineName": "Pfizer-BioNTech",
       "vaccineSite": "Times",
-      "imageUrl": "www.google.com",
       "owner": "admin@foo.com"
     }
   ]

@@ -7,7 +7,6 @@ import { Button, Container, Grid, Header, Loader, Segment, Image } from 'semanti
 import { NavLink } from 'react-router-dom';
 import CheckInStatus from '../components/Check-In/CheckInStatus';
 import VaccineStatus from '../components/VaccinationStatus';
-import DisplayImage from '../components/DisplayImage.js';
 import { Vaccine as VaccineCollection } from '../../api/Vaccine/Vaccine';
 import { CheckIn as CheckInCollection } from '../../api/check-in/CheckIn';
 import { imageUrl as urlCollection } from '../../api/imageUrls/imageUrl';
@@ -81,7 +80,7 @@ class Landing extends React.Component {
                     secondDoseHealthcare={vaccineCheckIn ? vaccineCheckIn.secondDoseHealthcare : 'No Submission'}
                   />
 
-                  <Image src={imageUrlExists ? imageUrlCheckIn.imageUrl : ''} fluid rounded bordered/>
+                  <Image src={imageUrlExists ? imageUrlCheckIn.imageUrl : ''} fluid rounded/>
 
                 </Grid.Column>
               </Grid>
@@ -109,8 +108,6 @@ export default withTracker(() => {
   const checkInSubscribe = Meteor.subscribe(CheckInCollection.userPublicationName);
   const vaccineInformationSubscribe = Meteor.subscribe(VaccineCollection.userPublicationName);
   const imageUrlSubscription = Meteor.subscribe(urlCollection.userPublicationName)
-  console.log("vaccineInformationSubscribe", vaccineInformationSubscribe)
-  console.log("imageUrlSubscription", imageUrlSubscription)
   const { username } = useParams();
 
   const recentCheckIn = CheckInCollection.getRecentCheckIn(username);
