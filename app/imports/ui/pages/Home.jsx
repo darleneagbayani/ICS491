@@ -9,7 +9,7 @@ import CheckInStatus from '../components/Check-In/CheckInStatus';
 import VaccineStatus from '../components/VaccinationStatus';
 import { Vaccine as VaccineCollection } from '../../api/Vaccine/Vaccine';
 import { CheckIn as CheckInCollection } from '../../api/check-in/CheckIn';
-import { imageUrl as urlCollection } from '../../api/imageUrls/imageUrl'
+import { imageUrl as urlCollection } from '../../api/imageUrls/imageUrl';
 /** A simple static component to render some text for the landing page. */
 
 
@@ -22,9 +22,10 @@ class Landing extends React.Component {
   }
 
   renderPage() {
-    const { recentCheckIn, vaccineCheckIn, vaccineExists, username } = this.props;
+    const { recentCheckIn, vaccineCheckIn, vaccineExists, username, imageUrlCheckIn } = this.props;
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
 
+    console.log(imageUrlCheckIn)
     // if user is logged in return home pages
     return (
       <Container id="landing-page" style={{ padding: '50px' }}>
@@ -96,6 +97,7 @@ Landing.propTypes = {
   username: PropTypes.string,
   recentCheckIn: PropTypes.object,
   vaccineCheckIn: PropTypes.object,
+  imageUrlCheckIn: PropTypes.object,
   vaccineExists: PropTypes.bool,
 };
 
@@ -109,6 +111,7 @@ export default withTracker(() => {
 
   const recentCheckIn = CheckInCollection.getRecentCheckIn(username);
   const vaccineCheckIn = VaccineCollection.getRecentCheckIn(username);
+  const imageUrlCheckIn = urlCollection.getRecentCheckIn(username);
   const vaccineExists = VaccineCollection.recordExists(username);
 
   return {
@@ -119,6 +122,7 @@ export default withTracker(() => {
     username,
     recentCheckIn,
     vaccineCheckIn,
+    imageUrlCheckIn,
     vaccineExists,
   };
 })(Landing);
