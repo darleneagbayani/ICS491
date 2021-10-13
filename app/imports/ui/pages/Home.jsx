@@ -81,18 +81,7 @@ class Landing extends React.Component {
                     secondDoseHealthcare={vaccineCheckIn ? vaccineCheckIn.secondDoseHealthcare : 'No Submission'}
                   />
 
-                  <DisplayImage
-                    vaccineName={vaccineCheckIn ? vaccineCheckIn.vaccineName : 'No Submission'}
-                    firstDoseManufacturer={vaccineCheckIn ? vaccineCheckIn.firstDoseManufacturer : 'No Submission'}
-                    dateString1={vaccineCheckIn ? vaccineCheckIn.firstDoseDate.toLocaleDateString('en-US', options) : 'No Submission'}
-                    firstDoseHealthcare={vaccineCheckIn ? vaccineCheckIn.firstDoseHealthcare : 'No Submission'}
-                    secondDoseManufacturer={vaccineCheckIn ? vaccineCheckIn.secondDoseManufacturer : 'No Submission'}
-                    dateString2={vaccineCheckIn ? vaccineCheckIn.secondDoseDate.toLocaleDateString('en-US', options) : 'No Submission'}
-                    secondDoseHealthcare={vaccineCheckIn ? vaccineCheckIn.secondDoseHealthcare : 'No Submission'}
-                  />
-
-
-                  <Image src={imageUrlExists ? imageUrlCheckIn.imageUrl : ''} fluid />
+                  <Image src={imageUrlExists ? imageUrlCheckIn.imageUrl : ''} fluid rounded bordered/>
 
                 </Grid.Column>
               </Grid>
